@@ -1,24 +1,26 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getMenuForSpecificBranchTable } from '../apis/MenuApis';
 
 const Menu = () => {
   const { tableId } = useParams();
   const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    setLoading(true);
     const fetch = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/v1/api/product/branchMenu/${tableId}`
-        );
-        setMenuItems(response.data);
+        getMenuForSpecificBranchTable(tableId)
+          .then(response => setMenuItems(response.data))
+          .finally(() => setLoading(false));
       } catch (err) {
         console.log(err);
       }
     };
-
     fetch();
-  }, []);
+  }, [loading]);
 
   return (
     <ul>
