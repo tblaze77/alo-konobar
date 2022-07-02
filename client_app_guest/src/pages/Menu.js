@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
+import { getSpecificBranchTable } from '../apis/BranchApis';
 import './Menu.css';
 
 const Menu = () => {
@@ -9,6 +9,7 @@ const Menu = () => {
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
   const [selectedArticles, setSelectedArtices] = useState([]);
+  const [branchTable, setBranchTable] = useState({});
   useEffect(() => {
     fetchData();
   }, []);
@@ -16,6 +17,7 @@ const Menu = () => {
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
     const numberOfRows = await getNumberOfCategories();
+    await getSpecificBranchTable(tableId).then(response => setBranchTable(response.data));
     createCategories(menuItems.data, numberOfRows.data);
     setLoading(false);
   };
@@ -31,13 +33,12 @@ const Menu = () => {
     if (e.target.checked) {
       setSelectedArtices([...selectedArticles, e.target.value]);
     } else {
-      // setSelectedArtices([selectedArticles.filter(item => item != e.target.value)]);
       removeItem(e.target.value);
     }
   };
 
   const removeItem = itemName => {
-    var array = [...selectedArticles]; // make a separate copy of the array
+    var array = [...selectedArticles];
     var index = array.indexOf(itemName);
     if (index !== -1) {
       array.splice(index, 1);
@@ -50,7 +51,11 @@ const Menu = () => {
       {loading ? (
         <h1>Loading ...</h1>
       ) : (
-        <>
+        <div className="menu-container">
+          <div>
+            <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
+            <h2>Table number {branchTable.number}</h2>
+          </div>
           {categorizedArticles.map((category, index) => (
             <div key={index}>
               <h1>{category[0].categoryName}</h1>
@@ -71,7 +76,7 @@ const Menu = () => {
             </div>
           ))}
           <button type="submit">Submit</button>
-        </>
+        </div>
       )}
     </>
   );

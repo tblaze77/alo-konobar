@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 const Home = () => {
   return (
     <div>
-      APLIKACIJA ZA GOSTA
+      Guest application
       <Link to={'/menu/1'}>
-        <button>VIDI MENI</button>
+        <button>View menu</button>
       </Link>
     </div>
   );
