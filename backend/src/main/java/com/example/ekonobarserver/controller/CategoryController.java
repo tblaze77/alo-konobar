@@ -43,6 +43,16 @@ public class CategoryController {
         return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
     }
 
+    // ---------------- GET  v1/api/category/numberOf  --------------- //
+    /**
+     * GET endpoint - get number of categories
+     * @return
+     */
+    @GetMapping("/numberOf")
+    public ResponseEntity<Integer> getNumberOfCategories(){
+        return new ResponseEntity<>(categoryService.getNumberOfCategories(), HttpStatus.OK);
+    }
+
 
 
     // ---------------- POST  v1/api/category  --------------- //

@@ -52,4 +52,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> getCategoryByUsername(String username) {
         return null;
     }
+
+    @Override
+    public Integer getNumberOfCategories() {
+        return categoryRepository.getNumberOfCategories();
+    }
 }

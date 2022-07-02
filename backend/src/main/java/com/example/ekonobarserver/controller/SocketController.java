@@ -12,7 +12,7 @@ import org.springframework.stereotype.Controller;
 public class SocketController {
 
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/order")
     private SocketOrder receiveSocketOrder (@Payload SocketOrder socketOrder){

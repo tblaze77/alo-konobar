@@ -21,4 +21,6 @@ public interface CategoryService {
     // --- CUSTOM FUNCTIONALITIES --- //
 
     List<Category> getCategoryByUsername(String username);
+
+    Integer getNumberOfCategories();
 }
