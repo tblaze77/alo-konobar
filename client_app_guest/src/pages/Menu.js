@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
+import './Menu.css';
 
 const Menu = () => {
   const { tableId } = useParams();
@@ -26,22 +27,50 @@ const Menu = () => {
     data.map((menuItem, index) => categorizedArticles[menuItem.categoryId - 1].push(menuItem));
   };
 
+  const handleChange = e => {
+    if (e.target.checked) {
+      setSelectedArtices([...selectedArticles, e.target.value]);
+    } else {
+      // setSelectedArtices([selectedArticles.filter(item => item != e.target.value)]);
+      removeItem(e.target.value);
+    }
+  };
+
+  const removeItem = itemName => {
+    var array = [...selectedArticles]; // make a separate copy of the array
+    var index = array.indexOf(itemName);
+    if (index !== -1) {
+      array.splice(index, 1);
+      setSelectedArtices(array);
+    }
+  };
+
   return (
     <>
       {loading ? (
-        <h1>Stranics</h1>
+        <h1>Loading ...</h1>
       ) : (
         <>
           {categorizedArticles.map((category, index) => (
             <div key={index}>
               <h1>{category[0].categoryName}</h1>
               {category.map((item, index) => (
-                <div key={index}>
-                  {item.productName} {item.price} HRK
+                <div className="list-container" key={index}>
+                  <input
+                    type="checkbox"
+                    id={item.productName}
+                    name={item.productName}
+                    value={item.productName}
+                    onChange={handleChange}
+                  />
+                  <p>
+                    {item.productName} {item.price} HRK
+                  </p>
                 </div>
               ))}
             </div>
           ))}
+          <button type="submit">Submit</button>
         </>
       )}
     </>
