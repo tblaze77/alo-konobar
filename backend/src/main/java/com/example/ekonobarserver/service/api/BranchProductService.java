@@ -16,6 +16,8 @@ public interface BranchProductService {
 
     BranchProduct getBranchProductById(BranchProductId id);
 
+    BranchProduct getBranchProductByBranchIdAndProductName(long branchId, String productName);
+
     BranchProduct createBranchProduct(BranchProduct branchProduct);
 
     void deleteBranchProduct(BranchProductId id);

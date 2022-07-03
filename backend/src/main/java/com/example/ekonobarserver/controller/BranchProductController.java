@@ -64,6 +64,17 @@ public class BranchProductController {
         return new ResponseEntity(orderRowService.getNumberOfSoldProductInSpecificBranch(branchId,productId),HttpStatus.OK);
     }
 
+    /**
+     * Method to get branchProduct by branch id and product name
+     * @param branchId
+     * @param productName
+     * @return
+     */
+    @GetMapping("/branch" + RestEndpointsParameters.BRANCH_ID + "/productName" + RestEndpointsParameters.PRODUCT_NAME)
+    public ResponseEntity<BranchProduct> getSpecificBranchProductByProductName(@PathVariable("branchId") long branchId, @PathVariable("productName") String productName){
+        return new ResponseEntity<>(branchProductService.getBranchProductByBranchIdAndProductName(branchId,productName), HttpStatus.OK);
+    }
+
     // ---------------- POST  v1/api/branchProduct  --------------- //
     /**
      * POST endpoint - create new branch product with given RequestBody

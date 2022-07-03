@@ -13,4 +13,5 @@ public class RestEndpointsParameters {
     public static final String ORDER_ID = "/{orderId}";
     public static final String DATE_FROM = "/{dateFrom}";
     public static final String DATE_TO = "/{dateTo}";
+    public static final String PRODUCT_NAME="/{productName}";
 }

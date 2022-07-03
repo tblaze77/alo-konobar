@@ -49,4 +49,9 @@ public class BranchProductServiceImpl implements BranchProductService {
 
         return branchProductRepository.save(branchProductToUpdate.get());
     }
+
+    @Override
+    public BranchProduct getBranchProductByBranchIdAndProductName(long branchId, String productName) {
+        return branchProductRepository.findBranchProductOnBranchIdAndProductName(branchId, productName);
+    }
 }
