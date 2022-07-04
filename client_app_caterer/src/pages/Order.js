@@ -7,7 +7,7 @@ const Order = () => {
 
   const branchId = 1;
 
-  const productList = ['heineken', 'caltenberg'];
+  const productList = ['heineken', 'caltenberg', 'paulaner', 'schweppes'];
 
   useEffect(() => {
     console.log('usa sam');
@@ -15,11 +15,19 @@ const Order = () => {
   }, []);
 
   const loadData = () => {
-    productList.map(product =>
-      getSpecificBranchProductByProductName(branchId, product).then(response => {
-        branchProductList.push(response.data);
-      })
-    );
+    productList.map((product, index, array) => {
+      if (index + 1 == array.length) {
+        getSpecificBranchProductByProductName(branchId, product)
+          .then(response => {
+            setBranchProductList(oldState => [...oldState, response.data]);
+          })
+          .finally(() => setLoading(false));
+      } else {
+        getSpecificBranchProductByProductName(branchId, product).then(response => {
+          setBranchProductList(oldState => [...oldState, response.data]);
+        });
+      }
+    });
     setTimeout(() => {
       setLoading(false);
     }, 500);
