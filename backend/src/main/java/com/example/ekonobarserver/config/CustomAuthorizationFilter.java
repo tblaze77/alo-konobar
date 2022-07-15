@@ -34,7 +34,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //If endpoint is login path then there is no checking to do, checking is passed to another filter in filter chain
-        if(request.getServletPath().equals("/login")){
+        if(request.getServletPath().equals("/login") || request.getServletPath().equals("/v1/api/employee/token/refresh")){
             filterChain.doFilter(request,response);
         }else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);

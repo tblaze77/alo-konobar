@@ -22,4 +22,6 @@ public interface EmployeeService {
     // --- CUSTOM FUNCTIONALITIES --- //
 
     List<Employee> getAllEmployeesByBranch(long id);
+
+    Employee getEmployeeByUsername (String userName);
 }

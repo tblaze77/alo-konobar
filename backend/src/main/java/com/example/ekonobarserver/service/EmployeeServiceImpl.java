@@ -56,6 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService, UserDetailsService 
     }
 
     @Override
+    public Employee getEmployeeByUsername(String userName) {
+        return employeeRepository.findByUsername(userName);
+    }
+
+    @Override
     public Employee createEmployee(Employee employee) {
         employee.setPassword(passwordEncoder.encode(employee.getPassword()));
         return employeeRepository.save(employee);
