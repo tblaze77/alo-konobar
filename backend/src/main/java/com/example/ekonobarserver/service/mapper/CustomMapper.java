@@ -2,6 +2,7 @@ package com.example.ekonobarserver.service.mapper;
 
 import com.example.ekonobarserver.model.*;
 import com.example.ekonobarserver.model.dto.BranchProductPostDTO;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
 import com.example.ekonobarserver.model.dto.OrderPostDTO;
 import com.example.ekonobarserver.model.dto.OrderRowPostDTO;
 import com.example.ekonobarserver.repository.BranchProductRepository;
@@ -102,4 +103,25 @@ public class CustomMapper {
         return branchProduct;
     }
 
+    /**
+     * custom mapper method to convert branchProduct to MenuItemGetDTO that will be represented to user when ordering
+     * @param  branchProductList
+     * @return menuItemGetDTOList
+     */
+    public List<MenuItemGetDTO> branchProductListToMenuItemGetDTOs(List<BranchProduct> branchProductList){
+        List<MenuItemGetDTO> menuItemGetDTOList = new ArrayList<>();
+        for (BranchProduct branchProduct: branchProductList) {
+            MenuItemGetDTO menuItemGetDTO = new MenuItemGetDTO();
+            menuItemGetDTO.setBranchId(branchProduct.getBranchProductId().getBranchId());
+            menuItemGetDTO.setProductId(branchProduct.getBranchProductId().getProductId());
+            menuItemGetDTO.setPrice(branchProduct.getPrice());
+            menuItemGetDTO.setDescription(branchProduct.getDescription());
+            menuItemGetDTO.setQuantity(branchProduct.getQuantity());
+            menuItemGetDTO.setCategoryId(branchProduct.getProduct().getCategory().getId());
+            menuItemGetDTO.setFullName(branchProduct.getProduct().getCategory().getFullName());
+            menuItemGetDTOList.add(menuItemGetDTO);
+        }
+
+        return menuItemGetDTOList;
+    }
 }

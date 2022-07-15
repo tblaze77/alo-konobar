@@ -2,8 +2,10 @@ package com.example.ekonobarserver.service;
 
 import com.example.ekonobarserver.model.BranchProduct;
 import com.example.ekonobarserver.model.BranchProductId;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
 import com.example.ekonobarserver.repository.BranchProductRepository;
 import com.example.ekonobarserver.service.api.BranchProductService;
+import com.example.ekonobarserver.service.mapper.CustomMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,9 @@ import java.util.Optional;
 public class BranchProductServiceImpl implements BranchProductService {
     @Autowired
     BranchProductRepository branchProductRepository;
+
+    @Autowired
+    CustomMapper customMapper;
 
     @Override
     public List<BranchProduct> getAllBranchProducts() {
@@ -53,5 +58,10 @@ public class BranchProductServiceImpl implements BranchProductService {
     @Override
     public BranchProduct getBranchProductByBranchIdAndProductName(long branchId, String productName) {
         return branchProductRepository.findBranchProductOnBranchIdAndProductName(branchId, productName);
+    }
+
+    @Override
+    public List<MenuItemGetDTO> getAllBranchProductsOnBranchTableId(long branchTableId) {
+        return customMapper.branchProductListToMenuItemGetDTOs(branchProductRepository.findBranchProductsOnBranchTableId(branchTableId));
     }
 }

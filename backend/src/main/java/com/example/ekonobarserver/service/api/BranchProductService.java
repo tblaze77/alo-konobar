@@ -2,6 +2,7 @@ package com.example.ekonobarserver.service.api;
 
 import com.example.ekonobarserver.model.BranchProduct;
 import com.example.ekonobarserver.model.BranchProductId;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
 
 import java.util.List;
 
@@ -23,5 +24,7 @@ public interface BranchProductService {
     void deleteBranchProduct(BranchProductId id);
 
     BranchProduct updateBranchProduct(BranchProduct branchProduct, BranchProductId id);
+
+    List<MenuItemGetDTO> getAllBranchProductsOnBranchTableId(long branchTableId);
 
 }

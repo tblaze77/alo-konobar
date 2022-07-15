@@ -10,4 +10,6 @@ public class RestEndpoints {
     public static final String API_CUSTOMER = "v1/api/customer";
     public static final String API_BRANCH_PRODUCT = "v1/api/branchProduct";
     public static final String API_ORDER_ROW = "v1/api/orderRow";
+    public static final String API_ROLE = "v1/api/role";
+
 }

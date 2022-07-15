@@ -1,7 +1,7 @@
 package com.example.ekonobarserver.service.api;
 
 import com.example.ekonobarserver.model.Product;
-import com.example.ekonobarserver.model.MenuItemGetDTO;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
 
 import java.util.List;
 
@@ -29,6 +29,6 @@ public interface ProductService {
 
     Product getMostSoldProductOverAll();
 
-    List<MenuItemGetDTO> getAllAvaliableProductsByBranch(long branchTableId);
+    //List<MenuItemGetDTO> getAllAvaliableProductsByBranch(long branchTableId);
 
 }

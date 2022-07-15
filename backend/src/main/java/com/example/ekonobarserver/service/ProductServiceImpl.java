@@ -2,9 +2,8 @@ package com.example.ekonobarserver.service;
 
 import com.example.ekonobarserver.model.OrderRow;
 import com.example.ekonobarserver.model.Product;
-import com.example.ekonobarserver.model.MenuItemGetDTO;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
 import com.example.ekonobarserver.repository.CategoryRepository;
-import com.example.ekonobarserver.repository.MenuItemRespository;
 import com.example.ekonobarserver.repository.OrderRowRepository;
 import com.example.ekonobarserver.repository.ProductRepository;
 import com.example.ekonobarserver.service.api.ProductService;
@@ -26,9 +25,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     OrderRowRepository orderRowRepository;
-
-    @Autowired
-    MenuItemRespository menuItemRespository;
 
 
     @Override
@@ -97,10 +93,11 @@ public class ProductServiceImpl implements ProductService {
         Product mostSoldProduct = sumsOfProduct.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
         return mostSoldProduct;
     }
-
+    /*
     @Override
     public List<MenuItemGetDTO> getAllAvaliableProductsByBranch(long branchTableId) {
         List<MenuItemGetDTO> avaliableProducts = menuItemRespository.listAllAvaliableProductsInSpecificBranchByBranchTableId(branchTableId);
         return avaliableProducts;
     }
+     */
 }

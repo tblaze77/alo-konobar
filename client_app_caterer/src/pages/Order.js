@@ -10,7 +10,6 @@ const Order = () => {
   const productList = ['heineken', 'caltenberg', 'paulaner', 'schweppes'];
 
   useEffect(() => {
-    console.log('usa sam');
     loadData();
   }, []);
 

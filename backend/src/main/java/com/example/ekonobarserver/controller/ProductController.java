@@ -3,7 +3,8 @@ package com.example.ekonobarserver.controller;
 import com.example.ekonobarserver.controller.endpoints.RestEndpoints;
 import com.example.ekonobarserver.controller.endpoints.RestEndpointsParameters;
 import com.example.ekonobarserver.model.Product;
-import com.example.ekonobarserver.model.MenuItemGetDTO;
+import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
+import com.example.ekonobarserver.service.api.BranchProductService;
 import com.example.ekonobarserver.service.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @Autowired
+    BranchProductService branchProductService;
 
     // ---------------- GET  v1/api/product/{productId}  --------------- //
     /**
@@ -101,10 +104,9 @@ public class ProductController {
     @GetMapping("/branchMenu" + RestEndpointsParameters.BRANCH_TABLE_ID)
     public ResponseEntity<List<MenuItemGetDTO>> getBranchMenuByBranchTableId(@PathVariable("branchTableId") long id) {
 
-        return new ResponseEntity(productService.getAllAvaliableProductsByBranch(id), HttpStatus.OK);
+        return new ResponseEntity(branchProductService.getAllBranchProductsOnBranchTableId(id), HttpStatus.OK);
 
     }
-
 
 
     // ---------------- POST  v1/api/product  --------------- //

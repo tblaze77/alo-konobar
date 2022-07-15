@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -37,13 +38,17 @@ public class Employee {
     @Column(name = "description")
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="role")
-    private EmployeeRole role = EmployeeRole.EMPLOYEE;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="role", nullable = false)
+    private Role role;
 
     @ManyToOne
     @JoinColumn(name = "branch_id", referencedColumnName = "branch_id")
