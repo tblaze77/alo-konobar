@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { Routes, Route, Link, Redirect } from 'react-router-dom';
 import { login } from './apis/AuthApi';
 import AuthContext from './context/AuthContext';
-import Login from './components/Login';
+import Login from './components/Login/Login';
 import Home from './components/Home';
 import PrivateRoutes from './routes/PrivateRoutes';
 

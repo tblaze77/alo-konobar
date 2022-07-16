@@ -12,6 +12,14 @@ const AuthState = props => {
     localStorage.removeItem('access_token');
   };
 
+  useEffect(() => {
+    console.log('u use effectu contexta sam');
+    console.log(localStorage.getItem('access_token'));
+    if (localStorage.getItem('access_token') != null) {
+      setAuthenticated(true);
+    }
+  }, []);
+
   const attemptLogin = (username, password) => {
     login(username, password)
       .then(response => {
