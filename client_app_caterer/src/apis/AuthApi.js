@@ -8,7 +8,3 @@ export const login = async (userName, password) => {
     })
     .then(response => console.log(response.data));
 };
-
-export const getAllBranches = async () => {
-  return await axios.get('http://localhost:8080/v1/api/branch').then(response => console.log(response.data));
-};

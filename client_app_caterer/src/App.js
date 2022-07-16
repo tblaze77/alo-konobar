@@ -1,26 +1,25 @@
 import { useContext, useEffect } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, Redirect } from 'react-router-dom';
 import { login } from './apis/AuthApi';
-import Order from './pages/Order';
 import AuthContext from './context/AuthContext';
 import Login from './components/Login';
+import Home from './components/Home';
+import PrivateRoutes from './routes/PrivateRoutes';
 
 function App() {
-  const { authenticated, accessToken, refreshToken, logout, attemptLogin } = useContext(AuthContext);
-
+  const { authenticated } = useContext(AuthContext);
   useEffect(() => {
     login('username', 'password');
   }, []);
 
   return (
     <>
-      {authenticated ? (
-        <Routes>
-          <Route path="/order" element={<Order />} />
-        </Routes>
-      ) : (
-        <Login />
-      )}
+      <Routes>
+        <Route element={<PrivateRoutes />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </>
   );
 }

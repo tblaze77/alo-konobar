@@ -26,7 +26,7 @@ const AuthState = props => {
   };
 
   return (
-    <AuthContext.Provider value={{ authenticated, accessToken, refreshToken, logout, attemptLogin }}>
+    <AuthContext.Provider value={{ setAuthenticated, authenticated, accessToken, refreshToken, logout, attemptLogin }}>
       {props.children}
     </AuthContext.Provider>
   );
