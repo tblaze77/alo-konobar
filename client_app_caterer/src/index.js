@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import AuthState from './context/AuthState';
+import UserState from './context/UserState';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthState>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <UserState>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserState>
   </AuthState>
 );
 

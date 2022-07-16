@@ -8,6 +8,7 @@ public class RestEndpointsParameters {
     public static final String PRODUCT_ID = "/{productId}";
     public static final String CATEGORY_ID = "/{categoryId}";
     public static final String EMPLOYEE_ID = "/{employeeId}";
+    public static final String EMPLOYEE_USERNAME = "/{employeeUsername}";
     public static final String CUSTOMER_ID = "/{customerId}";
     public static final String ORDER_ROW_ID = "/{orderRowId}";
     public static final String ORDER_ID = "/{orderId}";

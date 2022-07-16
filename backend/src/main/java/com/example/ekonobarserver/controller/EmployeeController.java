@@ -85,6 +85,19 @@ public class EmployeeController {
         }
     }
 
+    // ---------------- GET  v1/api/employee/byUsername/{employeeUsername}  --------------- //
+    /**
+     * GET endpoint - get specific employee by its username.
+     * @param username
+     * @return
+     */
+
+
+    @GetMapping("/byUsername" + RestEndpointsParameters.EMPLOYEE_USERNAME)
+    public ResponseEntity<Employee> getEmployeeByUsername(@PathVariable("employeeUsername") String username) {
+        return new ResponseEntity<>(employeeService.getEmployeeByUsername(username), HttpStatus.OK);
+    }
+
     // ---------------- GET  v1/api/employee/{employeeId}  --------------- //
     /**
      * GET endpoint - get specific employee by its id.

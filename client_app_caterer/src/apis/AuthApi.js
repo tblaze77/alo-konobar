@@ -6,3 +6,9 @@ export const login = async (userName, password) => {
     'Access-Control-Allow-Origin': 'http://localhost:8080/login',
   });
 };
+
+export const getEmployeeByUsername = async username => {
+  return await axios
+    .get(`http://localhost:8080/v1/api/employee/byUsername/${username}`)
+    .catch(err => console.log(err.message));
+};
