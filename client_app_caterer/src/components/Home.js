@@ -1,17 +1,36 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
-
+import { getAllBranches } from '../apis/BranchApi';
 const Home = () => {
-  const { logout, user, role, loading } = useContext(AuthContext);
+  const { logout, user, role, accessToken } = useContext(AuthContext);
+  const [branchList, setBranchList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    getAllBranches(accessToken)
+      .then(response => {
+        setBranchList(response.data);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <>
-      <>
-        <h1 className="text-3xl font-bold underline">
-          Hello {user?.username} with role {role}
-        </h1>
-        <button onClick={logout}>LOGOUT</button>
-      </>
+      {loading ? (
+        <h1>Loading</h1>
+      ) : (
+        <>
+          <h1 className="text-3xl font-bold underline">
+            Hello {user?.username} with role {role}
+          </h1>
+          <div>
+            <h1>All avaliable branches</h1>
+            {branchList.map(branch => (
+              <h2>{branch.branchName}</h2>
+            ))}
+          </div>
+          <button onClick={logout}>LOGOUT</button>
+        </>
+      )}
     </>
   );
 };

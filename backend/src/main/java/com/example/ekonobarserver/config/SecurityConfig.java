@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/v1/api/branch/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/v1/api/employee/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/v1/api/employee/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/v1/api/role/**").hasAnyAuthority("SUPER_USER");
