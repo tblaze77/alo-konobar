@@ -4,21 +4,20 @@ import { login, getEmployeeByUsername } from '../apis/AuthApi';
 import jwt_decode from 'jwt-decode';
 
 const AuthState = props => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
+  const [authenticated, setAuthenticated] = useState(localStorage.getItem('access_token') ? true : false);
   const [refreshToken, setRefreshToken] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
   const logout = () => {
-    setAuthenticated(false);
     localStorage.removeItem('access_token');
+    setAuthenticated(false);
   };
 
   useEffect(() => {
-    // if (localStorage.getItem('access_token') != null) {
-    //   setAuthenticated(true);
-    //   setAccessToken(localStorage.getItem('access_token'));
-    // }
+    if (authenticated == true) {
+      getUser(localStorage.getItem('access_token'));
+    }
   }, []);
 
   const getUser = token => {
