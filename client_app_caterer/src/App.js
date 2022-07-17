@@ -7,11 +7,6 @@ import Home from './components/Home';
 import PrivateRoutes from './routes/PrivateRoutes';
 
 function App() {
-  const { authenticated } = useContext(AuthContext);
-  useEffect(() => {
-    login('username', 'password');
-  }, []);
-
   return (
     <>
       <Routes>
