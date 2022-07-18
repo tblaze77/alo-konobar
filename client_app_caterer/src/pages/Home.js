@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import { getAllBranches } from '../apis/BranchApi';
+import SuperUserHome from '../components/SuperUserHome/SuperUserHome';
+
 const Home = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
   const [branchList, setBranchList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  //testing api purposes
   useEffect(() => {
     getAllBranches(accessToken)
       .then(response => {
@@ -19,7 +23,10 @@ const Home = () => {
         <h1>Loading</h1>
       ) : (
         <>
-          <h1 className="text-3xl font-bold underline">
+          {role === 'SUPER_USER' ? <SuperUserHome /> : <div>NISI SUPER USER</div>}
+
+          <button onClick={logout}>LOGOUT</button>
+          {/* <h1 className="text-3xl font-bold underline">
             Hello {user?.username} with role {role}
           </h1>
           <div>
@@ -28,7 +35,7 @@ const Home = () => {
               <h2>{branch.branchName}</h2>
             ))}
           </div>
-          <button onClick={logout}>LOGOUT</button>
+          <button onClick={logout}>LOGOUT</button> */}
         </>
       )}
     </>

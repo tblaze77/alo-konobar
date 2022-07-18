@@ -1,0 +1,35 @@
+export const branchInputs = [
+  {
+    id: 1,
+    name: 'branchName',
+    type: 'text',
+    placeholder: 'name',
+    label: 'Name',
+    pattern: '^[a-z0-9 ]{3,50}$',
+    required: true,
+  },
+  {
+    id: 2,
+    name: 'city',
+    type: 'text',
+    placeholder: 'city',
+    label: 'City',
+    required: true,
+  },
+  {
+    id: 3,
+    name: 'address',
+    type: 'text',
+    placeholder: 'address',
+    label: 'Address',
+    required: true,
+  },
+  {
+    id: 4,
+    name: 'description',
+    type: 'text',
+    placeholder: 'description',
+    label: 'Description',
+    required: true,
+  },
+];

@@ -56,7 +56,7 @@ public class BranchController {
      * @param branch
      * @return
      */
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('SUPER_USER')")
     @PostMapping()
     public ResponseEntity<Branch> createNewBranch(@Valid @RequestBody Branch branch) {
 
