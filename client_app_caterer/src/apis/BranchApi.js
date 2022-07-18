@@ -23,3 +23,11 @@ export const createBranch = async (accessToken, branch) => {
     },
   });
 };
+
+export const getAdministratorsOfSpecificBranch = async (accessToken, branchId) => {
+  return await axios.get(`http://localhost:8080/v1/api/employee/getAdminsOfBranch/${branchId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

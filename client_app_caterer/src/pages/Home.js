@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../context/AuthContext';
 import { getAllBranches } from '../apis/BranchApi';
 import SuperUserHome from '../components/SuperUserHome/SuperUserHome';
+import AdminHome from '../components/AdminHome/AdminHome';
 
 const Home = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
@@ -23,7 +24,13 @@ const Home = () => {
         <h1>Loading</h1>
       ) : (
         <>
-          {role === 'SUPER_USER' ? <SuperUserHome /> : <div>NISI SUPER USER</div>}
+          {role === 'SUPER_USER' ? (
+            <SuperUserHome />
+          ) : role === 'ADMIN' ? (
+            <AdminHome />
+          ) : (
+            <h1>Youre not admin nor a super user</h1>
+          )}
 
           <button onClick={logout}>LOGOUT</button>
           {/* <h1 className="text-3xl font-bold underline">
