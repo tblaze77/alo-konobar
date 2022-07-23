@@ -9,6 +9,7 @@ import com.example.ekonobarserver.service.api.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -55,7 +56,7 @@ public class BranchController {
      * @param branch
      * @return
      */
-
+    @PreAuthorize("hasAnyAuthority('SUPER_USER')")
     @PostMapping()
     public ResponseEntity<Branch> createNewBranch(@Valid @RequestBody Branch branch) {
 

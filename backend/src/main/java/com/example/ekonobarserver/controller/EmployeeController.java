@@ -8,6 +8,7 @@ import com.example.ekonobarserver.controller.endpoints.RestEndpoints;
 import com.example.ekonobarserver.controller.endpoints.RestEndpointsParameters;
 import com.example.ekonobarserver.model.Employee;
 import com.example.ekonobarserver.model.Product;
+import com.example.ekonobarserver.repository.EmployeeRepository;
 import com.example.ekonobarserver.service.api.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     // ---------------- GET v1/api/employee/token/refresh  ---------------- //
 
@@ -127,6 +131,11 @@ public class EmployeeController {
     @GetMapping()
     public ResponseEntity<List<Employee>> getAllEmployees(){
         return new ResponseEntity<>(employeeService.getAllEmployees(), HttpStatus.OK);
+    }
+
+    @GetMapping( "/getAdminsOfBranch" + RestEndpointsParameters.BRANCH_ID)
+    public ResponseEntity<List<Employee>> getAdministratorsOfBranch(@PathVariable("branchId") long id){
+        return new ResponseEntity<>(employeeRepository.getAdministratorsOfSpecificBranch(id), HttpStatus.OK);
     }
 
     // ---------------- GET  v1/api/employee/byBranch/{branchId}   --------------- //
