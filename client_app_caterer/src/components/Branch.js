@@ -1,7 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { getSpecificBranch, getAdministratorsOfSpecificBranch } from '../apis/BranchApi';
 import AuthContext from '../context/AuthContext';
+import * as RoutePaths from '../constants/RoutePaths';
 
 const Branch = () => {
   const [branch, setBranch] = useState(null);
@@ -10,6 +11,7 @@ const Branch = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
   const { branchId } = useParams();
   useEffect(() => {
+    console.log(branchId);
     getSpecificBranch(accessToken, branchId)
       .then(response => setBranch(response.data))
       .catch(err => console.log(err.message))
@@ -47,6 +49,11 @@ const Branch = () => {
               </li>
             ))}
           </ul>
+          <button>
+            <Link to={RoutePaths.BRANCH + '/' + branchId + RoutePaths.ADMIN + RoutePaths.CREATE}>
+              Create new branch administrator
+            </Link>
+          </button>
         </div>
       )}
     </div>

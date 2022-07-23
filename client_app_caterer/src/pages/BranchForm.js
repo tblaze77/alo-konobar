@@ -14,21 +14,7 @@ const BranchForm = () => {
   });
   const handleSubmit = e => {
     e.preventDefault();
-    // allDepartmentAPIMethods
-    // .createDepartment(department)
-    // .then(() => {
-    //   setResponseMessage('Successfully added new department !');
-    //   handleSuccess();
-    // })
-    // .catch(err => {
-    //   setIsError(true);
-    //   setResponseMessage(err.response.data.errors[0]);
-    //   setTimeout(() => {
-    //     setIsError(false);
-    //     setShowSnackBar(false);
-    //     setResponseMessage(null);
-    //   }, 2000);
-    // });
+
     createBranch(accessToken, branch)
       .then(response => console.log(response.data))
       .catch(err => console.log(err.message));

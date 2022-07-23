@@ -33,3 +33,46 @@ export const branchInputs = [
     required: true,
   },
 ];
+export const employeeInputs = [
+  {
+    id: 1,
+    name: 'firstname',
+    type: 'text',
+    placeholder: 'First name',
+    label: 'First Name',
+    pattern: '^[a-z0-9 ]{3,50}$',
+    required: true,
+  },
+  {
+    id: 2,
+    name: 'lastname',
+    type: 'text',
+    placeholder: 'lastname',
+    label: 'Last Name',
+    required: true,
+  },
+  {
+    id: 3,
+    name: 'username',
+    type: 'text',
+    placeholder: 'username',
+    label: 'User Name',
+    required: true,
+  },
+  {
+    id: 4,
+    name: 'password',
+    type: 'text',
+    placeholder: 'password',
+    label: 'Password',
+    required: true,
+  },
+  {
+    id: 5,
+    name: 'description',
+    type: 'text',
+    placeholder: 'description',
+    label: 'Description',
+    required: true,
+  },
+];
