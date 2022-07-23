@@ -19,7 +19,7 @@ const Login = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    attemptLogin(username, password);
+    console.log(attemptLogin(username, password));
   };
 
   const onChange = e => {

@@ -11,6 +11,12 @@ const AuthState = props => {
   const [role, setRole] = useState(null);
 
   const logout = () => {
+    const interval_id = window.setInterval(function () {}, Number.MAX_SAFE_INTEGER);
+
+    // Clear any timeout/interval up to that id
+    for (let i = 1; i < interval_id; i++) {
+      window.clearInterval(i);
+    }
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     setAuthenticated(false);
@@ -21,28 +27,33 @@ const AuthState = props => {
   };
 
   useEffect(() => {
+    console.log('usa san u useffect od authstate');
     if (authenticated == true) {
       getUser(accessToken);
     }
-    instantiateRefreshToken();
   }, []);
 
   const instantiateRefreshToken = () => {
+    const interval_id = window.setInterval(function () {}, Number.MAX_SAFE_INTEGER);
+
+    // Clear any timeout/interval up to that id
+    for (let i = 1; i < interval_id; i++) {
+      window.clearInterval(i);
+    }
     setInterval(() => {
-      refreshExisitingToken(localStorage.getItem('access_token'))
+      //const refresh_token = localStorage.getItem('refresh_token');
+      refreshExisitingToken(localStorage.getItem('refresh_token'))
         .then(response => {
           setAccessToken(response.data.access_token);
-
           setRefreshToken(response.data.refresh_token);
           localStorage.setItem('access_token', response.data.access_token);
           localStorage.setItem('refresh_token', response.data.refresh_token);
-          console.log('token has been refreshed');
         })
         .catch(err => {
           console.log(err.message);
           logout();
         });
-    }, 45000);
+    }, 10000);
   };
 
   const getUser = token => {
@@ -66,6 +77,8 @@ const AuthState = props => {
         setRefreshToken(response.data.refresh_token);
         localStorage.setItem('access_token', response.data.access_token);
         localStorage.setItem('refresh_token', response.data.refresh_token);
+        console.log('instaciran refresh tokena');
+        instantiateRefreshToken();
       })
       .catch(error => {
         console.log(error.message);

@@ -58,14 +58,21 @@ public class EmployeeController {
                 roles.add(employee.getRole().getName());
                 String accessToken = JWT.create()
                         .withSubject(employee.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*10))
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*1))
+                        .withIssuer(request.getRequestURL().toString())
+                        .withClaim("roles", roles)
+                        .sign(algorithm);
+
+                String newRefreshToken = JWT.create()
+                        .withSubject(employee.getUsername())
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*3))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", roles)
                         .sign(algorithm);
 
                 Map<String,String> tokens = new HashMap<>();
                 tokens.put("access_token",accessToken);
-                tokens.put("refresh_token",refreshToken);
+                tokens.put("refresh_token",newRefreshToken);
 
                 response.setContentType("application/json");
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);

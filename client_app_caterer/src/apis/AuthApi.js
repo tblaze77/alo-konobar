@@ -13,13 +13,10 @@ export const getEmployeeByUsername = async username => {
     .catch(err => console.log(err.message));
 };
 
-export const refreshExisitingToken = async accessToken => {
-  console.log(accessToken);
-  return await axios
-    .get('http://localhost:8080/v1/api/employee/token/refresh', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .catch(err => console.log(err.message));
+export const refreshExisitingToken = async refreshToken => {
+  return await axios.get('http://localhost:8080/v1/api/employee/token/refresh', {
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
+  });
 };
