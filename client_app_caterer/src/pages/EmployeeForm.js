@@ -5,7 +5,7 @@ import FormInput from '../components/FormInput';
 import { createEmployee } from '../apis/EmployeeApi';
 import AuthContext from '../context/AuthContext';
 
-const AdminForm = ({ type }) => {
+const AdminForm = () => {
   const { branchId } = useParams();
   const { accessToken } = useContext(AuthContext);
   const [admin, setAdmin] = useState({
@@ -17,7 +17,7 @@ const AdminForm = ({ type }) => {
       id: branchId,
     },
     role: {
-      id: type === 'admin' ? 2 : 3,
+      id: 3,
     },
     description: '',
   });

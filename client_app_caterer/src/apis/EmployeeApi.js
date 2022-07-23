@@ -7,3 +7,11 @@ export const createEmployee = async (accessToken, employee) => {
     },
   });
 };
+
+export const getAllEmployeesOnSpecificBranch = async (accessToken, branchId) => {
+  return await axios.get(`http://localhost:8080/v1/api/employee/byBranch/${branchId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

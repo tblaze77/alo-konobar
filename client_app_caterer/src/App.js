@@ -6,6 +6,7 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import BranchForm from './pages/BranchForm';
 import AdminForm from './pages/AdminForm';
 import * as RoutePaths from './constants/RoutePaths';
+import EmployeeForm from './pages/EmployeeForm';
 
 function App() {
   return (
@@ -17,7 +18,11 @@ function App() {
           <Route path="/branch/create" element={<BranchForm />} />
           <Route
             path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ADMIN + RoutePaths.CREATE}
-            element={<AdminForm />}
+            element={<AdminForm type="admin"/>}
+          />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.EMPLOYEE + RoutePaths.CREATE}
+            element={<AdminForm type="employee"/>}
           />
         </Route>
         <Route path="/login" element={<Login />} />

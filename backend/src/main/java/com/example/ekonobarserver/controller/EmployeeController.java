@@ -140,7 +140,7 @@ public class EmployeeController {
 
     // ---------------- GET  v1/api/employee/byBranch/{branchId}   --------------- //
     /**
-     * DELETE endpoint - delete specific employees from database
+     * GET endpoint - get all employees from certain branch
      * @param id
      * @return
      */

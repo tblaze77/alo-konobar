@@ -89,7 +89,17 @@ public class EmployeeServiceImpl implements EmployeeService, UserDetailsService 
 
     @Override
     public List<Employee> getAllEmployeesByBranch(long id) {
-        return branchRepository.findById(id).get().getEmployees();
+        List<Employee> employeeList =  branchRepository.findById(id).get().getEmployees();
+        List<Employee> employeeListWithEmployees = new ArrayList<>();
+        String matchingRole = "EMPLOYEE";
+        for (Employee employee: employeeList) {
+            System.out.println(employee.getRole().getName());
+            if(employee.getRole().getName().equals(matchingRole) ){
+                employeeListWithEmployees.add(employee);
+            }
+        }
+
+        return employeeListWithEmployees;
     }
 
 
