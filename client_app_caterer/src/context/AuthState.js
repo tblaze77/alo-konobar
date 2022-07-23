@@ -44,6 +44,7 @@ const AuthState = props => {
       //const refresh_token = localStorage.getItem('refresh_token');
       refreshExisitingToken(localStorage.getItem('refresh_token'))
         .then(response => {
+          console.log('refreshed token');
           setAccessToken(response.data.access_token);
           setRefreshToken(response.data.refresh_token);
           localStorage.setItem('access_token', response.data.access_token);
@@ -53,7 +54,7 @@ const AuthState = props => {
           console.log(err.message);
           logout();
         });
-    }, 10000);
+    }, 45000);
   };
 
   const getUser = token => {
