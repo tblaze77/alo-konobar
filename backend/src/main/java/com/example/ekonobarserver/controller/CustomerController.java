@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(RestEndpoints.API_CUSTOMER)
@@ -28,7 +29,7 @@ public class CustomerController {
 
 
     @GetMapping(RestEndpointsParameters.CUSTOMER_ID)
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") long id) {
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") UUID id) {
         return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }
 
@@ -70,7 +71,7 @@ public class CustomerController {
      */
 
     @PutMapping(RestEndpointsParameters.CUSTOMER_ID)
-    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer, @PathVariable("customerId") Long id){
+    public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer, @PathVariable("customerId") UUID id){
 
         Customer updatedCustomer = customerService.updateCustomer(customer,id);
 
@@ -85,7 +86,7 @@ public class CustomerController {
      */
 
     @DeleteMapping(RestEndpointsParameters.CUSTOMER_ID)
-    public ResponseEntity deleteCustomer(@PathVariable("customerId") long id) {
+    public ResponseEntity deleteCustomer(@PathVariable("customerId") UUID id) {
 
         customerService.deleteCustomer(id);
         return new ResponseEntity(null, HttpStatus.OK);

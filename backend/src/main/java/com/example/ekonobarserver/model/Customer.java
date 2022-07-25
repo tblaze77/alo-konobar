@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -17,9 +18,9 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "customer_id")
-    private Long id;
+    private UUID id;
 
     //@Pattern(regexp="^[a-zA-Z0-9_].{3,50}$",message="length must be at least 3")
     @NotNull
