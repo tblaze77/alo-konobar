@@ -1,5 +1,6 @@
 package com.example.ekonobarserver.controller;
 
+import com.example.ekonobarserver.controller.endpoints.RestEndpointsParameters;
 import com.example.ekonobarserver.model.Order;
 import com.example.ekonobarserver.model.dto.OrderGetDTO;
 import com.example.ekonobarserver.model.dto.OrderPostDTO;
@@ -36,7 +37,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderGetDTO> getOrderById(@PathVariable("orderId") long id) {
-        return new ResponseEntity<>(mapper.orderToOrderGetDto(orderService.getOrderById(id)),HttpStatus.OK);
+        return new ResponseEntity<>(customMapper.orderToOrderGetDTO(orderService.getOrderById(id)),HttpStatus.OK);
     }
 
     // ---------------- GET  v1/api/order  --------------- //
@@ -47,8 +48,21 @@ public class OrderController {
 
     @GetMapping()
     public ResponseEntity<List<OrderGetDTO>> getAllOrders(){
-        return new ResponseEntity<>(mapper.ordersToOrderGetDTOs(orderService.getAllOrders()), HttpStatus.OK);
+        return new ResponseEntity<>(customMapper.ordersToOrderGetDTOs(orderService.getAllOrders()), HttpStatus.OK);
     }
+
+    // ---------------- GET  v1/api/order/byBranch/{branchId}  --------------- //
+    /**
+     * GET endpoint - list all orders from specific branch.
+     * @return
+     */
+
+    @GetMapping("byBranch" + RestEndpointsParameters.BRANCH_ID)
+    public ResponseEntity<List<OrderGetDTO>> getAllOrdersFromBranch(@PathVariable("branchId") long id){
+        return new ResponseEntity<>(customMapper.ordersToOrderGetDTOs(orderService.getOrdersFromBranch(id)), HttpStatus.OK);
+    }
+
+
 
 
     // ---------------- POST  v1/api/order  --------------- //
@@ -78,14 +92,14 @@ public class OrderController {
      */
 
     @PostMapping("/new")
-    public ResponseEntity<Order> createNewOrder(@Valid @RequestBody OrderPostDTO orderPostDTO) {
+    public ResponseEntity<OrderGetDTO> createNewOrder(@Valid @RequestBody OrderPostDTO orderPostDTO) {
 
         Order order = customMapper.orderPostDTOToOrder(orderPostDTO);
 
         Order createdOrder= orderService.createOrder(order);
 
-
-        return new ResponseEntity<>(createdOrder,HttpStatus.CREATED);
+        OrderGetDTO orderGetDTO = customMapper.orderToOrderGetDTO(createdOrder);
+        return new ResponseEntity<>(orderGetDTO,HttpStatus.CREATED);
     }
 
     // ---------------- GET  v1/api/order?from={dateFrom}&to={dateTo}  --------------- //

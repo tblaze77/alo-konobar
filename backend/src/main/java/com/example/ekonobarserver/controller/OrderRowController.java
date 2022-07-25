@@ -46,8 +46,8 @@ public class OrderRowController {
      */
 
     @GetMapping()
-    public ResponseEntity<List<OrderRow>> getAllOrderRow(){
-        return new ResponseEntity<>(orderRowService.getAllOrderRows(), HttpStatus.OK);
+    public ResponseEntity<List<OrderRowGetDTO>> getAllOrderRow(){
+        return new ResponseEntity<>(mapper.OrderRowsToOrderRowGetDTOs(orderRowService.getAllOrderRows()), HttpStatus.OK);
     }
 
     // ---------------- GET  v1/api/orderRow/byOrder/{orderId}  --------------- //

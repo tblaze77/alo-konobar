@@ -1,10 +1,7 @@
 package com.example.ekonobarserver.service.mapper;
 
 import com.example.ekonobarserver.model.*;
-import com.example.ekonobarserver.model.dto.BranchProductPostDTO;
-import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
-import com.example.ekonobarserver.model.dto.OrderPostDTO;
-import com.example.ekonobarserver.model.dto.OrderRowPostDTO;
+import com.example.ekonobarserver.model.dto.*;
 import com.example.ekonobarserver.repository.BranchProductRepository;
 import com.example.ekonobarserver.repository.BranchRepository;
 import com.example.ekonobarserver.repository.BranchTableRepository;
@@ -31,6 +28,10 @@ public class CustomMapper {
 
     @Autowired
     BranchRepository branchRepository;
+
+
+    @Autowired
+    MapStructMapper mapper;
 
     /**
      * custom mapper method to convert orderPostDTO to order entity
@@ -123,5 +124,66 @@ public class CustomMapper {
         }
 
         return menuItemGetDTOList;
+    }
+
+    public OrderGetDTO orderToOrderGetDTO(Order order){
+        OrderGetDTO orderGetDTO = new OrderGetDTO();
+
+
+            orderGetDTO.setId(order.getId());
+            orderGetDTO.setTotal(order.getTotal());
+            orderGetDTO.setAdditionalInfo(order.getAdditionalInfo());
+            orderGetDTO.setStatus(order.getStatus());
+            orderGetDTO.setOrderDate(order.getOrderDate());
+            orderGetDTO.setDateCreated(order.getDateCreated());
+            orderGetDTO.setDateModified(order.getDateModified());
+            orderGetDTO.setBranchName(order.getBranch().getBranchName());
+            orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
+            List<OrderRow> orderRows = order.getOrderRows();
+            List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
+        for (OrderRow orderRow:
+             orderRows
+        ) {
+            OrderRowGetDTO orderRowGetDTO;
+            orderRowGetDTO = mapper.orderRowToOrderRowGetDto(orderRow);
+            System.out.println(orderRowGetDTO);
+            orderRowGetDTOS.add(orderRowGetDTO);
+        }
+        orderGetDTO.setOrderRowsGetDto(orderRowGetDTOS);
+            //orderGetDTO.getBranch().setBranchName(order.getBranch().getBranchName());
+            //orderGetDTO.getBranchTable().setNumber(order.getBranchTable().getNumber());
+
+            return orderGetDTO;
+    }
+
+    public List<OrderGetDTO> ordersToOrderGetDTOs(List<Order> orderList){
+        List<OrderGetDTO> orderGetDTOs = new ArrayList<>();
+        for (Order order: orderList) {
+            OrderGetDTO orderGetDTO = new OrderGetDTO();
+            orderGetDTO.setId(order.getId());
+            orderGetDTO.setTotal(order.getTotal());
+            orderGetDTO.setAdditionalInfo(order.getAdditionalInfo());
+            orderGetDTO.setStatus(order.getStatus());
+            orderGetDTO.setOrderDate(order.getOrderDate());
+            orderGetDTO.setDateCreated(order.getDateCreated());
+            orderGetDTO.setDateModified(order.getDateModified());
+            orderGetDTO.setBranchName(order.getBranch().getBranchName());
+            orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
+            List<OrderRow> orderRows = order.getOrderRows();
+            List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
+            for (OrderRow orderRow:
+                    orderRows
+            ) {
+                OrderRowGetDTO orderRowGetDTO;
+                orderRowGetDTO = mapper.orderRowToOrderRowGetDto(orderRow);
+                System.out.println(orderRowGetDTO);
+                orderRowGetDTOS.add(orderRowGetDTO);
+            }
+            orderGetDTO.setOrderRowsGetDto(orderRowGetDTOS);
+
+            orderGetDTOs.add(orderGetDTO);
+        }
+
+       return orderGetDTOs;
     }
 }

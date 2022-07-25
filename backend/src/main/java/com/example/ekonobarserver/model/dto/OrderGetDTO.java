@@ -34,12 +34,11 @@ public class OrderGetDTO {
 
     private Date dateModified=new Date();
 
-    @JsonIncludeProperties({"quantity","branchProduct.productName"})
+    //@JsonIncludeProperties({"quantity","branchProduct.productName"})
     private List<OrderRowGetDTO> orderRowsGetDto;
 
-    @JsonIncludeProperties("branchName")
-    private Branch branch;
+    private String branchName;
 
-    @JsonIncludeProperties("number")
-    private BranchTable branchTable;
+    //@JsonIncludeProperties("number")
+    private Integer branchTableNumber;
 }

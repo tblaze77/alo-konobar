@@ -44,6 +44,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getOrdersFromBranch(long branchId) {
+        return orderRepository.getAllOrdersFromBranch(branchId);
+    }
+
+    @Override
     public Order updateOrder(Order order, long id) {
         Optional<Order> orderToUpdate = orderRepository.findById(id);
 

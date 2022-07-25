@@ -17,6 +17,8 @@ public interface OrderService {
 
     Order updateOrder(Order order, long id);
 
+    List<Order> getOrdersFromBranch (long branchId);
+
     List<Order> getOrdersFromTimeRange(String dateFrom, String dateTo);
 
     Order updateTotalInOrder(long id, OrderRow orderRow);
