@@ -2,19 +2,18 @@ package com.example.ekonobarserver.service.api;
 
 import com.example.ekonobarserver.model.Customer;
 import java.util.List;
-import java.util.UUID;
 
 public interface CustomerService {
     // --- CRUD FUNCTIONALITIES ---- //
 
     List<Customer> getAllCustomers();
 
-    Customer getCustomerById(UUID id);
+    Customer getCustomerById(long id);
 
     Customer createCustomer(Customer customer);
 
-    Customer updateCustomer(Customer customer, UUID id);
+    Customer updateCustomer(Customer customer, long id);
 
-    void deleteCustomer(UUID id);
+    void deleteCustomer(long id);
 
 }

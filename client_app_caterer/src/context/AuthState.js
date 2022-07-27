@@ -54,7 +54,7 @@ const AuthState = props => {
           console.log(err.message);
           logout();
         });
-    }, 45000);
+    }, 1700000);
   };
 
   const getUser = token => {

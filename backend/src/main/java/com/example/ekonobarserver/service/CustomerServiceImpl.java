@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 @Service(value = "CustomerService")
 public class CustomerServiceImpl implements CustomerService {
@@ -22,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer getCustomerById(UUID id) {
+    public Customer getCustomerById(long id) {
         return customerRepository.findById(id).get();
     }
 
@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Customer employee, UUID id) {
+    public Customer updateCustomer(Customer employee, long id) {
         Optional<Customer> customerToUpdate = customerRepository.findById(id);
 
         if(!customerToUpdate.isPresent()){
@@ -42,11 +42,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerToUpdate.get().setLastname(employee.getLastname());
         customerToUpdate.get().setDescription(employee.getDescription());
 
+
         return customerRepository.save(customerToUpdate.get());
     }
 
     @Override
-    public void deleteCustomer(UUID id) {
+    public void deleteCustomer(long id) {
         customerRepository.deleteById(id);
     }
 }

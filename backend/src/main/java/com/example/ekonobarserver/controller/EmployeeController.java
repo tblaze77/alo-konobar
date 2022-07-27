@@ -62,14 +62,14 @@ public class EmployeeController {
                 roles.add(employee.getRole().getName());
                 String accessToken = JWT.create()
                         .withSubject(employee.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*1))
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*30))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", roles)
                         .sign(algorithm);
 
                 String newRefreshToken = JWT.create()
                         .withSubject(employee.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*3))
+                        .withExpiresAt(new Date(System.currentTimeMillis()+ 1000*60*60))
                         .withIssuer(request.getRequestURL().toString())
                         .withClaim("roles", roles)
                         .sign(algorithm);

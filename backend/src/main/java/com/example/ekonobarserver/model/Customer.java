@@ -20,7 +20,7 @@ public class Customer {
     @Id
     @GeneratedValue
     @Column(name = "customer_id")
-    private UUID id;
+    private long id;
 
     //@Pattern(regexp="^[a-zA-Z0-9_].{3,50}$",message="length must be at least 3")
     @NotNull
