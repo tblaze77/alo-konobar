@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
 import { login, getEmployeeByUsername, refreshExisitingToken } from '../apis/AuthApi';
 import jwt_decode from 'jwt-decode';
+import { getMouseEventOptions } from '@testing-library/user-event/dist/utils';
 
 const AuthState = props => {
-  const [accessToken, setAccessToken] = useState(localStorage.getItem('access_token'));
-  const [authenticated, setAuthenticated] = useState(localStorage.getItem('access_token') ? true : false);
-  const [refreshToken, setRefreshToken] = useState(localStorage.getItem('refresh_token'));
+  const [accessToken, setAccessToken] = useState(null);
+  const [authenticated, setAuthenticated] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
 
@@ -27,11 +28,17 @@ const AuthState = props => {
   };
 
   useEffect(() => {
-    console.log('usa san u useffect od authstate');
-    if (authenticated == true) {
-      getUser(accessToken);
+    if (localStorage.getItem('access_token') != null) {
+      afterRefresh();
     }
   }, []);
+
+  const afterRefresh = async () => {
+    await getUser(localStorage.getItem('access_token'));
+    setAccessToken(localStorage.getItem('access_token'));
+    setRefreshToken(localStorage.getItem('refresh_token'));
+    setAuthenticated(true);
+  };
 
   const instantiateRefreshToken = () => {
     const interval_id = window.setInterval(function () {}, Number.MAX_SAFE_INTEGER);
@@ -61,32 +68,35 @@ const AuthState = props => {
     console.log(token);
     const decoded = jwt_decode(token);
 
-    await getEmployeeByUsername(decoded.sub)
-      .then(response => {
-        console.log(response.data);
-        setUser(response.data);
-        setRole(response.data.role.name);
-      })
-      .finally(() => console.log('dohvatia sam'));
+    const { data } = await getEmployeeByUsername(decoded.sub);
+    setUser(data);
+    setRole(data.role.name);
   };
 
-  const attemptLogin = (username, password) => {
-    let tempToken = null;
-    login(username, password)
-      .then(response => {
-        setAuthenticated(true);
-        tempToken = response.data.access_token;
-        setAccessToken(response.data.access_token);
-        setRefreshToken(response.data.refresh_token);
-        localStorage.setItem('access_token', response.data.access_token);
-        localStorage.setItem('refresh_token', response.data.refresh_token);
-        console.log('instaciran refresh tokena');
-        instantiateRefreshToken();
-      })
-      .catch(error => {
-        console.log(error.message);
-      })
-      .finally(() => getUser(tempToken));
+  const attemptLogin = async (username, password) => {
+    const { data } = await login(username, password);
+    console.log(data);
+    setAccessToken(data.access_token);
+    setRefreshToken(data.refresh_token);
+    localStorage.setItem('access_token', data.access_token);
+    localStorage.setItem('refresh_token', data.refresh_token);
+    await getUser(data.access_token);
+    instantiateRefreshToken();
+    setAuthenticated(true);
+    // .then(response => {
+    //   setAuthenticated(true);
+    //   tempToken = response.data.access_token;
+    //   setAccessToken(response.data.access_token);
+    //   setRefreshToken(response.data.refresh_token);
+    //   localStorage.setItem('access_token', response.data.access_token);
+    //   localStorage.setItem('refresh_token', response.data.refresh_token);
+    //   console.log('instaciran refresh tokena');
+    //   instantiateRefreshToken();
+    // })
+    // .catch(error => {
+    //   console.log(error.message);
+    // })
+    // .finally(() => getUser(tempToken));
   };
 
   return (
