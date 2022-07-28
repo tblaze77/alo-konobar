@@ -57,15 +57,17 @@ const AuthState = props => {
     }, 1700000);
   };
 
-  const getUser = token => {
+  const getUser = async token => {
     console.log(token);
     const decoded = jwt_decode(token);
 
-    getEmployeeByUsername(decoded.sub).then(response => {
-      console.log(response.data);
-      setUser(response.data);
-      setRole(response.data.role.name);
-    });
+    await getEmployeeByUsername(decoded.sub)
+      .then(response => {
+        console.log(response.data);
+        setUser(response.data);
+        setRole(response.data.role.name);
+      })
+      .finally(() => console.log('dohvatia sam'));
   };
 
   const attemptLogin = (username, password) => {

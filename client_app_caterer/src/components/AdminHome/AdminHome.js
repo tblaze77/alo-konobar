@@ -53,6 +53,9 @@ const AdminHome = () => {
               </li>
             ))}
           </ul>
+          <button>
+            <Link to={RoutePaths.PRODUCTS}>View all avaliable products</Link>
+          </button>
         </div>
       )}
     </div>

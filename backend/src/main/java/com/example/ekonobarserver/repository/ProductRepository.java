@@ -11,4 +11,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select * from product p where p.product_id in (select product_id from branch_product bp where bp.branch_id=:id)", nativeQuery = true)
     List<Product> listAllProductsByBranchId (long id);
+
 }
