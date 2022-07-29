@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
@@ -54,7 +54,12 @@ const AdminHome = () => {
             ))}
           </ul>
           <button>
-            <Link to={RoutePaths.PRODUCTS}>View all avaliable products</Link>
+            <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
+          </button>
+          <button>
+            <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.BRANCH_PRODUCTS}>
+              View Products from your caffe
+            </Link>
           </button>
         </div>
       )}

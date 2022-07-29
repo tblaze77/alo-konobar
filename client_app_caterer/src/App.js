@@ -11,6 +11,7 @@ import Products from './pages/Products';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
 import BranchProductForm from './pages/BranchProductForm';
+import BranchProducts from './pages/BranchProducts';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -30,8 +31,20 @@ function App() {
           />
           <Route path={RoutePaths.PRODUCTS} element={<Products />} />
           <Route
-            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.PRODUCTS + RoutePaths.PRODUCT_ID}
-            element={<BranchProductForm />}
+            path={
+              RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.PRODUCTS + RoutePaths.PRODUCT_ID + RoutePaths.CREATE
+            }
+            element={<BranchProductForm type="create" />}
+          />
+          <Route
+            path={
+              RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.PRODUCTS + RoutePaths.PRODUCT_ID + RoutePaths.UPDATE
+            }
+            element={<BranchProductForm type="update" />}
+          />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.BRANCH_PRODUCTS}
+            element={<BranchProducts />}
           />
         </Route>
         <Route path="/login" element={<Login />} />

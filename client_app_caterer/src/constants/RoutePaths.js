@@ -13,3 +13,4 @@ export const PRODUCT_ID = '/:productId';
 // Actions
 
 export const CREATE = '/create';
+export const UPDATE = '/update';

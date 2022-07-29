@@ -38,6 +38,7 @@ const AuthState = props => {
     setAccessToken(localStorage.getItem('access_token'));
     setRefreshToken(localStorage.getItem('refresh_token'));
     setAuthenticated(true);
+    instantiateRefreshToken();
   };
 
   const instantiateRefreshToken = () => {

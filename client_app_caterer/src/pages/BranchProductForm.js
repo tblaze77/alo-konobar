@@ -2,15 +2,13 @@ import React, { useEffect, useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSpecificProduct } from '../apis/ProductApi';
 import AuthContext from '../context/AuthContext';
-import { createBranchProduct } from '../apis/BranchProductApi';
+import { createBranchProduct, getSpecificBranchProduct, updateSpecificBranchProduct } from '../apis/BranchProductApi';
 import { branchProductInputs } from '../constants/InputBlueprints';
 import FormInput from '../components/FormInput';
-const BranchProductForm = () => {
+const BranchProductForm = ({ type }) => {
   const { branchId, productId } = useParams();
   const { accessToken, user } = useContext(AuthContext);
   const [branchProduct, setBranchProduct] = useState({
-    branch: branchId,
-    product: productId,
     description: '',
     quantity: '',
     price: '',
@@ -22,14 +20,29 @@ const BranchProductForm = () => {
   }, [loading]);
 
   const getInfo = async () => {
-    const { data } = await getSpecificProduct(accessToken, productId);
-    setProduct(data);
+    if (type === 'update') {
+      const responses = await Promise.all([
+        getSpecificProduct(accessToken, productId),
+        getSpecificBranchProduct(accessToken, branchId, productId),
+      ]);
+      setProduct(responses[0].data);
+      branchProduct['description'] = responses[1].data.description;
+      branchProduct['quantity'] = responses[1].data.quantity;
+      branchProduct['price'] = responses[1].data.price;
+    } else {
+      branchProduct['branch'] = branchId;
+      branchProduct['product'] = productId;
+      const { data } = await getSpecificProduct(accessToken, productId);
+      setProduct(data);
+    }
+    console.log(branchProduct);
     setLoading(false);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await createBranchProduct(accessToken, branchProduct);
+    if (type == 'create') await createBranchProduct(accessToken, branchProduct);
+    else await updateSpecificBranchProduct(accessToken, branchId, product.id, branchProduct);
     clearState();
   };
 

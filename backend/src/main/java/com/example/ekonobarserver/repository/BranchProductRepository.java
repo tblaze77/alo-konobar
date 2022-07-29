@@ -19,4 +19,13 @@ public interface BranchProductRepository extends JpaRepository<BranchProduct, Br
      */
     @Query(value="select * from branch_product bp join branch_table bt on bp.branch_id=bt.branch_id where bt.branch_table_id=:branchTableId", nativeQuery = true)
     List<BranchProduct> findBranchProductsOnBranchTableId(@Param("branchTableId") long branchTableId);
+
+    /**
+     * Query to get all branch products from specific branch
+     * @param branchId
+     * @return
+     */
+    @Query(value="select * from branch_product bp where bp.branch_id=:branchId", nativeQuery = true)
+    List<BranchProduct> findBranchProductsFromSpecificBranch(@Param("branchId") long branchId);
+
 }

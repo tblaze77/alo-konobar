@@ -1,12 +1,17 @@
-export const productsConverter = async (categories, products, productsFromBranch) => {
-  console.log(categories);
-  console.log(products);
+export const productsConverter = async (categories, products, productsFromBranch, isAll) => {
   const modifiedProducts = [];
   products.forEach(product => {
-    if (productsFromBranch.find(productFromBranch => productFromBranch.id == product.id)) {
-      product['avaliable'] = true;
+    let foundBranchProduct = productsFromBranch.find(productFromBranch => productFromBranch.product.id == product.id);
+    if (foundBranchProduct != null) {
+      if (isAll) product['visible'] = false;
+      else {
+        product['visible'] = true;
+        product['price'] = foundBranchProduct.price;
+        product['quantity'] = foundBranchProduct.quantity;
+      }
     } else {
-      product['avaliable'] = false;
+      if (isAll) product['visible'] = true;
+      else product['visible'] = false;
     }
   });
 
@@ -14,16 +19,15 @@ export const productsConverter = async (categories, products, productsFromBranch
     let modifiedProduct = {
       name: '',
       products: [],
-      isAdded: false,
     };
     modifiedProduct['name'] = category.fullName;
     products.forEach(product => {
-      if (!product.avaliable && product.category.id == category.id) {
+      if (product.visible && product.category.id == category.id) {
         modifiedProduct.products.push(product);
       }
     });
     modifiedProducts.push(modifiedProduct);
   });
-  console.log(modifiedProducts);
+
   return modifiedProducts;
 };

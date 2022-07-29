@@ -31,6 +31,11 @@ public class BranchProductServiceImpl implements BranchProductService {
     }
 
     @Override
+    public List<BranchProduct> getBranchProductsFromSpecificBranch(long branchId) {
+        return branchProductRepository.findBranchProductsFromSpecificBranch(branchId);
+    }
+
+    @Override
     public BranchProduct createBranchProduct(BranchProduct branchProduct) {
         return branchProductRepository.save(branchProduct);
     }

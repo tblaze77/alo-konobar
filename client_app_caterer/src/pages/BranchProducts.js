@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext, useTransition } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import AuthContext from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { getAllCategories } from '../apis/CategoryApi';
 import { getAllProducts } from '../apis/ProductApi';
 import { getAllBranchProductsFromSpecificBranch } from '../apis/BranchProductApi';
-import AuthContext from '../context/AuthContext';
 import { productsConverter } from '../utils/EntityConverter';
 import * as RoutePaths from '../constants/RoutePaths';
-import { Link } from 'react-router-dom';
-const Products = () => {
+const BranchProducts = () => {
   const { accessToken, user } = useContext(AuthContext);
-  const branchId = user.branch.id;
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   useEffect(() => {
@@ -21,7 +20,7 @@ const Products = () => {
       getAllProducts(accessToken),
       getAllBranchProductsFromSpecificBranch(accessToken, user.branch.id),
     ]);
-    setProducts(await productsConverter(responses[0].data, responses[1].data, responses[2].data, true));
+    setProducts(await productsConverter(responses[0].data, responses[1].data, responses[2].data));
     if (products != []) setLoading(false);
   };
 
@@ -31,7 +30,7 @@ const Products = () => {
         <h1>Loading ....</h1>
       ) : (
         <>
-          <h1>All possible products for {user.branch.branchName}</h1>
+          <h1>All products existing in {user.branch.branchName}</h1>
           {products.map((categorized, index) => {
             return (
               <div key={index}>
@@ -41,20 +40,24 @@ const Products = () => {
                 {categorized.products.map((product, index) => {
                   return (
                     <div key={index}>
-                      <h2>{product.productName}</h2>{' '}
-                      <Link
-                        to={
-                          RoutePaths.BRANCH +
-                          '/' +
-                          branchId +
-                          RoutePaths.PRODUCTS +
-                          '/' +
-                          product.id +
-                          RoutePaths.CREATE
-                        }
-                      >
-                        <button>Add</button>
-                      </Link>
+                      <h2>{product.productName}</h2>
+                      <h2>{product.price} HRK</h2>
+                      <h2>{product.quantity} left</h2>
+                      <button>
+                        <Link
+                          to={
+                            RoutePaths.BRANCH +
+                            '/' +
+                            user.branch.id +
+                            RoutePaths.PRODUCTS +
+                            '/' +
+                            product.id +
+                            RoutePaths.UPDATE
+                          }
+                        >
+                          Edit
+                        </Link>
+                      </button>
                     </div>
                   );
                 })}
@@ -67,4 +70,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default BranchProducts;
