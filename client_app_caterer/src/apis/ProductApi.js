@@ -8,6 +8,14 @@ export const getAllProducts = async accessToken => {
   });
 };
 
+export const getSpecificProduct = async (accessToken, productId) => {
+  return await axios.get(`http://localhost:8080/v1/api/product/${productId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 export const getAllProductsBySpecificBranch = async (accessToken, branchId) => {
   return await axios.get(`http://localhost:8080/v1/api/product/byBranch/${branchId}`, {
     headers: {

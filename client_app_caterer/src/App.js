@@ -10,6 +10,7 @@ import EmployeeForm from './pages/EmployeeForm';
 import Products from './pages/Products';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
+import BranchProductForm from './pages/BranchProductForm';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -28,6 +29,10 @@ function App() {
             element={<AdminForm type="employee" />}
           />
           <Route path={RoutePaths.PRODUCTS} element={<Products />} />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.PRODUCTS + RoutePaths.PRODUCT_ID}
+            element={<BranchProductForm />}
+          />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

@@ -76,3 +76,32 @@ export const employeeInputs = [
     required: true,
   },
 ];
+
+export const branchProductInputs = [
+  {
+    id: 1,
+    name: 'description',
+    type: 'text',
+    placeholder: 'Description',
+    label: 'Description',
+  },
+  {
+    id: 2,
+    name: 'quantity',
+    type: 'number',
+    placeholder: 'quantity',
+    label: 'Quantity',
+    min: '1',
+    required: true,
+  },
+  {
+    id: 3,
+    name: 'price',
+    type: 'number',
+    placeholder: 'price',
+    label: 'Price',
+    step: '0.01',
+    min: '1',
+    required: true,
+  },
+];

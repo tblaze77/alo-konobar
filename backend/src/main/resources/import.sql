@@ -13,4 +13,4 @@ INSERT INTO product (product_id,date_created,date_modified,product_name,descript
 INSERT INTO product (product_id,date_created,date_modified,product_name,description,category_id) VALUES (5,'2022-06-07 11:44:51.182','2022-06-07 11:44:51.182','Velika kava', 'Velika kava',3);
 INSERT INTO product (product_id,date_created,date_modified,product_name,description,category_id) VALUES (6,'2022-06-07 11:44:51.182','2022-06-07 11:44:51.182','Bijela kava','Bijela kava',3);
 
-INSERT INTO employee (employee_id,date_created,date_modified,firstname,lastname,description, password,username, branch_id, role) VALUES (1,'2022-06-07 11:44:51.182','2022-06-07 11:44:51.182','Super','User','Ja sam super user','password','username',null,1);
+
