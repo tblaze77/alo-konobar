@@ -61,6 +61,11 @@ const AdminHome = () => {
               View Products from your caffe
             </Link>
           </button>
+          <button>
+            <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.ORDER + RoutePaths.CREATE}>
+              Create new order
+            </Link>
+          </button>
         </div>
       )}
     </div>
