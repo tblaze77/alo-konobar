@@ -7,3 +7,11 @@ export const getAllOrdersFromSpecificBranch = async (accessToken, branchId) => {
     },
   });
 };
+
+export const createNewOrder = async (accessToken, order) => {
+  return await axios.post('http://localhost:8080/v1/api/order/new', order, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

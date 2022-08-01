@@ -18,7 +18,7 @@ public class OrderPostDTO {
     @NotNull
     @JsonProperty("orderDate")
     private Date orderDate;
-
+    private Long employeeId;
     public OrderPostDTO() {
     }
 
@@ -38,6 +38,10 @@ public class OrderPostDTO {
 
     public Long getTableId() {
         return tableId;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
     }
 
     public void setTableId(Long tableId) {

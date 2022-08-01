@@ -14,14 +14,15 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
       APIMethod(accessToken, paramId).then(response => {
         if (mounted) {
           setAvaliableChoices(response.data);
+          console.log(response.data);
         }
       });
     } else {
       APIMethod().then(response => {
         if (mounted) setAvaliableChoices(response.data);
+        console.log(response.data);
       });
     }
-
     return () => (mounted = false);
   }, [APIMethod]);
 
@@ -45,7 +46,7 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
                   ? `${choice.firstname} ${choice.lastname}`
                   : id === 'table'
                   ? `Table ${choice.teamName}`
-                  : choice.product.productName}
+                  : choice.productName}
               </option>
             );
           } else {
@@ -55,7 +56,7 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
                   ? `${choice.firstname} ${choice.lastname}`
                   : id === 'table'
                   ? `Table ${choice.number}`
-                  : choice.product.productName}
+                  : choice.productName}
               </option>
             );
           }

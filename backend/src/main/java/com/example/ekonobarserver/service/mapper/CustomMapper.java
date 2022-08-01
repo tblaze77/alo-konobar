@@ -2,10 +2,7 @@ package com.example.ekonobarserver.service.mapper;
 
 import com.example.ekonobarserver.model.*;
 import com.example.ekonobarserver.model.dto.*;
-import com.example.ekonobarserver.repository.BranchProductRepository;
-import com.example.ekonobarserver.repository.BranchRepository;
-import com.example.ekonobarserver.repository.BranchTableRepository;
-import com.example.ekonobarserver.repository.ProductRepository;
+import com.example.ekonobarserver.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +26,9 @@ public class CustomMapper {
     @Autowired
     BranchRepository branchRepository;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
+
 
     @Autowired
     MapStructMapper mapper;
@@ -43,9 +43,14 @@ public class CustomMapper {
         Order order = new Order();
 
         //setting default attributes like date and employee
-        System.out.println(orderPostDTO.getOrderDate());
         order.setOrderDate(orderPostDTO.getOrderDate());
-        order.setEmployee(null);
+        order.setEmployee(
+                employeeRepository.findById(
+                        orderPostDTO.getEmployeeId()
+                ).orElseThrow(
+                        () -> new RuntimeException("Employee not exisiting")
+                )
+        );
         //setting branch table but first checking if branch table exists
         order.setBranchTable(
                 branchTableRepository.findById(
