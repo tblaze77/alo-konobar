@@ -2,6 +2,7 @@ package com.example.ekonobarserver.model.dto;
 
 import com.example.ekonobarserver.model.Branch;
 import com.example.ekonobarserver.model.BranchTable;
+import com.example.ekonobarserver.model.Employee;
 import com.example.ekonobarserver.model.OrderRow;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
@@ -38,6 +39,8 @@ public class OrderGetDTO {
     private List<OrderRowGetDTO> orderRowsGetDto;
 
     private String branchName;
+
+    private Employee employee;
 
     //@JsonIncludeProperties("number")
     private Integer branchTableNumber;

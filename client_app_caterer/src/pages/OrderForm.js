@@ -4,7 +4,7 @@ import { productsConverter } from '../utils/EntityConverter';
 import { getAllEmployeesOnSpecificBranch } from '../apis/EmployeeApi';
 import { getAllTablesFromSpecificBranch } from '../apis/BranchTableApi';
 import { createNewOrder } from '../apis/OrderApi';
-import { getAllProductsBySpecificBranch } from '../apis/ProductApi';
+import { getAllBranchProductsFromSpecificBranch } from '../apis/BranchProductApi';
 import Select from '../components/Form/Select';
 
 const OrderForm = () => {
@@ -29,7 +29,7 @@ const OrderForm = () => {
     const responses = await Promise.all([
       getAllEmployeesOnSpecificBranch(accessToken, user.branch.id),
       getAllTablesFromSpecificBranch(accessToken, user.branch.id),
-      getAllProductsBySpecificBranch(accessToken, user.branch.id),
+      getAllBranchProductsFromSpecificBranch(accessToken, user.branch.id),
     ]);
     setEmployeeList(responses[0].data);
     setBranchTableList(responses[1].data);
@@ -39,19 +39,22 @@ const OrderForm = () => {
 
   const handleOrderRowSubmit = async e => {
     e.preventDefault();
-
-    const foundProduct = branchProducts.find(product => product.id == branchProduct.id);
+    const foundBranchProduct = branchProducts.find(bProduct => bProduct.product.productName === branchProduct.id);
+    let total = quantity * foundBranchProduct.price;
     const orderRow = {
-      productId: branchProduct.id,
-      productName: foundProduct.productName,
+      productId: foundBranchProduct.product.id,
+      productName: foundBranchProduct.product.productName,
+      price: foundBranchProduct.price,
       quantity: quantity,
+      total: total,
     };
+    console.log(orderRow.total);
     setOrderRows(oldArray => [...oldArray, orderRow]);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    const newOrderRows = orderRows.map(({ productName, ...attributesToKeep }) => attributesToKeep);
+    const newOrderRows = orderRows.map(({ productName, price, ...attributesToKeep }) => attributesToKeep);
     let orderFullDate = new Date().toISOString().slice(0, 16);
     let dateArray = orderFullDate.split('T');
     let tempOrderDate = dateArray[0].split('-').reverse().join('/');
@@ -107,7 +110,7 @@ const OrderForm = () => {
           <div className="orderRow form">
             <Select
               key="product"
-              APIMethod={getAllProductsBySpecificBranch}
+              APIMethod={getAllBranchProductsFromSpecificBranch}
               changeState={setBranchProduct}
               id="branchProduct"
               label="Select product"
@@ -125,7 +128,8 @@ const OrderForm = () => {
             {orderRows.map(orderRow => {
               return (
                 <div>
-                  <h1>{orderRow.productName}</h1> <h1>{orderRow.quantity}</h1>
+                  <h1>{orderRow.productName}</h1> <h1>Unit price: {orderRow.price}</h1> <h1>{orderRow.quantity}</h1>
+                  <h1>Total {orderRow.total}</h1>
                 </div>
               );
             })}

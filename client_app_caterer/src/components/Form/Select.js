@@ -5,6 +5,7 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
   const { accessToken } = useContext(AuthContext);
 
   const handleSelectChange = e => {
+    console.log(e.target.value);
     changeState({ id: e.target.value });
   };
 
@@ -46,7 +47,7 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
                   ? `${choice.firstname} ${choice.lastname}`
                   : id === 'table'
                   ? `Table ${choice.teamName}`
-                  : choice.productName}
+                  : choice.product.productName}
               </option>
             );
           } else {
@@ -56,7 +57,7 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
                   ? `${choice.firstname} ${choice.lastname}`
                   : id === 'table'
                   ? `Table ${choice.number}`
-                  : choice.productName}
+                  : choice.product.productName}
               </option>
             );
           }

@@ -13,6 +13,7 @@ import AuthContext from './context/AuthContext';
 import BranchProductForm from './pages/BranchProductForm';
 import BranchProducts from './pages/BranchProducts';
 import OrderForm from './pages/OrderForm';
+import IndividualOrder from './pages/IndividualOrder';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -50,6 +51,10 @@ function App() {
           <Route
             path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.CREATE}
             element={<OrderForm />}
+          />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.ORDER_ID}
+            element={<IndividualOrder />}
           />
         </Route>
         <Route path="/login" element={<Login />} />

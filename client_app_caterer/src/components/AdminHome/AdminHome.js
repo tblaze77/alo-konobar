@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
 import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
@@ -48,9 +48,11 @@ const AdminHome = () => {
           <h1>Today Orders</h1>
           <ul>
             {orderList.map(order => (
-              <li>
-                {order.total} on {order.orderDate}
-              </li>
+              <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
+                <li>
+                  {order.total} HRK on {order.orderDate}
+                </li>
+              </Link>
             ))}
           </ul>
           <button>

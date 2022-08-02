@@ -10,6 +10,7 @@ export const ORDER = '/order';
 export const EMPLOYEE_ID = '/:employeeId';
 export const BRANCH_ID = '/:branchId';
 export const PRODUCT_ID = '/:productId';
+export const ORDER_ID = '/:orderId';
 
 // Actions
 
