@@ -120,6 +120,7 @@ public class CustomMapper {
             MenuItemGetDTO menuItemGetDTO = new MenuItemGetDTO();
             menuItemGetDTO.setBranchId(branchProduct.getBranchProductId().getBranchId());
             menuItemGetDTO.setProductId(branchProduct.getBranchProductId().getProductId());
+            menuItemGetDTO.setProductName(branchProduct.getProduct().getProductName());
             menuItemGetDTO.setPrice(branchProduct.getPrice());
             menuItemGetDTO.setDescription(branchProduct.getDescription());
             menuItemGetDTO.setQuantity(branchProduct.getQuantity());

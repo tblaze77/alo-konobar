@@ -27,6 +27,7 @@ const Menu = () => {
       categorizedArticles[i] = [];
     }
     data.map((menuItem, index) => categorizedArticles[menuItem.categoryId - 1].push(menuItem));
+    console.log(categorizedArticles);
   };
 
   const handleChange = e => {
@@ -69,7 +70,8 @@ const Menu = () => {
                     onChange={handleChange}
                   />
                   <p>
-                    {item.productName} {item.price} HRK
+                    {item.productName}
+                    {item.price} HRK
                   </p>
                 </div>
               ))}
