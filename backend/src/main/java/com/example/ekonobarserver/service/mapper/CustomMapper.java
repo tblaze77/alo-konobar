@@ -144,6 +144,7 @@ public class CustomMapper {
             orderGetDTO.setDateModified(order.getDateModified());
             orderGetDTO.setBranchName(order.getBranch().getBranchName());
             orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
+            orderGetDTO.setEmployee(order.getEmployee());
             List<OrderRow> orderRows = order.getOrderRows();
             List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
         for (OrderRow orderRow:
