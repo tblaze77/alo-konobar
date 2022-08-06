@@ -5,6 +5,9 @@ import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
 import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
 import * as RoutePaths from '../../constants/RoutePaths';
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+var stompClient = null;
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
   const [branch, setBranch] = useState({});
@@ -13,7 +16,28 @@ const AdminHome = () => {
   const [orderList, setOrderList] = useState([]);
   useEffect(() => {
     getInfo();
+    registerBranch();
   }, []);
+
+  const registerBranch = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnected, onError);
+  };
+
+  const onConnected = () => {
+    console.log('you are connected!!');
+    stompClient.subscribe('/user/' + user.branch.id + '/socket-order', onResponseReceived);
+  };
+
+  const onResponseReceived = payload => {
+    var payloadData = JSON.parse(payload.body);
+    console.log(payloadData.items);
+  };
+
+  const onError = () => {
+    console.log('error has occured');
+  };
 
   const getInfo = async () => {
     const responses = await Promise.all([

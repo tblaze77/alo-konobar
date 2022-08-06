@@ -2,19 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
 import { getSpecificBranchTable } from '../apis/BranchApis';
+import { over } from 'stompjs';
 import './Menu.css';
-
+import SockJS from 'sockjs-client';
+let stompClient = null;
 const Menu = () => {
   const { tableId } = useParams();
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
-  const [selectedArticles, setSelectedArticles] = useState([]);
   const [branchTable, setBranchTable] = useState({});
   const [quantityChanged, setQuantityChanged] = useState(true);
   useEffect(() => {
     fetchData();
-    console.log(categorizedArticles);
+    registerTable();
   }, []);
+
+  const registerTable = () => {
+    let Sock = new SockJS('http://localhost:8080/ws');
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnected, onError);
+  };
+
+  const onConnected = () => {
+    console.log('you are connected!!');
+    stompClient.subscribe('/user' + tableId + '/socket-order', onResponseReceived);
+  };
+
+  const onResponseReceived = () => {
+    console.log('dobia si privatnu poruku');
+  };
+
+  const onError = () => {
+    console.log('error has occured');
+  };
 
   useEffect(() => {
     console.log('use effect za rerender');
@@ -49,7 +69,21 @@ const Menu = () => {
 
   const handleSubmit = async () => {
     let articlesForOrder = await createSelectedArticles();
-    console.log(articlesForOrder);
+    await sendMessage(articlesForOrder);
+  };
+
+  const sendMessage = async messageToSend => {
+    if (stompClient) {
+      let chatMessage = {
+        senderIdentification: tableId,
+        receiverIdentification: branchTable.branch.id,
+        items: messageToSend,
+        date: null,
+      };
+
+      stompClient.send('/app/order', {}, JSON.stringify(chatMessage));
+      console.log('message has been sent');
+    }
   };
 
   const createSelectedArticles = async () => {

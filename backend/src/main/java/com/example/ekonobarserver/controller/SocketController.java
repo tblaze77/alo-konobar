@@ -16,7 +16,7 @@ public class SocketController {
 
     @MessageMapping("/order")
     private SocketOrder receiveSocketOrder (@Payload SocketOrder socketOrder){
-
+        System.out.println("ovaj endpoint je hitan");
         simpMessagingTemplate.convertAndSendToUser(socketOrder.getReceiverIdentification(),"/socket-order" ,socketOrder);
         return socketOrder;
     }

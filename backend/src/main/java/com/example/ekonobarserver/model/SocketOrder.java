@@ -8,6 +8,6 @@ import java.util.List;
 public class SocketOrder {
     private String senderIdentification;
     private String receiverIdentification;
-    private List<String> items;
+    private List<Item> items;
     private Date date;
 }
