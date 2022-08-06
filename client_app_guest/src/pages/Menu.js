@@ -8,11 +8,17 @@ const Menu = () => {
   const { tableId } = useParams();
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
-  const [selectedArticles, setSelectedArtices] = useState([]);
+  const [selectedArticles, setSelectedArticles] = useState([]);
   const [branchTable, setBranchTable] = useState({});
+  const [quantityChanged, setQuantityChanged] = useState(true);
   useEffect(() => {
     fetchData();
+    console.log(categorizedArticles);
   }, []);
+
+  useEffect(() => {
+    console.log('use effect za rerender');
+  }, [quantityChanged]);
 
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
@@ -26,25 +32,39 @@ const Menu = () => {
     for (let i = 0; i < numberOfRows; i++) {
       categorizedArticles[i] = [];
     }
+
     data.map((menuItem, index) => categorizedArticles[menuItem.categoryId - 1].push(menuItem));
-    console.log(categorizedArticles);
+    categorizedArticles.forEach(categoryGroup => {
+      categoryGroup.map(article => {
+        article['isChecked'] = false;
+        article['quantity'] = 1;
+      });
+    });
   };
 
-  const handleChange = e => {
-    if (e.target.checked) {
-      setSelectedArtices([...selectedArticles, e.target.value]);
-    } else {
-      removeItem(e.target.value);
-    }
+  const onNumberInputChange = e => {
+    categorizedArticles[e.target.id][e.target.name].quantity = e.target.value;
+    setQuantityChanged(!quantityChanged);
   };
 
-  const removeItem = itemName => {
-    var array = [...selectedArticles];
-    var index = array.indexOf(itemName);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setSelectedArtices(array);
-    }
+  const handleSubmit = async () => {
+    let articlesForOrder = await createSelectedArticles();
+    console.log(articlesForOrder);
+  };
+
+  const createSelectedArticles = async () => {
+    let articlesForOrder = [];
+    categorizedArticles.map(category =>
+      category.map(item => {
+        let article = {};
+        if (item.isChecked) {
+          article.productName = item.productName;
+          article.quantity = item.quantity;
+          articlesForOrder.push(article);
+        }
+      })
+    );
+    return articlesForOrder;
   };
 
   return (
@@ -57,27 +77,48 @@ const Menu = () => {
             <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
             <h2>Table number {branchTable.number}</h2>
           </div>
-          {categorizedArticles.map((category, index) => (
-            <div key={index}>
-              <h1>{category[0].categoryName}</h1>
-              {category.map((item, index) => (
-                <div className="list-container" key={index}>
-                  <input
-                    type="checkbox"
-                    id={item.productName}
-                    name={item.productName}
-                    value={item.productName}
-                    onChange={handleChange}
-                  />
-                  <p>
-                    {item.productName}
-                    {item.price} HRK
-                  </p>
+          {categorizedArticles.map((category, categoryindex) => (
+            <div key={categoryindex}>
+              {category.length != 0 ? (
+                <div>
+                  <h1>{category[0].categoryName}</h1>
+                  {category.map((item, itemIndex) => (
+                    <div className="list-container" key={itemIndex}>
+                      <input
+                        type="checkbox"
+                        id={item.categoryindex}
+                        name={item.itemIndex}
+                        value={item.productName}
+                        onChange={e => {
+                          e.target.checked ? (item.isChecked = true) : (item.isChecked = false);
+                          setQuantityChanged(!quantityChanged);
+                        }}
+                      />
+                      {item.isChecked ? (
+                        <input
+                          type="number"
+                          value={item.quantity}
+                          id={categoryindex}
+                          name={itemIndex}
+                          min={1}
+                          step={1}
+                          placeholder="Quantity"
+                          onChange={onNumberInputChange}
+                        />
+                      ) : null}
+                      <p>
+                        {item.productName}
+                        {item.price} HRK
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : null}
             </div>
           ))}
-          <button type="submit">Submit</button>
+          <button type="submit" onClick={handleSubmit}>
+            Submit
+          </button>
         </div>
       )}
     </>

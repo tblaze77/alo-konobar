@@ -118,7 +118,7 @@ const OrderForm = () => {
               paramId={user.branch.id}
             />
             <label>Quantity</label>
-            <input type="number" value={quantity} min={1} step={1} onChange={() => setQuantity(quantity + 1)} />
+            <input type="number" value={quantity} min={1} step={1} onChange={e => setQuantity(e.target.value)} />
             <button type="submit" onClick={handleOrderRowSubmit}>
               Add new order row
             </button>
