@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
+import { getSpecificBranchTable } from '../../apis/BranchTableApi';
 import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
 import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
@@ -14,6 +15,8 @@ const AdminHome = () => {
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [incomingOrder, setIncomingOrder] = useState(null);
+  const [branchTableSender, setBranchTableSender] = useState(null);
   useEffect(() => {
     getInfo();
     registerBranch();
@@ -30,9 +33,12 @@ const AdminHome = () => {
     stompClient.subscribe('/user/' + user.branch.id + '/socket-order', onResponseReceived);
   };
 
-  const onResponseReceived = payload => {
+  const onResponseReceived = async payload => {
     var payloadData = JSON.parse(payload.body);
-    console.log(payloadData.items);
+    const { data } = await getSpecificBranchTable(accessToken, payloadData.senderIdentification);
+    setBranchTableSender(data);
+
+    setIncomingOrder(payloadData.items);
   };
 
   const onError = () => {
@@ -92,6 +98,31 @@ const AdminHome = () => {
               Create new order
             </Link>
           </button>
+          {incomingOrder ? (
+            <div>
+              <h1>Incoming order from table number {branchTableSender.number} </h1>
+              <ul>
+                {incomingOrder.map(order => (
+                  <li>
+                    {order.productName} {order.quantity}
+                  </li>
+                ))}
+              </ul>
+              <button>
+                <Link
+                  to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + RoutePaths.CHECKOUT}
+                  state={{
+                    order: {
+                      items: incomingOrder,
+                      table: branchTableSender,
+                    },
+                  }}
+                >
+                  Accept
+                </Link>
+              </button>
+            </div>
+          ) : null}
         </div>
       )}
     </div>

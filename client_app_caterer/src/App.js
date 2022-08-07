@@ -14,6 +14,7 @@ import BranchProductForm from './pages/BranchProductForm';
 import BranchProducts from './pages/BranchProducts';
 import OrderForm from './pages/OrderForm';
 import IndividualOrder from './pages/IndividualOrder';
+import OrderCheckout from './pages/OrderCheckout';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -55,6 +56,10 @@ function App() {
           <Route
             path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.ORDER_ID}
             element={<IndividualOrder />}
+          />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.CHECKOUT}
+            element={<OrderCheckout />}
           />
         </Route>
         <Route path="/login" element={<Login />} />

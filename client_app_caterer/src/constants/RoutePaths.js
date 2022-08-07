@@ -16,3 +16,4 @@ export const ORDER_ID = '/:orderId';
 
 export const CREATE = '/create';
 export const UPDATE = '/update';
+export const CHECKOUT = '/checkout';
