@@ -6,7 +6,6 @@ import PrivateRoutes from './routes/PrivateRoutes';
 import BranchForm from './pages/BranchForm';
 import AdminForm from './pages/AdminForm';
 import * as RoutePaths from './constants/RoutePaths';
-import EmployeeForm from './pages/EmployeeForm';
 import Products from './pages/Products';
 import { useContext } from 'react';
 import AuthContext from './context/AuthContext';
@@ -15,6 +14,7 @@ import BranchProducts from './pages/BranchProducts';
 import OrderForm from './pages/OrderForm';
 import IndividualOrder from './pages/IndividualOrder';
 import OrderCheckout from './pages/OrderCheckout';
+import IncomingOrdersList from './pages/IncomingOrdersList';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -60,6 +60,10 @@ function App() {
           <Route
             path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.CHECKOUT}
             element={<OrderCheckout />}
+          />
+          <Route
+            path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.INCOMING}
+            element={<IncomingOrdersList />}
           />
         </Route>
         <Route path="/login" element={<Login />} />

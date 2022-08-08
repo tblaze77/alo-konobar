@@ -6,44 +6,24 @@ import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
 import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
 import * as RoutePaths from '../../constants/RoutePaths';
+import SnackBar from '../SnackBar';
+import { useSocket } from '../../hooks/useSocket';
+
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import { listItemClasses } from '@mui/material';
+import { tab } from '@testing-library/user-event/dist/tab';
 var stompClient = null;
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
+  const { table, items } = useSocket();
   const [branch, setBranch] = useState({});
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
   const [orderList, setOrderList] = useState([]);
-  const [incomingOrder, setIncomingOrder] = useState(null);
-  const [branchTableSender, setBranchTableSender] = useState(null);
   useEffect(() => {
     getInfo();
-    registerBranch();
   }, []);
-
-  const registerBranch = () => {
-    let Sock = new SockJS('http://localhost:8080/ws');
-    stompClient = over(Sock);
-    stompClient.connect({}, onConnected, onError);
-  };
-
-  const onConnected = () => {
-    console.log('you are connected!!');
-    stompClient.subscribe('/user/' + user.branch.id + '/socket-order', onResponseReceived);
-  };
-
-  const onResponseReceived = async payload => {
-    var payloadData = JSON.parse(payload.body);
-    const { data } = await getSpecificBranchTable(accessToken, payloadData.senderIdentification);
-    setBranchTableSender(data);
-
-    setIncomingOrder(payloadData.items);
-  };
-
-  const onError = () => {
-    console.log('error has occured');
-  };
 
   const getInfo = async () => {
     const responses = await Promise.all([
@@ -98,30 +78,18 @@ const AdminHome = () => {
               Create new order
             </Link>
           </button>
-          {incomingOrder ? (
-            <div>
-              <h1>Incoming order from table number {branchTableSender.number} </h1>
-              <ul>
-                {incomingOrder.map(order => (
-                  <li>
-                    {order.productName} {order.quantity}
-                  </li>
-                ))}
-              </ul>
-              <button>
-                <Link
-                  to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + RoutePaths.CHECKOUT}
-                  state={{
-                    order: {
-                      items: incomingOrder,
-                      table: branchTableSender,
-                    },
-                  }}
-                >
-                  Accept
-                </Link>
-              </button>
-            </div>
+          {items ? (
+            <Link
+              to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + RoutePaths.CHECKOUT}
+              state={{
+                order: {
+                  items,
+                  table,
+                },
+              }}
+            >
+              <SnackBar message={'Order from table number' + table.number} />
+            </Link>
           ) : null}
         </div>
       )}
