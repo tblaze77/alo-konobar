@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { useSocket } from '../hooks/useSocket';
 const OrderCheckout = props => {
@@ -9,9 +9,15 @@ const OrderCheckout = props => {
   const response = 'Your order is on the way';
   const currentItems = location.state.order.items;
   const currentTable = location.state.order.table;
-  useEffect(() => {
-    console.log(currentTable);
-  }, []);
+  const navigate = useNavigate();
+  useEffect(() => {}, []);
+
+  const checkoutOrder = () => {
+    sendMessage(response, currentTable.id);
+    setTimeout(() => {
+      navigate(-1);
+    }, 2000);
+  };
   return (
     <div>
       <h1>Order is for table number {currentTable.number}</h1>
@@ -26,7 +32,7 @@ const OrderCheckout = props => {
           </li>
         ))}
       </ul>
-      <button onClick={() => sendMessage(response, currentTable.id)}>Checkout order</button>
+      <button onClick={checkoutOrder}>Checkout order</button>
       <button>Cancel</button>
     </div>
   );

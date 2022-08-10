@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
 import { getSpecificBranchTable } from '../apis/BranchApis';
 import { over } from 'stompjs';
@@ -8,14 +8,23 @@ import SockJS from 'sockjs-client';
 let stompClient = null;
 const Menu = () => {
   const { tableId } = useParams();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
   const [branchTable, setBranchTable] = useState({});
   const [quantityChanged, setQuantityChanged] = useState(true);
+  const [responseMessage, setResponseMessage] = useState(null);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   useEffect(() => {
     fetchData();
     registerTable();
   }, []);
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      navigate(`checkoutOrder`);
+    }
+  }, [shouldRedirect]);
 
   const registerTable = () => {
     let Sock = new SockJS('http://localhost:8080/ws');
@@ -31,7 +40,10 @@ const Menu = () => {
   const onResponseReceived = async payload => {
     console.log(payload.body);
     var payloadData = JSON.parse(payload.body);
-    console.log(payloadData.message);
+    setResponseMessage(payloadData.message);
+    setTimeout(() => {
+      setShouldRedirect(true);
+    }, 5000);
   };
 
   const onError = () => {
@@ -155,6 +167,7 @@ const Menu = () => {
           <button type="submit" onClick={handleSubmit}>
             Submit
           </button>
+          <div className="message-container">{responseMessage != null ? <div>{responseMessage}</div> : null}</div>
         </div>
       )}
     </>
