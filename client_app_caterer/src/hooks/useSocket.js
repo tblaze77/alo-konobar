@@ -35,8 +35,23 @@ export const useSocket = () => {
     console.log('error has occured');
   };
 
+  const sendMessage = async (messageToSend, branchTableId) => {
+    if (stompClient) {
+      let chatMessage = {
+        senderIdentification: user.branch.id,
+        receiverIdentification: branchTableId,
+        message: messageToSend,
+        date: null,
+      };
+
+      stompClient.send('/app/response', {}, JSON.stringify(chatMessage));
+      console.log('message has been sent');
+    }
+  };
+
   return {
     table: branchTableSender,
     items: incomingOrder,
+    sendMessage: sendMessage,
   };
 };

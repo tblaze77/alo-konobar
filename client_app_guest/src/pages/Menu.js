@@ -25,11 +25,13 @@ const Menu = () => {
 
   const onConnected = () => {
     console.log('you are connected!!');
-    stompClient.subscribe('/user' + tableId + '/socket-order', onResponseReceived);
+    stompClient.subscribe('/user' + '/' + tableId + '/socket-response', onResponseReceived);
   };
 
-  const onResponseReceived = () => {
-    console.log('dobia si privatnu poruku');
+  const onResponseReceived = async payload => {
+    console.log(payload.body);
+    var payloadData = JSON.parse(payload.body);
+    console.log(payloadData.message);
   };
 
   const onError = () => {
