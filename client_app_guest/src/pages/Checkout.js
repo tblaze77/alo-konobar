@@ -1,17 +1,25 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-
-const Checkout = props => {
+import { useSocket } from '../hooks/useSocket';
+const Checkout = () => {
   let location = useLocation();
   const items = location.state.items;
   const total = location.state.total;
-  useEffect(() => {
-    console.log(items);
-    console.log(total);
-  }, []);
+  const tableId = location.state.senderIdentification;
+  const { sendPaymentMethod } = useSocket(tableId);
+
+  useEffect(() => {}, []);
 
   const handleOfflinePayment = e => {
-    console.log(e.target.id);
+    let responseMessage;
+    if (e.target.id === 'cash') {
+      responseMessage = `Table number ${tableId} will pay with cash`;
+    } else if (e.target.id === 'credit-card') {
+      responseMessage = `Table number ${tableId} will pay with credit card`;
+    } else {
+      responseMessage = `Table number ${tableId} will pay through our application`;
+    }
+    sendPaymentMethod(responseMessage);
   };
 
   return (

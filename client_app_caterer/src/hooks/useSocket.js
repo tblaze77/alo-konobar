@@ -8,6 +8,7 @@ export const useSocket = () => {
   const { user, accessToken } = useContext(AuthContext);
   const [incomingOrder, setIncomingOrder] = useState(null);
   const [branchTableSender, setBranchTableSender] = useState(null);
+  const [paymentMethodMessage, setPaymentMethodMessage] = useState(null);
   useEffect(() => {
     registerBranch();
   }, []);
@@ -20,11 +21,17 @@ export const useSocket = () => {
 
   const onConnected = () => {
     console.log('you are connected!!');
-    stompClient.subscribe('/user/' + user.branch.id + '/socket-order', onResponseReceived);
+    stompClient.subscribe('/user/' + user.branch.id + '/socket-order', onOrderReceived);
+    stompClient.subscribe('/user/' + user.branch.id + '/socket-response', onPaymentMethodReceived);
   };
 
-  const onResponseReceived = async payload => {
-    var payloadData = JSON.parse(payload.body);
+  const onPaymentMethodReceived = async payload => {
+    let payloadData = JSON.parse(payload.body);
+    setPaymentMethodMessage(payloadData.message);
+  };
+
+  const onOrderReceived = async payload => {
+    let payloadData = JSON.parse(payload.body);
     const { data } = await getSpecificBranchTable(accessToken, payloadData.senderIdentification);
     setBranchTableSender(data);
 
@@ -53,5 +60,6 @@ export const useSocket = () => {
     table: branchTableSender,
     items: incomingOrder,
     sendMessage: sendMessage,
+    paymentMethodMessage: paymentMethodMessage,
   };
 };

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import AuthContext from '../../context/AuthContext';
-import { getSpecificBranchTable } from '../../apis/BranchTableApi';
 import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
 import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
@@ -11,7 +10,7 @@ import { useSocket } from '../../hooks/useSocket';
 
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
-  const { table, items } = useSocket();
+  const { table, items, paymentMethodMessage } = useSocket();
   const [branch, setBranch] = useState({});
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
@@ -86,6 +85,7 @@ const AdminHome = () => {
               <SnackBar message={'Order from table number' + table.number} />
             </Link>
           ) : null}
+          {paymentMethodMessage ? <SnackBar message={paymentMethodMessage} /> : null}
         </div>
       )}
     </div>

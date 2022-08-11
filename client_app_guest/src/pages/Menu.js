@@ -3,24 +3,21 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
 import { getSpecificBranchTable } from '../apis/BranchApis';
 import { calculateTotal } from '../utils/Utils';
-import { over } from 'stompjs';
+import { useSocket } from '../hooks/useSocket';
 import './Menu.css';
-import SockJS from 'sockjs-client';
-let stompClient = null;
+
 const Menu = () => {
   const { tableId } = useParams();
   const navigate = useNavigate();
+  const { sendOrder, responseMessage, shouldRedirect } = useSocket(tableId);
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
   const [branchTable, setBranchTable] = useState({});
   const [quantityChanged, setQuantityChanged] = useState(true);
-  const [responseMessage, setResponseMessage] = useState(null);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
   const [orderObject, setOrderObject] = useState(null);
   const [total, setTotal] = useState(0);
   useEffect(() => {
     fetchData();
-    registerTable();
   }, []);
 
   useEffect(() => {
@@ -33,29 +30,29 @@ const Menu = () => {
     setTotal(calculateTotal(categorizedArticles));
   }, [quantityChanged]);
 
-  const registerTable = () => {
-    let Sock = new SockJS('http://localhost:8080/ws');
-    stompClient = over(Sock);
-    stompClient.connect({}, onConnected, onError);
-  };
+  // const registerTable = () => {
+  //   let Sock = new SockJS('http://localhost:8080/ws');
+  //   stompClient = over(Sock);
+  //   stompClient.connect({}, onConnected, onError);
+  // };
 
-  const onConnected = () => {
-    console.log('you are connected!!');
-    stompClient.subscribe('/user' + '/' + tableId + '/socket-response', onResponseReceived);
-  };
+  // const onConnected = () => {
+  //   console.log('you are connected!!');
+  //   stompClient.subscribe('/user' + '/' + tableId + '/socket-response', onResponseReceived);
+  // };
 
-  const onResponseReceived = async payload => {
-    console.log(payload.body);
-    var payloadData = JSON.parse(payload.body);
-    setResponseMessage(payloadData.message);
-    setTimeout(() => {
-      setShouldRedirect(true);
-    }, 5000);
-  };
+  // const onResponseReceived = async payload => {
 
-  const onError = () => {
-    console.log('error has occured');
-  };
+  //   var payloadData = JSON.parse(payload.body);
+  //   setResponseMessage(payloadData.message);
+  //   setTimeout(() => {
+  //     setShouldRedirect(true);
+  //   }, 5000);
+  // };
+
+  // const onError = () => {
+  //   console.log('error has occured');
+  // };
 
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
@@ -86,23 +83,31 @@ const Menu = () => {
 
   const handleSubmit = async () => {
     let articlesForOrder = await createSelectedArticles();
-    await sendMessage(articlesForOrder);
+    let chatMessage = {
+      senderIdentification: branchTable.branch.id,
+      receiverIdentification: tableId,
+      items: articlesForOrder,
+      total: total,
+      date: null,
+    };
+    setOrderObject(chatMessage);
+    await sendOrder(articlesForOrder, total);
   };
 
-  const sendMessage = async messageToSend => {
-    if (stompClient) {
-      let chatMessage = {
-        senderIdentification: tableId,
-        receiverIdentification: branchTable.branch.id,
-        items: messageToSend,
-        total: total,
-        date: null,
-      };
-      setOrderObject(chatMessage);
-      stompClient.send('/app/order', {}, JSON.stringify(chatMessage));
-      console.log('message has been sent');
-    }
-  };
+  // const sendMessage = async messageToSend => {
+  //   if (stompClient) {
+  //     let chatMessage = {
+  //       senderIdentification: tableId,
+  //       receiverIdentification: branchTable.branch.id,
+  //       items: messageToSend,
+  //       total: total,
+  //       date: null,
+  //     };
+  //     setOrderObject(chatMessage);
+  //     stompClient.send('/app/order', {}, JSON.stringify(chatMessage));
+  //     console.log('message has been sent');
+  //   }
+  // };
 
   const createSelectedArticles = async () => {
     let articlesForOrder = [];
