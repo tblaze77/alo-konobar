@@ -27,6 +27,7 @@ public class OrderPostDTO {
         this.branchId = branchId;
         this.tableId = tableId;
         this.orderRows = orderRows;
+        this.employeeId = employeeId;
     }
 
     public Long getBranchId() {
@@ -44,6 +45,8 @@ public class OrderPostDTO {
     public Long getEmployeeId() {
         return employeeId;
     }
+
+    public void setEmployeeId(Long employeeId) {this.employeeId = employeeId;}
 
     public void setTableId(Long tableId) {
         this.tableId = tableId;

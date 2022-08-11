@@ -12,4 +12,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query(value = "select * from product p where p.product_id in (select product_id from branch_product bp where bp.branch_id=:id)", nativeQuery = true)
     List<Product> listAllProductsByBranchId (long id);
 
+
+    @Query(value = "select p.product_id from product p where p.product_name like :productName", nativeQuery = true)
+    Integer getProductIdByProductName(String productName);
 }

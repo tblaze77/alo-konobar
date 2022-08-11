@@ -4,6 +4,7 @@ import com.example.ekonobarserver.controller.endpoints.RestEndpoints;
 import com.example.ekonobarserver.controller.endpoints.RestEndpointsParameters;
 import com.example.ekonobarserver.model.Product;
 import com.example.ekonobarserver.model.dto.MenuItemGetDTO;
+import com.example.ekonobarserver.repository.ProductRepository;
 import com.example.ekonobarserver.service.api.BranchProductService;
 import com.example.ekonobarserver.service.api.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class ProductController {
 
     @Autowired
     BranchProductService branchProductService;
+
+    @Autowired
+    ProductRepository productRepository;
 
     // ---------------- GET  v1/api/product/{productId}  --------------- //
     /**
@@ -91,6 +95,13 @@ public class ProductController {
     public ResponseEntity getMostSoldProduct() {
 
         return new ResponseEntity(productService.getMostSoldProductOverAll(), HttpStatus.OK);
+
+    }
+
+    @GetMapping("/byName" + RestEndpointsParameters.PRODUCT_NAME )
+    public ResponseEntity<Integer> testEndpoint(@PathVariable("productName") String productName) {
+
+        return new ResponseEntity(productRepository.getProductIdByProductName(productName), HttpStatus.OK);
 
     }
 

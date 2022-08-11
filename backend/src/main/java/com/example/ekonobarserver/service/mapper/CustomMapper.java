@@ -87,6 +87,60 @@ public class CustomMapper {
     }
 
     /**
+     * custom mapper method to convert orderPostDTOForCheckout to order entity
+     * @param  orderPostDTO
+     * @return order
+     */
+    public Order orderPostDTOForCheckoutToOrder(OrderPostForCheckoutDTO orderPostDTO){
+
+        Order order = new Order();
+
+        //setting default attributes like date and employee
+        order.setOrderDate(orderPostDTO.getOrderDate());
+        order.setEmployee(
+                employeeRepository.findById(
+                        orderPostDTO.getEmployeeId()
+                ).orElseThrow(
+                        () -> new RuntimeException("Employee not existing")
+                )
+        );
+        //setting branch table but first checking if branch table exists
+        order.setBranchTable(
+                branchTableRepository.findById(
+                        orderPostDTO.getTableId()
+                ).orElseThrow(
+                        ()-> new RuntimeException("Branch table not  existing")
+                )
+        );
+        //setting branch
+        order.setBranch(order.getBranchTable().getBranch());
+
+        List<OrderRow> orderRows = new ArrayList<>();
+
+        //converting OrderRowPostDTO to OrderRow entity
+        for (OrderRowPostForCheckoutDTO orderRowPostDTO:orderPostDTO.getOrderRows()
+        ) {
+            OrderRow orderRow = new OrderRow();
+            orderRow.setOrder(order);
+            orderRow.setQuantity(orderRowPostDTO.getQuantity());
+
+            //creating composite key for branch product to check if valid branch product is inserted
+                        //BranchProductId branchProductId = new BranchProductId(order.getBranch().getId());
+            //final check if branch product exist
+            //BranchProduct branchProduct = branchProductRepository.findById(branchProductId).orElseThrow(
+                    //()-> new RuntimeException("Branch product not  existing")
+            //);
+            //after checking, finally setting branch product
+            //orderRow.setBranchProduct(branchProduct);
+            //adding orderRow to orderRows arrayList
+            orderRows.add(orderRow);
+        }
+        //setting orderRows to order
+        order.setOrderRows(orderRows);
+        return order;
+    }
+
+    /**
      * custom mapper method to convert branchProductPostDTO to brancProduct entity
      * @param  branchProductPostDTO
      * @return branchProduct
