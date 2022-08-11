@@ -1,5 +1,6 @@
 package com.example.ekonobarserver.model.dto;
 
+import com.example.ekonobarserver.model.enums.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

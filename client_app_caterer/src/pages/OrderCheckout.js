@@ -32,6 +32,7 @@ const OrderCheckout = props => {
           </li>
         ))}
       </ul>
+      <div>{}</div>
       <button onClick={checkoutOrder}>Checkout order</button>
       <button>Cancel</button>
     </div>

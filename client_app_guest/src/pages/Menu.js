@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
 import { getSpecificBranchTable } from '../apis/BranchApis';
+import { calculateTotal } from '../utils/Utils';
 import { over } from 'stompjs';
 import './Menu.css';
 import SockJS from 'sockjs-client';
@@ -15,6 +16,8 @@ const Menu = () => {
   const [quantityChanged, setQuantityChanged] = useState(true);
   const [responseMessage, setResponseMessage] = useState(null);
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [orderObject, setOrderObject] = useState(null);
+  const [total, setTotal] = useState(0);
   useEffect(() => {
     fetchData();
     registerTable();
@@ -22,9 +25,13 @@ const Menu = () => {
 
   useEffect(() => {
     if (shouldRedirect) {
-      navigate(`checkoutOrder`);
+      navigate(`checkoutOrder`, { state: orderObject });
     }
   }, [shouldRedirect]);
+
+  useEffect(() => {
+    setTotal(calculateTotal(categorizedArticles));
+  }, [quantityChanged]);
 
   const registerTable = () => {
     let Sock = new SockJS('http://localhost:8080/ws');
@@ -49,10 +56,6 @@ const Menu = () => {
   const onError = () => {
     console.log('error has occured');
   };
-
-  useEffect(() => {
-    console.log('use effect za rerender');
-  }, [quantityChanged]);
 
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
@@ -92,9 +95,10 @@ const Menu = () => {
         senderIdentification: tableId,
         receiverIdentification: branchTable.branch.id,
         items: messageToSend,
+        total: total,
         date: null,
       };
-
+      setOrderObject(chatMessage);
       stompClient.send('/app/order', {}, JSON.stringify(chatMessage));
       console.log('message has been sent');
     }
@@ -160,6 +164,7 @@ const Menu = () => {
                       </p>
                     </div>
                   ))}
+                  <div>Total: {total}</div>
                 </div>
               ) : null}
             </div>
