@@ -15,7 +15,6 @@ const SuperUserHome = () => {
 
   return (
     <div>
-      <h1>Hello {user.username}</h1>
       <h2>Branch list</h2>
       <div>
         {loading ? (

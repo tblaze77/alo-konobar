@@ -1,27 +1,33 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useSocket } from '../hooks/useSocket';
 const Checkout = () => {
   let location = useLocation();
+  let navigate = useNavigate();
   const items = location.state.items;
   const total = location.state.total;
   const tableId = location.state.senderIdentification;
   const { sendPaymentMethod } = useSocket(tableId);
-
-  useEffect(() => {}, []);
+  const [showRedirectMessage, setShowRedirectMessage] = useState(false);
+  useEffect(() => {}, [showRedirectMessage]);
 
   const handleOfflinePayment = e => {
-    let responseMessage;
-    if (e.target.id === 'cash') {
-      responseMessage = `Table number ${tableId} will pay with cash`;
-    } else if (e.target.id === 'credit-card') {
-      responseMessage = `Table number ${tableId} will pay with credit card`;
-    } else {
-      responseMessage = `Table number ${tableId} will pay through our application`;
-    }
+    let responseMessage = `Table number ${tableId} will pay with ${e.target.id}`;
     sendPaymentMethod(responseMessage);
+    setShowRedirectMessage(true);
+    setTimeout(() => {
+      navigate(-1);
+    }, 3000);
   };
 
+  const handleOnlinePayment = e => {
+    let responseMessage = `Table number ${tableId} will pay with ${e.target.id}`;
+    sendPaymentMethod(responseMessage);
+    setShowRedirectMessage(true);
+    setTimeout(() => {
+      navigate('onlinePayment', { state: total });
+    }, 3000);
+  };
   return (
     <div className="order-container">
       <div>
@@ -44,10 +50,13 @@ const Checkout = () => {
         <button className="cash" id="cash" onClick={handleOfflinePayment}>
           Cash
         </button>
-        <button className="credit-card" id="credit-card" onClick={handleOfflinePayment}>
+        <button className="credit-card" id="credit card" onClick={handleOfflinePayment}>
           Card
         </button>
-        <buton className="online">Online</buton>
+        <buton className="online" id="online payment" onClick={handleOnlinePayment}>
+          Online
+        </buton>
+        {showRedirectMessage ? <div>Thank you for using our app</div> : null}
       </div>
     </div>
   );

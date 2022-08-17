@@ -15,8 +15,10 @@ const AdminHome = () => {
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(null);
   useEffect(() => {
     getInfo();
+    user.role.id == 2 ? setIsAdmin(true) : setIsAdmin(false);
   }, []);
 
   const getInfo = async () => {
@@ -36,7 +38,9 @@ const AdminHome = () => {
         <h1>Loading ...</h1>
       ) : (
         <div>
-          <h1>You are administrator of {branch.branchName} caffe</h1>
+          <h1>
+            You are {isAdmin ? 'administrator' : 'employee'} of {branch.branchName} caffe
+          </h1>
           <ul>
             {employeeList.map((employee, index) => (
               <li key={index}>
@@ -44,11 +48,13 @@ const AdminHome = () => {
               </li>
             ))}
           </ul>
-          <button>
-            <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.EMPLOYEE + RoutePaths.CREATE}>
-              Add caffe employee
-            </Link>
-          </button>
+          {isAdmin ? (
+            <button>
+              <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.EMPLOYEE + RoutePaths.CREATE}>
+                Add caffe employee
+              </Link>
+            </button>
+          ) : null}
           <h1>Today Orders</h1>
           <ul>
             {orderList.map(order => (
@@ -59,9 +65,11 @@ const AdminHome = () => {
               </Link>
             ))}
           </ul>
-          <button>
-            <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
-          </button>
+          {isAdmin ? (
+            <button>
+              <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
+            </button>
+          ) : null}
           <button>
             <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.BRANCH_PRODUCTS}>
               View Products from your caffe

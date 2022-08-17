@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import AuthContext from './AuthContext';
 import { login, getEmployeeByUsername, refreshExisitingToken } from '../apis/AuthApi';
 import jwt_decode from 'jwt-decode';
-import { getMouseEventOptions } from '@testing-library/user-event/dist/utils';
 
 const AuthState = props => {
   const [accessToken, setAccessToken] = useState(null);

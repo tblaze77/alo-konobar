@@ -4,6 +4,7 @@ import com.example.ekonobarserver.controller.endpoints.RestEndpointsParameters;
 import com.example.ekonobarserver.model.Order;
 import com.example.ekonobarserver.model.dto.OrderGetDTO;
 import com.example.ekonobarserver.model.dto.OrderPostDTO;
+import com.example.ekonobarserver.model.dto.OrderPostForCheckoutDTO;
 import com.example.ekonobarserver.service.api.OrderService;
 import com.example.ekonobarserver.service.mapper.MapStructMapper;
 import com.example.ekonobarserver.service.mapper.CustomMapper;
@@ -95,6 +96,17 @@ public class OrderController {
     public ResponseEntity<OrderGetDTO> createNewOrder(@Valid @RequestBody OrderPostDTO orderPostDTO) {
 
         Order order = customMapper.orderPostDTOToOrder(orderPostDTO);
+
+        Order createdOrder= orderService.createOrder(order);
+
+        OrderGetDTO orderGetDTO = customMapper.orderToOrderGetDTO(createdOrder);
+        return new ResponseEntity<>(orderGetDTO,HttpStatus.CREATED);
+    }
+
+    @PostMapping("/forCheckout")
+    public ResponseEntity<OrderGetDTO> createNewOrderForCheckout(@Valid @RequestBody OrderPostForCheckoutDTO orderPostDTO) {
+
+        Order order = customMapper.orderPostDTOForCheckoutToOrder(orderPostDTO);
 
         Order createdOrder= orderService.createOrder(order);
 

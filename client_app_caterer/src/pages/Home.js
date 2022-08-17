@@ -24,13 +24,7 @@ const Home = () => {
         <h1>Loading</h1>
       ) : (
         <>
-          {role === 'SUPER_USER' ? (
-            <SuperUserHome />
-          ) : role === 'ADMIN' ? (
-            <AdminHome />
-          ) : (
-            <h1>Youre not admin nor a super user</h1>
-          )}
+          {role === 'SUPER_USER' ? <SuperUserHome /> : <AdminHome />}
 
           <button onClick={logout}>LOGOUT</button>
           {/* <h1 className="text-3xl font-bold underline">

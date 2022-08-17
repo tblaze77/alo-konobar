@@ -99,7 +99,7 @@ public class ProductController {
     }
 
     @GetMapping("/byName" + RestEndpointsParameters.PRODUCT_NAME )
-    public ResponseEntity<Integer> testEndpoint(@PathVariable("productName") String productName) {
+    public ResponseEntity<Long> testEndpoint(@PathVariable("productName") String productName) {
 
         return new ResponseEntity(productRepository.getProductIdByProductName(productName), HttpStatus.OK);
 

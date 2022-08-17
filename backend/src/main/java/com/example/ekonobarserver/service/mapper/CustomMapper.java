@@ -123,15 +123,15 @@ public class CustomMapper {
             OrderRow orderRow = new OrderRow();
             orderRow.setOrder(order);
             orderRow.setQuantity(orderRowPostDTO.getQuantity());
-
+            Long productId = productRepository.getProductIdByProductName(orderRowPostDTO.getProductName());
             //creating composite key for branch product to check if valid branch product is inserted
-                        //BranchProductId branchProductId = new BranchProductId(order.getBranch().getId());
+            BranchProductId branchProductId = new BranchProductId(order.getBranch().getId(), productId);
             //final check if branch product exist
-            //BranchProduct branchProduct = branchProductRepository.findById(branchProductId).orElseThrow(
-                    //()-> new RuntimeException("Branch product not  existing")
-            //);
+            BranchProduct branchProduct = branchProductRepository.findById(branchProductId).orElseThrow(
+                    ()-> new RuntimeException("Branch product not  existing")
+            );
             //after checking, finally setting branch product
-            //orderRow.setBranchProduct(branchProduct);
+            orderRow.setBranchProduct(branchProduct);
             //adding orderRow to orderRows arrayList
             orderRows.add(orderRow);
         }

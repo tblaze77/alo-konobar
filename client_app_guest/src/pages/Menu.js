@@ -5,6 +5,9 @@ import { getSpecificBranchTable } from '../apis/BranchApis';
 import { calculateTotal } from '../utils/Utils';
 import { useSocket } from '../hooks/useSocket';
 import './Menu.css';
+import { Button } from 'react-bootstrap';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 const Menu = () => {
   const { tableId } = useParams();
@@ -29,30 +32,6 @@ const Menu = () => {
   useEffect(() => {
     setTotal(calculateTotal(categorizedArticles));
   }, [quantityChanged]);
-
-  // const registerTable = () => {
-  //   let Sock = new SockJS('http://localhost:8080/ws');
-  //   stompClient = over(Sock);
-  //   stompClient.connect({}, onConnected, onError);
-  // };
-
-  // const onConnected = () => {
-  //   console.log('you are connected!!');
-  //   stompClient.subscribe('/user' + '/' + tableId + '/socket-response', onResponseReceived);
-  // };
-
-  // const onResponseReceived = async payload => {
-
-  //   var payloadData = JSON.parse(payload.body);
-  //   setResponseMessage(payloadData.message);
-  //   setTimeout(() => {
-  //     setShouldRedirect(true);
-  //   }, 5000);
-  // };
-
-  // const onError = () => {
-  //   console.log('error has occured');
-  // };
 
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
@@ -90,24 +69,10 @@ const Menu = () => {
       total: total,
       date: null,
     };
+    console.log(chatMessage.total);
     setOrderObject(chatMessage);
     await sendOrder(articlesForOrder, total);
   };
-
-  // const sendMessage = async messageToSend => {
-  //   if (stompClient) {
-  //     let chatMessage = {
-  //       senderIdentification: tableId,
-  //       receiverIdentification: branchTable.branch.id,
-  //       items: messageToSend,
-  //       total: total,
-  //       date: null,
-  //     };
-  //     setOrderObject(chatMessage);
-  //     stompClient.send('/app/order', {}, JSON.stringify(chatMessage));
-  //     console.log('message has been sent');
-  //   }
-  // };
 
   const createSelectedArticles = async () => {
     let articlesForOrder = [];
@@ -130,10 +95,14 @@ const Menu = () => {
         <h1>Loading ...</h1>
       ) : (
         <div className="menu-container">
-          <div>
-            <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
-            <h2>Table number {branchTable.number}</h2>
-          </div>
+          <Container className="black" style={{ color: '#000' }}>
+            <Row>
+              <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
+            </Row>
+            <Row>
+              <h2>Table number {branchTable.number}</h2>
+            </Row>
+          </Container>
           {categorizedArticles.map((category, categoryindex) => (
             <div key={categoryindex}>
               {category.length != 0 ? (
@@ -143,6 +112,7 @@ const Menu = () => {
                     <div className="list-container" key={itemIndex}>
                       <input
                         type="checkbox"
+                        className="form-check-input"
                         id={item.categoryindex}
                         name={item.itemIndex}
                         value={item.productName}
@@ -163,10 +133,10 @@ const Menu = () => {
                           onChange={onNumberInputChange}
                         />
                       ) : null}
-                      <p>
+                      <label class="form-check-label" for="item.itemIndex">
                         {item.productName}
                         {item.price} HRK
-                      </p>
+                      </label>
                     </div>
                   ))}
                   <div>Total: {total}</div>
@@ -174,9 +144,16 @@ const Menu = () => {
               ) : null}
             </div>
           ))}
-          <button type="submit" onClick={handleSubmit}>
+
+          <Button
+            className="mt-5 mx-auto"
+            variant="primary"
+            type="submit"
+            style={{ width: '200px' }}
+            onClick={handleSubmit}
+          >
             Submit
-          </button>
+          </Button>
           <div className="message-container">{responseMessage != null ? <div>{responseMessage}</div> : null}</div>
         </div>
       )}

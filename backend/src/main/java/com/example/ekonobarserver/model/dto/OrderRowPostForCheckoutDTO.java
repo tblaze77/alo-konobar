@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRowPostForCheckoutDTO {
-    private Long productName;
+    private String productName;
     private Integer quantity;
 }

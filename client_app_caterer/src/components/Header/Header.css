@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: center;
+  background-color: black;
+  height: 100px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  color: wheat;
+}
+
+.header-container {
+  min-width: 80vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.invisible-div {
+}
+
+.header-info {
+  font-weight: 1000;
+  font-size: 30px;
+  text-decoration: none;
+}
+
+.logout {
+  margin: 20px 0;
+}

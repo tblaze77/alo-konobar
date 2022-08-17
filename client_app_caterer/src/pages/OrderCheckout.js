@@ -2,8 +2,10 @@ import React, { useEffect, useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { useSocket } from '../hooks/useSocket';
+import { createNewOrderForCheckout } from '../apis/OrderApi';
+
 const OrderCheckout = props => {
-  const { user } = useContext(AuthContext);
+  const { user, accessToken } = useContext(AuthContext);
   const { table, items, sendMessage } = useSocket();
   const location = useLocation();
   const response = 'Your order is on the way';
@@ -12,11 +14,28 @@ const OrderCheckout = props => {
   const navigate = useNavigate();
   useEffect(() => {}, []);
 
-  const checkoutOrder = () => {
+  const checkoutOrder = async () => {
     sendMessage(response, currentTable.id);
+    const order = await createNewOrder();
+    try {
+      await createNewOrderForCheckout(accessToken, order);
+    } catch (error) {
+      console.log(error.message);
+    }
     setTimeout(() => {
       navigate(-1);
     }, 2000);
+  };
+
+  const createNewOrder = async () => {
+    const order = {
+      branchId: user.branch.id,
+      tableId: currentTable.id,
+      employeeId: user.id,
+      orderRows: currentItems,
+      orderDate: Date.now(),
+    };
+    return order;
   };
   return (
     <div>

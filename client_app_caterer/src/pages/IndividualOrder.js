@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSpecificOrder } from '../apis/OrderApi';
 import AuthContext from '../context/AuthContext';
+import './IndividualOrder.css';
 const IndividualOrder = () => {
   const { orderId, branchId } = useParams();
   const { user, accessToken } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const IndividualOrder = () => {
       {loading ? (
         <h1>Loading ...</h1>
       ) : (
-        <div>
+        <div className="individual-order">
           <h1>Employee: </h1>
           <h2>
             {order.employee.firstname} {order.employee.lastname}
@@ -32,7 +33,7 @@ const IndividualOrder = () => {
           <h1>Table number: </h1>
           <h2>{order.branchTableNumber}</h2>
 
-          <h1>
+          <div>
             <b>Order rows:</b>
             <ul>
               {order.orderRowsGetDto.map(orderRow => (
@@ -47,7 +48,7 @@ const IndividualOrder = () => {
               ))}
             </ul>
             <div>Total: {order.total} HRK</div>
-          </h1>
+          </div>
         </div>
       )}
     </div>
