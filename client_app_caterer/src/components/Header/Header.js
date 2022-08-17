@@ -1,14 +1,20 @@
 import React, { useContext } from 'react';
 import './Header.css';
 import AuthContext from '../../context/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
+import * as RoutePaths from '../../constants/RoutePaths';
 const Header = () => {
   const { user, role, logout } = useContext(AuthContext);
+  let navigate = useNavigate();
 
+  const redirectToDashboard = () => {
+    navigate('/dashboard');
+  };
   return (
     <div className="header">
       <div className="header-container">
-        <div className="invisible-div"></div>
         <div className="header-info">
           <Link to={'/'}>
             {role === 'SUPER_USER' ? (
@@ -20,9 +26,14 @@ const Header = () => {
             )}
           </Link>
         </div>
-        <button className="button logout" onClick={logout}>
-          LOGOUT
-        </button>
+        <div className="logout-container">
+          {user ? (
+            <>
+              <PersonIcon className="material-ui-icon" onClick={redirectToDashboard} />
+              <LogoutIcon className="material-ui-icon" onClick={logout} />
+            </>
+          ) : null}
+        </div>
       </div>
     </div>
   );

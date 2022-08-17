@@ -16,6 +16,7 @@ import IndividualOrder from './pages/IndividualOrder';
 import OrderCheckout from './pages/OrderCheckout';
 import IncomingOrdersList from './pages/IncomingOrdersList';
 import HeaderFooter from './layout/HeaderFooter';
+import Dashboard from './pages/Dashboard';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -75,6 +76,7 @@ function App() {
               path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.INCOMING}
               element={<IncomingOrdersList />}
             />
+            <Route path={RoutePaths.DASHBOARD} element={<Dashboard />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>

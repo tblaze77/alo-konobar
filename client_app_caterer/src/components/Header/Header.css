@@ -8,6 +8,7 @@
   top: 0;
   z-index: 1;
   color: wheat;
+  box-shadow: 0px 3px 15px 1px rgba(0, 0, 0, 0.707);
 }
 
 .header-container {
@@ -16,15 +17,24 @@
   justify-content: space-between;
 }
 
-.invisible-div {
-}
-
 .header-info {
   font-weight: 1000;
   font-size: 30px;
   text-decoration: none;
 }
 
-.logout {
-  margin: 20px 0;
+.logout-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-username {
+  font-weight: 700;
+  font-size: 25px;
+}
+
+.material-ui-icon {
+  cursor: pointer;
 }

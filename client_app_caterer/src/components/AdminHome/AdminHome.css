@@ -1,0 +1,10 @@
+.list-container {
+  background-color: white;
+  margin: 0 50px;
+  border-radius: 12px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 200px;
+}

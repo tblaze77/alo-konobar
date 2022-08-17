@@ -5,6 +5,7 @@ export const ADMIN = '/admin';
 export const PRODUCTS = '/products';
 export const BRANCH_PRODUCTS = '/branchProducts';
 export const ORDER = '/order';
+export const DASHBOARD = '/dashboard';
 
 //Ids
 export const EMPLOYEE_ID = '/:employeeId';

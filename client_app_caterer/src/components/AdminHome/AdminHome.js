@@ -7,6 +7,7 @@ import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
 import * as RoutePaths from '../../constants/RoutePaths';
 import SnackBar from '../SnackBar';
 import { useSocket } from '../../hooks/useSocket';
+import './AdminHome.css';
 
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
@@ -38,9 +39,6 @@ const AdminHome = () => {
         <h1>Loading ...</h1>
       ) : (
         <div>
-          <h1>
-            You are {isAdmin ? 'administrator' : 'employee'} of {branch.branchName} caffe
-          </h1>
           <ul>
             {employeeList.map((employee, index) => (
               <li key={index}>
@@ -55,16 +53,18 @@ const AdminHome = () => {
               </Link>
             </button>
           ) : null}
-          <h1>Today Orders</h1>
-          <ul>
-            {orderList.map(order => (
-              <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
-                <li>
-                  {order.total} HRK on {order.orderDate}
-                </li>
-              </Link>
-            ))}
-          </ul>
+          <div className="list-container">
+            <h1>Today Orders</h1>
+            <ul>
+              {orderList.map(order => (
+                <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
+                  <li>
+                    {order.total} HRK on {order.orderDate}
+                  </li>
+                </Link>
+              ))}
+            </ul>
+          </div>
           {isAdmin ? (
             <button>
               <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
