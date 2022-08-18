@@ -1,0 +1,23 @@
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.formInput {
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  gap: 10px;
+}
+
+.form-input {
+  font-size: 23px;
+}
+
+.admin-form {
+  margin-top: 60px;
+  padding-top: 25px;
+}

@@ -62,7 +62,7 @@ export const employeeInputs = [
   {
     id: 4,
     name: 'password',
-    type: 'text',
+    type: 'password',
     placeholder: 'password',
     label: 'Password',
     required: true,

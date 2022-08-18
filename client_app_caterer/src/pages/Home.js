@@ -26,7 +26,6 @@ const Home = () => {
         <>
           {role === 'SUPER_USER' ? <SuperUserHome /> : <AdminHome />}
 
-          <button onClick={logout}>LOGOUT</button>
           {/* <h1 className="text-3xl font-bold underline">
             Hello {user?.username} with role {role}
           </h1>

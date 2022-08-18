@@ -8,6 +8,7 @@ import * as RoutePaths from '../../constants/RoutePaths';
 import SnackBar from '../SnackBar';
 import { useSocket } from '../../hooks/useSocket';
 import './AdminHome.css';
+import BranchProducts from '../../pages/BranchProducts';
 
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
@@ -39,23 +40,8 @@ const AdminHome = () => {
         <h1>Loading ...</h1>
       ) : (
         <div>
-          <ul>
-            {employeeList.map((employee, index) => (
-              <li key={index}>
-                {employee.firstname} {employee.lastname}
-              </li>
-            ))}
-          </ul>
-          {isAdmin ? (
-            <button>
-              <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.EMPLOYEE + RoutePaths.CREATE}>
-                Add caffe employee
-              </Link>
-            </button>
-          ) : null}
           <div className="list-container">
-            <h1>Today Orders</h1>
-            <ul>
+            {/* <ul>
               {orderList.map(order => (
                 <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
                   <li>
@@ -63,7 +49,7 @@ const AdminHome = () => {
                   </li>
                 </Link>
               ))}
-            </ul>
+            </ul> */}
           </div>
           {isAdmin ? (
             <button>

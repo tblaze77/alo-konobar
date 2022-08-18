@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import { createEmployee } from '../apis/EmployeeApi';
 import AuthContext from '../context/AuthContext';
+import './AdminForm.css';
 
 const AdminForm = ({ type }) => {
   const { branchId } = useParams();
@@ -45,15 +46,16 @@ const AdminForm = ({ type }) => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <div className="list-container admin-form">
+      <h1>Adding new employee</h1>
+      <form onSubmit={handleSubmit} className="create-form">
         {employeeInputs.map(input => (
           <FormInput key={input.id} {...input} value={admin[input.name]} onChange={onChange} />
         ))}
         <button>Submit</button>
       </form>
       <button onClick={clearState}>CLEAR STATE</button>
-    </>
+    </div>
   );
 };
 

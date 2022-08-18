@@ -1,0 +1,14 @@
+.employee-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.delete-icon-mui {
+  color: rgb(133, 68, 68);
+  cursor: pointer;
+}
+
+.long {
+  width: 150px;
+}
