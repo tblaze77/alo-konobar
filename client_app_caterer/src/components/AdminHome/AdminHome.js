@@ -8,7 +8,7 @@ import * as RoutePaths from '../../constants/RoutePaths';
 import SnackBar from '../SnackBar';
 import { useSocket } from '../../hooks/useSocket';
 import './AdminHome.css';
-import BranchProducts from '../../pages/BranchProducts';
+import ButtonGrid from '../ButtonGrid/ButtonGrid';
 
 const AdminHome = () => {
   const { logout, user, role, accessToken } = useContext(AuthContext);
@@ -50,8 +50,9 @@ const AdminHome = () => {
                 </Link>
               ))}
             </ul> */}
+            <ButtonGrid isAdmin={isAdmin} />
           </div>
-          {isAdmin ? (
+          {/* {isAdmin ? (
             <button>
               <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
             </button>
@@ -65,7 +66,8 @@ const AdminHome = () => {
             <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.ORDER + RoutePaths.CREATE}>
               Create new order
             </Link>
-          </button>
+          </button> */}
+
           {items ? (
             <Link
               to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + RoutePaths.CHECKOUT}

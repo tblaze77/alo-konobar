@@ -1,0 +1,27 @@
+.button-grid {
+  margin: auto auto;
+}
+
+.homepage-button {
+  background-color: wheat;
+  font-weight: 1000;
+  height: 80px;
+  width: 130px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.button-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 5px;
+}
+
+.one-button-row {
+  background-color: wheat;
+  font-weight: 1000;
+  height: 80px;
+  width: 280px;
+  border-radius: 10px;
+  cursor: pointer;
+}
