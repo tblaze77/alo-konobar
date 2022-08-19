@@ -36,50 +36,54 @@ const BranchProducts = () => {
         <div className="list-container">
           <h1>All products existing in caffe bar {user.branch.branchName}</h1>
           {products.map((categorized, index) => {
-            return (
-              <div className="card-container" key={index}>
-                <h1 className="category-header">
-                  <b>{categorized.name}</b>
-                </h1>
-                <table className="table">
-                  <thead>
-                    {branchProductHeader.map((header, index) => (
-                      <th>{header}</th>
-                    ))}
-                  </thead>
-                  <tbody>
-                    {categorized.products.map((product, index) => {
-                      return (
-                        <tr key={index}>
-                          <td>{product.productName}</td>
-                          <td>{product.price} HRK</td>
-                          <td>{product.quantity} left</td>
+            if (categorized.products.length == 0) {
+              return null;
+            } else {
+              return (
+                <div className="card-container" key={index}>
+                  <h1 className="category-header">
+                    <b>{categorized.name}</b>
+                  </h1>
+                  <table className="table">
+                    <thead>
+                      {branchProductHeader.map((header, index) => (
+                        <th>{header}</th>
+                      ))}
+                    </thead>
+                    <tbody>
+                      {categorized.products.map((product, index) => {
+                        return (
+                          <tr key={index}>
+                            <td>{product.productName}</td>
+                            <td>{product.price} HRK</td>
+                            <td>{product.quantity} left</td>
 
-                          <td>
-                            <Link
-                              to={
-                                RoutePaths.BRANCH +
-                                '/' +
-                                user.branch.id +
-                                RoutePaths.PRODUCTS +
-                                '/' +
-                                product.id +
-                                RoutePaths.UPDATE
-                              }
-                            >
-                              <EditIcon />
-                            </Link>
-                          </td>
-                          <td>
-                            <DeleteIcon />
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            );
+                            <td>
+                              <Link
+                                to={
+                                  RoutePaths.BRANCH +
+                                  '/' +
+                                  user.branch.id +
+                                  RoutePaths.PRODUCTS +
+                                  '/' +
+                                  product.id +
+                                  RoutePaths.UPDATE
+                                }
+                              >
+                                <EditIcon />
+                              </Link>
+                            </td>
+                            <td>
+                              <DeleteIcon />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            }
           })}
         </div>
       )}

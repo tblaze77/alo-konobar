@@ -33,35 +33,39 @@ const Products = () => {
         <div className="list-container">
           <h1>All possible products for {user.branch.branchName}</h1>
           {products.map((categorized, index) => {
-            return (
-              <div key={index}>
-                <h1>
-                  <b>{categorized.name}</b>
-                </h1>
-                {categorized.products.map((product, index) => {
-                  return (
-                    <>
-                      <h2>{product.productName}</h2>
-                      <div className="branch-product-card" key={index}>
-                        <Link
-                          to={
-                            RoutePaths.BRANCH +
-                            '/' +
-                            branchId +
-                            RoutePaths.PRODUCTS +
-                            '/' +
-                            product.id +
-                            RoutePaths.CREATE
-                          }
-                        >
-                          <button className="button">Add</button>
-                        </Link>
-                      </div>
-                    </>
-                  );
-                })}
-              </div>
-            );
+            if (categorized.products.length == 0) {
+              return null;
+            } else {
+              return (
+                <div key={index}>
+                  <h1 className="category-header">
+                    <b>{categorized.name}</b>
+                  </h1>
+                  {categorized.products.map((product, index) => {
+                    return (
+                      <>
+                        <div className="branch-product-card" key={index}>
+                          <h2>{product.productName}</h2>
+                          <Link
+                            to={
+                              RoutePaths.BRANCH +
+                              '/' +
+                              branchId +
+                              RoutePaths.PRODUCTS +
+                              '/' +
+                              product.id +
+                              RoutePaths.CREATE
+                            }
+                          >
+                            <button className="button">Add</button>
+                          </Link>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              );
+            }
           })}
         </div>
       )}
