@@ -30,7 +30,7 @@ const Products = () => {
       {loading ? (
         <h1>Loading ....</h1>
       ) : (
-        <>
+        <div className="list-container">
           <h1>All possible products for {user.branch.branchName}</h1>
           {products.map((categorized, index) => {
             return (
@@ -40,28 +40,30 @@ const Products = () => {
                 </h1>
                 {categorized.products.map((product, index) => {
                   return (
-                    <div key={index}>
-                      <h2>{product.productName}</h2>{' '}
-                      <Link
-                        to={
-                          RoutePaths.BRANCH +
-                          '/' +
-                          branchId +
-                          RoutePaths.PRODUCTS +
-                          '/' +
-                          product.id +
-                          RoutePaths.CREATE
-                        }
-                      >
-                        <button>Add</button>
-                      </Link>
-                    </div>
+                    <>
+                      <h2>{product.productName}</h2>
+                      <div className="branch-product-card" key={index}>
+                        <Link
+                          to={
+                            RoutePaths.BRANCH +
+                            '/' +
+                            branchId +
+                            RoutePaths.PRODUCTS +
+                            '/' +
+                            product.id +
+                            RoutePaths.CREATE
+                          }
+                        >
+                          <button className="button">Add</button>
+                        </Link>
+                      </div>
+                    </>
                   );
                 })}
               </div>
             );
           })}
-        </>
+        </div>
       )}
     </>
   );

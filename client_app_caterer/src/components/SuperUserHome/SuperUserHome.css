@@ -1,0 +1,7 @@
+.branch-list {
+  list-style: none;
+}
+
+.branch-list > li:hover {
+  font-size: xx-large;
+}

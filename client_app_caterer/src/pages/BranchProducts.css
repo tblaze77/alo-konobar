@@ -1,0 +1,25 @@
+.card-container {
+  /* border: black 2pt; */
+  width: calc(100vw - 300px);
+  margin-bottom: 50px;
+}
+
+.branch-product-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40px;
+}
+
+.category-header {
+  text-align: center;
+}
+
+.table {
+  width: 100%;
+}
+
+tbody {
+  text-align: center;
+}

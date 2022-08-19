@@ -6,6 +6,10 @@ import { getAllProducts } from '../apis/ProductApi';
 import { getAllBranchProductsFromSpecificBranch } from '../apis/BranchProductApi';
 import { productsConverter } from '../utils/EntityConverter';
 import * as RoutePaths from '../constants/RoutePaths';
+import EditIcon from '@mui/icons-material/Edit';
+import { branchProductHeader } from '../constants/constants';
+import './BranchProducts.css';
+import DeleteIcon from '@mui/icons-material/Delete';
 const BranchProducts = () => {
   const { accessToken, user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
@@ -29,42 +33,55 @@ const BranchProducts = () => {
       {loading ? (
         <h1>Loading ....</h1>
       ) : (
-        <>
-          <h1>All products existing in {user.branch.branchName}</h1>
+        <div className="list-container">
+          <h1>All products existing in caffe bar {user.branch.branchName}</h1>
           {products.map((categorized, index) => {
             return (
-              <div key={index}>
-                <h1>
+              <div className="card-container" key={index}>
+                <h1 className="category-header">
                   <b>{categorized.name}</b>
                 </h1>
-                {categorized.products.map((product, index) => {
-                  return (
-                    <div key={index}>
-                      <h2>{product.productName}</h2>
-                      <h2>{product.price} HRK</h2>
-                      <h2>{product.quantity} left</h2>
-                      <button>
-                        <Link
-                          to={
-                            RoutePaths.BRANCH +
-                            '/' +
-                            user.branch.id +
-                            RoutePaths.PRODUCTS +
-                            '/' +
-                            product.id +
-                            RoutePaths.UPDATE
-                          }
-                        >
-                          Edit
-                        </Link>
-                      </button>
-                    </div>
-                  );
-                })}
+                <table className="table">
+                  <thead>
+                    {branchProductHeader.map((header, index) => (
+                      <th>{header}</th>
+                    ))}
+                  </thead>
+                  <tbody>
+                    {categorized.products.map((product, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{product.productName}</td>
+                          <td>{product.price} HRK</td>
+                          <td>{product.quantity} left</td>
+
+                          <td>
+                            <Link
+                              to={
+                                RoutePaths.BRANCH +
+                                '/' +
+                                user.branch.id +
+                                RoutePaths.PRODUCTS +
+                                '/' +
+                                product.id +
+                                RoutePaths.UPDATE
+                              }
+                            >
+                              <EditIcon />
+                            </Link>
+                          </td>
+                          <td>
+                            <DeleteIcon />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
             );
           })}
-        </>
+        </div>
       )}
     </>
   );

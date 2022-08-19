@@ -3,12 +3,13 @@
 }
 
 .homepage-button {
-  background-color: wheat;
+  background: linear-gradient(129deg, rgba(241, 220, 23, 0.2861345221682423) 29%, rgba(245, 222, 179, 1) 100%);
   font-weight: 1000;
   height: 80px;
   width: 130px;
   border-radius: 10px;
   cursor: pointer;
+  border-style: solid;
 }
 
 .button-row {
@@ -18,7 +19,8 @@
 }
 
 .one-button-row {
-  background-color: wheat;
+  background: linear-gradient(129deg, rgba(241, 220, 23, 0.2861345221682423) 29%, rgba(245, 222, 179, 1) 100%);
+  border-style: solid;
   font-weight: 1000;
   height: 80px;
   width: 280px;
