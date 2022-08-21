@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -24,6 +25,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
+
+    @Column(name="order_code")
+    private UUID orderCode = UUID.randomUUID();
 
     @NotNull
     @Column(name = "total")

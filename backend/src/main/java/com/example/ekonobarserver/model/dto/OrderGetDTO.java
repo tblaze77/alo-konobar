@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -22,6 +23,8 @@ public class OrderGetDTO {
     private Long id;
 
     private Float total;
+
+    private UUID orderCode;
 
     private String additionalInfo;
 

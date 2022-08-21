@@ -19,19 +19,37 @@ const IndividualOrder = () => {
     setLoading(false);
   };
   return (
-    <div>
+    <>
       {loading ? (
         <h1>Loading ...</h1>
       ) : (
-        <div className="individual-order">
-          <h1>Employee: </h1>
-          <h2>
-            {order.employee.firstname} {order.employee.lastname}
-          </h2>
-          <h1>Order Date: </h1>
-          <h2>{order.orderDate}</h2>
-          <h1>Table number: </h1>
-          <h2>{order.branchTableNumber}</h2>
+        <div className="list-container">
+          <div className="order-row">
+            <p>
+              <b>Order code:</b>
+            </p>
+            <p>{order.orderCode}</p>
+          </div>
+          <div className="order-row">
+            <p>
+              <b>Employee: </b>
+            </p>
+            <p>
+              {order.employee.firstname} {order.employee.lastname}
+            </p>
+          </div>
+          <div className="order-row">
+            <p>
+              <b>Order Date:</b>{' '}
+            </p>{' '}
+            <p>{order.orderDate}</p>
+          </div>
+          <div className="order-row">
+            <p>
+              <b>Table numb</b>er:{' '}
+            </p>
+            <p>{order.branchTableNumber}</p>
+          </div>
 
           <div>
             <b>Order rows:</b>
@@ -51,7 +69,7 @@ const IndividualOrder = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

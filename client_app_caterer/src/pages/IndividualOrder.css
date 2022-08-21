@@ -3,3 +3,13 @@
   width: 100%;
   margin: auto;
 }
+
+.order-row {
+  background-color: yellow;
+  width: calc(100vw / 1.3);
+
+  display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+}

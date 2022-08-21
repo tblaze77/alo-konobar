@@ -17,6 +17,7 @@ import OrderCheckout from './pages/OrderCheckout';
 import IncomingOrdersList from './pages/IncomingOrdersList';
 import HeaderFooter from './layout/HeaderFooter';
 import Dashboard from './pages/Dashboard';
+import Orders from './pages/Orders';
 function App() {
   const { userInfo } = useContext(AuthContext);
   return (
@@ -68,6 +69,7 @@ function App() {
               path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.ORDER_ID}
               element={<IndividualOrder />}
             />
+            <Route path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDERS} element={<Orders />} />
             <Route
               path={RoutePaths.BRANCH + RoutePaths.BRANCH_ID + RoutePaths.ORDER + RoutePaths.CHECKOUT}
               element={<OrderCheckout />}

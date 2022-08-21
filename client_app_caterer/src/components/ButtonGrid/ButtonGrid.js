@@ -13,7 +13,9 @@ const ButtonGrid = ({ isAdmin }) => {
             View product from your caffe
           </Link>
         </button>
-        <button className="homepage-button">View orders</button>
+        <button className="homepage-button">
+          <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDERS}>View orders</Link>
+        </button>
       </div>
       <div className="button-row">
         <button className={isAdmin ? 'homepage-button' : 'one-button-row'}>

@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+  margin-left: 15px;
+}
+
+tbody {
+  text-align: center;
+}
+
+td {
+  max-width: 10ch;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

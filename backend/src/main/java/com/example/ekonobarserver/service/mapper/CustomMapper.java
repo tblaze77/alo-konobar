@@ -200,6 +200,7 @@ public class CustomMapper {
             orderGetDTO.setBranchName(order.getBranch().getBranchName());
             orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
             orderGetDTO.setEmployee(order.getEmployee());
+            orderGetDTO.setOrderCode(order.getOrderCode());
             List<OrderRow> orderRows = order.getOrderRows();
             List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
         for (OrderRow orderRow:
@@ -211,8 +212,6 @@ public class CustomMapper {
             orderRowGetDTOS.add(orderRowGetDTO);
         }
         orderGetDTO.setOrderRowsGetDto(orderRowGetDTOS);
-            //orderGetDTO.getBranch().setBranchName(order.getBranch().getBranchName());
-            //orderGetDTO.getBranchTable().setNumber(order.getBranchTable().getNumber());
 
             return orderGetDTO;
     }
@@ -226,10 +225,12 @@ public class CustomMapper {
             orderGetDTO.setAdditionalInfo(order.getAdditionalInfo());
             orderGetDTO.setStatus(order.getStatus());
             orderGetDTO.setOrderDate(order.getOrderDate());
+            orderGetDTO.setEmployee(order.getEmployee());
             orderGetDTO.setDateCreated(order.getDateCreated());
             orderGetDTO.setDateModified(order.getDateModified());
             orderGetDTO.setBranchName(order.getBranch().getBranchName());
             orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
+            orderGetDTO.setOrderCode(order.getOrderCode());
             List<OrderRow> orderRows = order.getOrderRows();
             List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
             for (OrderRow orderRow:

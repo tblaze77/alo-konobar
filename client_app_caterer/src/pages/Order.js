@@ -32,11 +32,11 @@ const Order = () => {
     }, 500);
   };
   return (
-    <div>
+    <>
       {loading ? (
         <div>loading</div>
       ) : (
-        <div>
+        <div className="list-container">
           {branchProductList.map(branchProduct => {
             return (
               <div>
@@ -48,7 +48,7 @@ const Order = () => {
           })}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

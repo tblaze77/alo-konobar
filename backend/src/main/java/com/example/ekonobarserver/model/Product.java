@@ -2,6 +2,7 @@ package com.example.ekonobarserver.model;
 
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name="product")
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -39,7 +41,11 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    //todo - add branch_id
+    public Product(String productName, Category category, String description){
+        this.productName = productName;
+        this.category = category;
+        this.description = description;
+    }
 
     //updates date modified filed
     @PreUpdate

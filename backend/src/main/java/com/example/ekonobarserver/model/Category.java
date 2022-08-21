@@ -3,6 +3,7 @@ package com.example.ekonobarserver.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="category")
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,9 @@ public class Category {
     @Column(name = "date_modified")
     private Date dateModified=new Date();
 
+    public Category(String fullName){
+        this.fullName = fullName;
+    }
     //updates date modified filed
     @PreUpdate
     protected void preUpdate() {

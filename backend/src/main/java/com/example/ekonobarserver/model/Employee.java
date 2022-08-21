@@ -2,9 +2,7 @@ package com.example.ekonobarserver.model;
 
 import com.example.ekonobarserver.model.enums.EmployeeRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +14,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "employee")
+@NoArgsConstructor
 public class Employee {
 
     @Id
@@ -63,6 +62,16 @@ public class Employee {
     @NotNull
     @Column(name = "date_modified")
     private Date dateModified=new Date();
+
+    public Employee(String firstName, String lastName, String userName, String password, String description, Branch branch, Role role){
+        this.firstname = firstName;
+        this.lastname = lastName;
+        this.username = userName;
+        this.password = password;
+        this.description = description;
+        this.branch = branch;
+        this.setRole(role);
+    }
 
     //updates date modified filed
     @PreUpdate

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="branch")
+@NoArgsConstructor
 public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,6 +58,13 @@ public class Branch {
     @NotNull
     @Column(name = "date_modified")
     private Date datemodified=new Date();
+
+    public Branch (String branchName, String city, String address, String description){
+        this.branchName = branchName;
+        this.city = city;
+        this.address = address;
+        this.description = description;
+    }
 
     //updates date modified filed
     @PreUpdate

@@ -3,6 +3,7 @@ package com.example.ekonobarserver.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="branch_table")
+@NoArgsConstructor
 public class BranchTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +32,11 @@ public class BranchTable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "branchTable", fetch = FetchType.LAZY)
     private List<Order> orders = new ArrayList<>();
+
+    public BranchTable(Integer number, Branch branch){
+        this.number = number;
+        this.setBranch(branch);
+    }
 
     @Setter(AccessLevel.NONE)
     @NotNull
