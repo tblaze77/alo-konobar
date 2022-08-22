@@ -5,9 +5,6 @@ import { getSpecificBranchTable } from '../apis/BranchApis';
 import { calculateTotal } from '../utils/Utils';
 import { useSocket } from '../hooks/useSocket';
 import './Menu.css';
-import { Button } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
 
 const Menu = () => {
   const { tableId } = useParams();
@@ -69,7 +66,6 @@ const Menu = () => {
       total: total,
       date: null,
     };
-    console.log(chatMessage.total);
     setOrderObject(chatMessage);
     await sendOrder(articlesForOrder, total);
   };
@@ -95,65 +91,61 @@ const Menu = () => {
         <h1>Loading ...</h1>
       ) : (
         <div className="menu-container">
-          <Container className="black" style={{ color: '#000' }}>
-            <Row>
-              <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
-            </Row>
-            <Row>
-              <h2>Table number {branchTable.number}</h2>
-            </Row>
-          </Container>
+          <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
+          <h1>Table number {branchTable.number}</h1>
           {categorizedArticles.map((category, categoryindex) => (
             <div key={categoryindex}>
               {category.length != 0 ? (
-                <div>
-                  <h1>{category[0].categoryName}</h1>
-                  {category.map((item, itemIndex) => (
-                    <div className="list-container" key={itemIndex}>
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id={item.categoryindex}
-                        name={item.itemIndex}
-                        value={item.productName}
-                        onChange={e => {
-                          e.target.checked ? (item.isChecked = true) : (item.isChecked = false);
-                          setQuantityChanged(!quantityChanged);
-                        }}
-                      />
-                      {item.isChecked ? (
-                        <input
-                          type="number"
-                          value={item.quantity}
-                          id={categoryindex}
-                          name={itemIndex}
-                          min={1}
-                          step={1}
-                          placeholder="Quantity"
-                          onChange={onNumberInputChange}
-                        />
-                      ) : null}
-                      <label class="form-check-label" for="item.itemIndex">
-                        {item.productName}
-                        {item.price} HRK
-                      </label>
-                    </div>
-                  ))}
-                  <div>Total: {total}</div>
-                </div>
+                <>
+                  <div className="category-container">
+                    <h2>{category[0].categoryName}</h2>
+                    {category.map((item, itemIndex) => (
+                      <div className="list-container" key={itemIndex}>
+                        <div className="checkbox-label">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={item.categoryindex}
+                            name={item.itemIndex}
+                            value={item.productName}
+                            onChange={e => {
+                              e.target.checked ? (item.isChecked = true) : (item.isChecked = false);
+                              setQuantityChanged(!quantityChanged);
+                            }}
+                          />
+                          {item.isChecked ? (
+                            <input
+                              type="number"
+                              className="quantity-input"
+                              value={item.quantity}
+                              id={categoryindex}
+                              name={itemIndex}
+                              min={1}
+                              step={1}
+                              placeholder="Quantity"
+                              onChange={onNumberInputChange}
+                            />
+                          ) : null}
+                          <label class="form-check-label" for="item.itemIndex">
+                            <b>{item.productName}</b>
+                          </label>
+                        </div>
+                        <label>
+                          <b>{item.price} HRK</b>
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </>
               ) : null}
             </div>
           ))}
-
-          <Button
-            className="mt-5 mx-auto"
-            variant="primary"
-            type="submit"
-            style={{ width: '200px' }}
-            onClick={handleSubmit}
-          >
+          <div>
+            <b>Total:</b> {total} HRK
+          </div>
+          <button className="button" type="submit" onClick={handleSubmit}>
             Submit
-          </Button>
+          </button>
           <div className="message-container">{responseMessage != null ? <div>{responseMessage}</div> : null}</div>
         </div>
       )}

@@ -5,6 +5,7 @@ import AuthContext from '../context/AuthContext';
 import { createBranchProduct, getSpecificBranchProduct, updateSpecificBranchProduct } from '../apis/BranchProductApi';
 import { branchProductInputs } from '../constants/InputBlueprints';
 import FormInput from '../components/FormInput';
+import './BranchProductForm.css';
 const BranchProductForm = ({ type }) => {
   const { branchId, productId } = useParams();
   const { accessToken, user } = useContext(AuthContext);
@@ -63,17 +64,21 @@ const BranchProductForm = ({ type }) => {
       {loading ? (
         <h1>Loading</h1>
       ) : (
-        <div>
+        <div className="list-container">
           <h1>
-            Adding {product.productName} to {user.branch.branchName} caffe
+            Adding "{product.productName}" to "{user.branch.branchName}" caffe
           </h1>
-          <form onSubmit={handleSubmit}>
+          <form className="branchProduct-form" onSubmit={handleSubmit}>
             {branchProductInputs.map(input => (
               <FormInput key={input.id} {...input} value={branchProduct[input.name]} onChange={onChange} />
             ))}
-            <button type="submit">Submit</button>
+            <button className="button" type="submit">
+              Submit
+            </button>
           </form>
-          <button onClick={clearState}>CLEAR STATE</button>
+          <button className="button clear" onClick={clearState}>
+            Clear
+          </button>
         </div>
       )}
     </>

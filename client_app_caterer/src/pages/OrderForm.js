@@ -6,6 +6,7 @@ import { getAllTablesFromSpecificBranch } from '../apis/BranchTableApi';
 import { createNewOrder } from '../apis/OrderApi';
 import { getAllBranchProductsFromSpecificBranch } from '../apis/BranchProductApi';
 import Select from '../components/Form/Select';
+import './OrderForm.css';
 
 const OrderForm = () => {
   const { user, accessToken } = useContext(AuthContext);
@@ -87,54 +88,80 @@ const OrderForm = () => {
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <div>
+        <div className="list-container">
           <h1>Create new order</h1>
-          <Select
-            key="employee"
-            APIMethod={getAllEmployeesOnSpecificBranch}
-            changeState={setEmployee}
-            id="employee"
-            label="Select employee"
-            isSelected={employee}
-            paramId={user.branch.id}
-          />
-          <Select
-            key="table"
-            APIMethod={getAllTablesFromSpecificBranch}
-            changeState={setBranchTable}
-            id="table"
-            label="Select table"
-            isSelected={branchTable}
-            paramId={user.branch.id}
-          />
-          <div className="orderRow form">
+          <div className="select-container">
             <Select
-              key="product"
-              APIMethod={getAllBranchProductsFromSpecificBranch}
-              changeState={setBranchProduct}
-              id="branchProduct"
-              label="Select product"
-              isSelected={branchProduct}
+              key="employee"
+              APIMethod={getAllEmployeesOnSpecificBranch}
+              changeState={setEmployee}
+              id="employee"
+              label="Select employee"
+              isSelected={employee}
               paramId={user.branch.id}
             />
-            <label>Quantity</label>
-            <input type="number" value={quantity} min={1} step={1} onChange={e => setQuantity(e.target.value)} />
-            <button type="submit" onClick={handleOrderRowSubmit}>
-              Add new order row
-            </button>
+            <Select
+              key="table"
+              APIMethod={getAllTablesFromSpecificBranch}
+              changeState={setBranchTable}
+              id="table"
+              label="Select table"
+              isSelected={branchTable}
+              paramId={user.branch.id}
+            />
           </div>
 
-          <div>
-            {orderRows.map(orderRow => {
-              return (
-                <div>
-                  <h1>{orderRow.productName}</h1> <h1>Unit price: {orderRow.price}</h1> <h1>{orderRow.quantity}</h1>
-                  <h1>Total {orderRow.total}</h1>
-                </div>
-              );
-            })}
+          <div className="order-row-form">
+            <div className="before-table">
+              <Select
+                key="product"
+                APIMethod={getAllBranchProductsFromSpecificBranch}
+                changeState={setBranchProduct}
+                id="branchProduct"
+                label="Select product"
+                isSelected={branchProduct}
+                paramId={user.branch.id}
+              />
+              <div className="quantity-button">
+                <label>
+                  <b>Quantity:</b>
+                </label>
+                <input
+                  className="quantity-input"
+                  type="number"
+                  value={quantity}
+                  min={1}
+                  step={1}
+                  onChange={e => setQuantity(e.target.value)}
+                />
+                <button className="button wider" type="submit" onClick={handleOrderRowSubmit}>
+                  Add order row
+                </button>
+              </div>
+            </div>
+            <table className="order-row-table">
+              <thead>
+                <th>Name</th>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </thead>
+              <tbody>
+                {orderRows.map(orderRow => {
+                  return (
+                    <tr className="order-row-info">
+                      <td>{orderRow.productName}</td> <td>{orderRow.price} HRK</td> <td>{orderRow.quantity}</td>
+                      <td>{orderRow.total} HRK</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-          <button onClick={handleSubmit}>Submit an order</button>
+
+          <button className="button wider" onClick={handleSubmit}>
+            Submit an order
+          </button>
         </div>
       )}
     </>

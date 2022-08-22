@@ -1,0 +1,19 @@
+.branchProduct-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 15px;
+}
+
+button {
+  margin: 0 auto;
+}
+
+.clear {
+  margin-top: 15px;
+  height: 20px;
+  width: 60px;
+  color: white;
+  background-color: gray;
+}

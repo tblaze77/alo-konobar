@@ -46,26 +46,35 @@ const IndividualOrder = () => {
           </div>
           <div className="order-row">
             <p>
-              <b>Table numb</b>er:{' '}
+              <b>Table number:</b>
             </p>
             <p>{order.branchTableNumber}</p>
           </div>
 
-          <div>
-            <b>Order rows:</b>
-            <ul>
-              {order.orderRowsGetDto.map(orderRow => (
-                <div>
-                  <h3>
-                    <b>{orderRow.branchProduct.product.productName}</b>
-                  </h3>
-                  <h3>{orderRow.branchProduct.unitPrice} HRK</h3>
-                  <h3>{orderRow.quantity}</h3>
-                  <h3>{orderRow.subtotal} HRK</h3>
-                </div>
-              ))}
-            </ul>
-            <div>Total: {order.total} HRK</div>
+          <div className="table-header-container">
+            <h3>Order rows:</h3>
+            <table className="order-row-table">
+              <thead>
+                <th>Name</th>
+                <th>Unit price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+              </thead>
+              <tbody>
+                {order.orderRowsGetDto.map(orderRow => (
+                  <tr>
+                    <td>{orderRow.branchProduct.product.productName}</td>
+                    <td>{orderRow.branchProduct.unitPrice} HRK</td>
+                    <td>{orderRow.quantity}</td>
+                    <td>{orderRow.subtotal} HRK</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div>
+              <b>Total: </b>
+              {order.total} HRK
+            </div>
           </div>
         </div>
       )}

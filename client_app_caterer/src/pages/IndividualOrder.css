@@ -5,11 +5,20 @@
 }
 
 .order-row {
-  background-color: yellow;
-  width: calc(100vw / 1.3);
-
+  width: calc(100vw / 3);
   display: flex;
   justify-content: space-between;
-
   align-items: center;
+}
+
+.individual-order-row {
+  display: flex;
+}
+
+.table-header-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }

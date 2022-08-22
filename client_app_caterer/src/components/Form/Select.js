@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
+import './Select.css';
 const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
   const [avaliableChoices, setAvaliableChoices] = useState([]);
   const { accessToken } = useContext(AuthContext);
@@ -29,7 +30,9 @@ const Select = ({ changeState, APIMethod, label, id, isSelected, paramId }) => {
 
   return (
     <div className="select-label">
-      <label>{label}</label>
+      <label>
+        <b>{label}: </b>
+      </label>
       <select className="select" name={id} id={id} defaultValue="Choose here" onChange={handleSelectChange}>
         {isSelected === '' ? (
           <option value="" selected>
