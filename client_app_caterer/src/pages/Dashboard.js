@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    window.scrollTo(0, 0);
     getInfo();
   }, []);
 
@@ -30,12 +31,16 @@ const Dashboard = () => {
             {role === 'ADMIN' ? (
               <>
                 <h2>You are an administrator of {user.branch.branchName}</h2>
-                <button className="button long">
-                  <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.EMPLOYEE + RoutePaths.CREATE}>
-                    Add caffe employee
-                  </Link>
-                </button>
-                <button className="button long">Add new products</button>
+                <div className="button-group-dashboard">
+                  <button className="button long">
+                    <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.EMPLOYEE + RoutePaths.CREATE}>
+                      Add caffe employee
+                    </Link>
+                  </button>
+                  <button className="button long">
+                    <Link to={RoutePaths.PRODUCTS}>Add new products</Link>
+                  </button>
+                </div>
                 <h2>Your employees:</h2>
                 <ul>
                   {employees.map(employee => (

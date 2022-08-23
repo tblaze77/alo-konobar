@@ -21,7 +21,7 @@ const OrderForm = () => {
   const [orderRows, setOrderRows] = useState([]);
 
   useEffect(() => {
-    console.log('usa san u use effect');
+    window.scrollTo(0, 0);
     getInfo();
     console.log(orderRows);
   }, [loading, orderRows]);

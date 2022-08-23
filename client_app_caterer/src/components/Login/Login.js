@@ -12,6 +12,7 @@ const Login = props => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (authenticated) {
       navigate('/');
     }

@@ -12,6 +12,7 @@ const Orders = () => {
   const [orderList, setOrderList] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchData();
   }, []);
 

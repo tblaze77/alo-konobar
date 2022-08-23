@@ -5,13 +5,16 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import AuthState from './context/AuthState';
 import UserState from './context/UserState';
+import WithRouter from './hooks/ComponentWithRouterProp';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthState>
     <UserState>
       <BrowserRouter>
+        {/* <WithRouter> */}
         <App />
+        {/* </WithRouter> */}
       </BrowserRouter>
     </UserState>
   </AuthState>

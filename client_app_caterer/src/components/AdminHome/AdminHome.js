@@ -19,6 +19,7 @@ const AdminHome = () => {
   const [orderList, setOrderList] = useState([]);
   const [isAdmin, setIsAdmin] = useState(null);
   useEffect(() => {
+    window.scroll(0, 0);
     getInfo();
     user.role.id == 2 ? setIsAdmin(true) : setIsAdmin(false);
   }, []);

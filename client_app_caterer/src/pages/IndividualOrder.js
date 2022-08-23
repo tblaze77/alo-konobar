@@ -9,6 +9,7 @@ const IndividualOrder = () => {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    window.scrollTo(0, 0);
     getInfo();
   }, []);
 
@@ -24,31 +25,33 @@ const IndividualOrder = () => {
         <h1>Loading ...</h1>
       ) : (
         <div className="list-container">
-          <div className="order-row">
-            <p>
+          <div className="heading-row">
+            <h1>
               <b>Order code:</b>
-            </p>
-            <p>{order.orderCode}</p>
-          </div>
-          <div className="order-row">
+            </h1>
             <p>
-              <b>Employee: </b>
-            </p>
-            <p>
-              {order.employee.firstname} {order.employee.lastname}
+              <b>{order.orderCode}</b>
             </p>
           </div>
           <div className="order-row">
+            <h2>Employee:</h2>
             <p>
-              <b>Order Date:</b>{' '}
-            </p>{' '}
-            <p>{order.orderDate}</p>
+              <b>
+                {order.employee.firstname} {order.employee.lastname}
+              </b>
+            </p>
           </div>
           <div className="order-row">
+            <h2>Order Date:</h2>
             <p>
-              <b>Table number:</b>
+              <b>{order.orderDate}</b>
             </p>
-            <p>{order.branchTableNumber}</p>
+          </div>
+          <div className="order-row">
+            <h2>Table number:</h2>
+            <p>
+              <b>{order.branchTableNumber}</b>
+            </p>
           </div>
 
           <div className="table-header-container">
@@ -73,7 +76,7 @@ const IndividualOrder = () => {
             </table>
             <div>
               <b>Total: </b>
-              {order.total} HRK
+              <b>{order.total} HRK</b>
             </div>
           </div>
         </div>

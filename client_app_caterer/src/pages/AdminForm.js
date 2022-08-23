@@ -23,6 +23,10 @@ const AdminForm = ({ type }) => {
     description: '',
   });
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleSubmit = e => {
     e.preventDefault();
     createEmployee(accessToken, admin)

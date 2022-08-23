@@ -17,6 +17,7 @@ const BranchProductForm = ({ type }) => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
+    window.scrollTo(0, 0);
     getInfo();
   }, [loading]);
 

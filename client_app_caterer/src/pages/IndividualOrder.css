@@ -1,11 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
 .individual-order {
   padding: 40px 0px;
   width: 100%;
   margin: auto;
 }
 
+.heading-row {
+  width: calc(100vw / 2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .order-row {
-  width: calc(100vw / 3);
+  width: calc(100vw / 4);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,5 +29,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
+}
+
+td {
+  font-family: 'Source Code Pro', monospace;
+}
+
+table {
+  border-top: 2px solid gray;
 }

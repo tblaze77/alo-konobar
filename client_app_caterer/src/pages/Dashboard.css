@@ -12,3 +12,9 @@
 .long {
   width: 150px;
 }
+
+.button-group-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
