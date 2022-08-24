@@ -9,19 +9,25 @@ const OrderCheckout = props => {
   const { table, items, sendMessage } = useSocket();
   const location = useLocation();
   const response = 'Your order is on the way';
+  const decline = 'Your order cannot be accepted at the moment';
   const currentItems = location.state.order.items;
   const currentTable = location.state.order.table;
   const navigate = useNavigate();
   useEffect(() => {}, []);
 
-  const checkoutOrder = async () => {
-    sendMessage(response, currentTable.id);
-    const order = await createNewOrder();
-    try {
-      await createNewOrderForCheckout(accessToken, order);
-    } catch (error) {
-      console.log(error.message);
+  const checkoutOrder = async isAccepted => {
+    if (isAccepted) {
+      sendMessage(response, currentTable.id);
+      const order = await createNewOrder();
+      try {
+        await createNewOrderForCheckout(accessToken, order);
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      sendMessage(decline, currentTable.id);
     }
+
     setTimeout(() => {
       navigate(-1);
     }, 2000);
@@ -47,13 +53,13 @@ const OrderCheckout = props => {
         <h1>Order items:</h1>
         {currentItems.map(item => (
           <li>
-            {item.productName} {item.quantity}
+            {item.productName} {item.quantity} {item.price}
           </li>
         ))}
       </ul>
       <div>{}</div>
-      <button onClick={checkoutOrder}>Checkout order</button>
-      <button>Cancel</button>
+      <button onClick={() => checkoutOrder(true)}>Checkout order</button>
+      <button onClick={() => checkoutOrder(false)}>Cancel</button>
     </div>
   );
 };

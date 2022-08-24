@@ -2,7 +2,7 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import { Snackbar, SnackbarContent, IconButton } from '@mui/material';
 
-export default function SnackBar({ message }) {
+export default function SnackBar({ message, isError, isSocket }) {
   const [open, setOpen] = useState(true);
 
   const handleClose = e => {
@@ -27,9 +27,12 @@ export default function SnackBar({ message }) {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         sx={{
           width: 400,
-          color: 'secondary',
+          color: 'primary',
           //backgroundColor: "green", This doesn't work
-          '& .MuiSnackbarContent-root': 'green',
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: isSocket != null ? 'wheat' : isError ? 'red' : 'green',
+            color: isSocket != null ? 'black' : 'white',
+          },
         }}
       >
         <SnackbarContent message={message} />

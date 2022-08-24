@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/v1/api/branchTable/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/v1/api/product/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/v1/api/category/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/v1/api/branch/byBranchTable/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET,"/ws/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/v1/api/role/**").hasAnyAuthority("SUPER_USER");
         http.authorizeRequests().anyRequest().authenticated();

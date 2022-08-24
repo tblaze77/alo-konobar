@@ -7,6 +7,7 @@ export const useSocket = tableId => {
   const [responseMessage, setResponseMessage] = useState(null);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [branchId, setBranchId] = useState(null);
+  const [isAccepted, setIsAccepted] = useState(null);
   useEffect(() => {
     getSpecificBranchTable(tableId).then(response => setBranchId(response.data.branch.id));
     registerTable();
@@ -15,6 +16,7 @@ export const useSocket = tableId => {
   const registerTable = () => {
     let Sock = new SockJS('http://localhost:8080/ws');
     stompClient = over(Sock);
+    stompClient.debug = () => {};
     stompClient.connect({}, onConnected, onError);
   };
 
@@ -26,9 +28,24 @@ export const useSocket = tableId => {
   const onResponseReceived = async payload => {
     var payloadData = JSON.parse(payload.body);
     setResponseMessage(payloadData.message);
+    if (payloadData.message === 'Your order is on the way') {
+      console.log('poklapaju se poruke');
+      setIsAccepted(true);
+    } else {
+      console.log('ne poklapaju se poruke');
+      setIsAccepted(false);
+    }
     setTimeout(() => {
-      setShouldRedirect(true);
+      if (payloadData.message === 'Your order is on the way') {
+        setShouldRedirect(true);
+      } else {
+        setShouldRedirect(false);
+      }
     }, 5000);
+  };
+
+  const changeResponseMessage = value => {
+    setResponseMessage(value);
   };
 
   const onError = () => {
@@ -67,5 +84,7 @@ export const useSocket = tableId => {
     responseMessage: responseMessage,
     shouldRedirect: shouldRedirect,
     sendPaymentMethod: sendPaymentMethod,
+    changeResponseMessage: changeResponseMessage,
+    isAccepted: isAccepted,
   };
 };

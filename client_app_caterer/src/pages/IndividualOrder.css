@@ -7,9 +7,10 @@
 }
 
 .heading-row {
-  width: calc(100vw / 2);
+  width: calc(100vw / 1.5);
   display: flex;
-  justify-content: space-between;
+  gap: 40px;
+  justify-content: center;
   align-items: center;
 }
 

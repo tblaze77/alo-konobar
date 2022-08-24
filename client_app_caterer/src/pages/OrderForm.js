@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { productsConverter } from '../utils/EntityConverter';
 import { getAllEmployeesOnSpecificBranch } from '../apis/EmployeeApi';
@@ -7,24 +8,33 @@ import { createNewOrder } from '../apis/OrderApi';
 import { getAllBranchProductsFromSpecificBranch } from '../apis/BranchProductApi';
 import Select from '../components/Form/Select';
 import './OrderForm.css';
+import SnackBar from '../components/SnackBar';
 
 const OrderForm = () => {
   const { user, accessToken } = useContext(AuthContext);
+  let navigate = useNavigate();
   const [branchTableList, setBranchTableList] = useState([]);
   const [branchTable, setBranchTable] = useState('');
   const [branchProducts, setBranchProducts] = useState([]);
-  const [branchProduct, setBranchProduct] = useState('');
+  const [branchProduct, setBranchProduct] = useState({
+    id: '',
+  });
   const [employeeList, setEmployeeList] = useState([]);
   const [employee, setEmployee] = useState('');
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
   const [orderRows, setOrderRows] = useState([]);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [isError, setIsError] = useState(null);
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    getInfo();
+  }, [loading, orderRows]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    getInfo();
-    console.log(orderRows);
-  }, [loading, orderRows]);
+  }, []);
 
   const getInfo = async () => {
     const responses = await Promise.all([
@@ -49,7 +59,6 @@ const OrderForm = () => {
       quantity: quantity,
       total: total,
     };
-    console.log(orderRow.total);
     setOrderRows(oldArray => [...oldArray, orderRow]);
   };
 
@@ -59,8 +68,6 @@ const OrderForm = () => {
     let orderFullDate = new Date().toISOString().slice(0, 16);
     let dateArray = orderFullDate.split('T');
     let tempOrderDate = dateArray[0].split('-').reverse().join('/');
-    console.log(tempOrderDate);
-    console.log(dateArray[1]);
     let orderDate = tempOrderDate + ' ' + dateArray[1];
 
     const order = {
@@ -70,9 +77,25 @@ const OrderForm = () => {
       orderRows: newOrderRows,
       orderDate: orderDate,
     };
-    const response = await createNewOrder(accessToken, order);
-    console.log(response);
-    clearState();
+    try {
+      await createNewOrder(accessToken, order);
+      setShowSnackbar(true);
+      setIsError(false);
+      setIsSubmitButtonDisabled(true);
+      setTimeout(() => {
+        navigate(-1);
+        clearState();
+      }, 3000);
+    } catch (err) {
+      setShowSnackbar(true);
+      setIsError(true);
+      setIsSubmitButtonDisabled(true);
+      setTimeout(() => {
+        setShowSnackbar(false);
+        setIsError(null);
+        setIsSubmitButtonDisabled(false);
+      }, 3000);
+    }
   };
 
   const clearState = () => {
@@ -128,13 +151,19 @@ const OrderForm = () => {
                 </label>
                 <input
                   className="quantity-input"
+                  disabled={branchProduct.id === '' ? true : false}
                   type="number"
                   value={quantity}
                   min={1}
                   step={1}
                   onChange={e => setQuantity(e.target.value)}
                 />
-                <button className="button wider" type="submit" onClick={handleOrderRowSubmit}>
+                <button
+                  className="button wider"
+                  disabled={branchProduct.id === '' ? true : false}
+                  type="submit"
+                  onClick={handleOrderRowSubmit}
+                >
                   Add order row
                 </button>
               </div>
@@ -159,9 +188,19 @@ const OrderForm = () => {
             </table>
           </div>
 
-          <button className="button wider" onClick={handleSubmit}>
+          <button
+            className="button wider"
+            disabled={isSubmitButtonDisabled || orderRows.length == 0 ? true : false}
+            onClick={handleSubmit}
+          >
             Submit an order
           </button>
+          {showSnackbar ? (
+            <SnackBar
+              message={isError ? 'Ooops... something went wrong' : 'Successfully added a new order'}
+              isError={isError}
+            />
+          ) : null}
         </div>
       )}
     </>

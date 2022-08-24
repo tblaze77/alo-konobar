@@ -1,13 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { employeeInputs } from '../constants/InputBlueprints';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import { createEmployee } from '../apis/EmployeeApi';
 import AuthContext from '../context/AuthContext';
 import './AdminForm.css';
+import SnackBar from '../components/SnackBar';
 
 const AdminForm = ({ type }) => {
   const { branchId } = useParams();
+  let navigate = useNavigate();
   const { accessToken } = useContext(AuthContext);
   const [admin, setAdmin] = useState({
     firstname: '',
@@ -22,17 +24,28 @@ const AdminForm = ({ type }) => {
     },
     description: '',
   });
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [isError, setIsError] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    createEmployee(accessToken, admin)
-      .then(response => console.log(response.data))
-      .catch(err => console.log(err.message));
-    clearState();
+    try {
+      await createEmployee(accessToken, admin);
+      setShowSnackbar(true);
+      setIsError(false);
+
+      setTimeout(() => {
+        navigate(-1);
+        clearState();
+      }, 3000);
+    } catch (err) {
+      setShowSnackbar(true);
+      setIsError(true);
+    }
   };
 
   const clearState = () => {
@@ -59,6 +72,12 @@ const AdminForm = ({ type }) => {
         <button>Submit</button>
       </form>
       <button onClick={clearState}>CLEAR STATE</button>
+      {showSnackbar ? (
+        <SnackBar
+          message={isError ? 'Ooops... something went wrong' : 'Successfully added a new employee'}
+          isError={isError}
+        />
+      ) : null}
     </div>
   );
 };

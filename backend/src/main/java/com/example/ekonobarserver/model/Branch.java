@@ -45,7 +45,7 @@ public class Branch {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "branch", fetch = FetchType.LAZY)
     private List<Employee> employees = new ArrayList<>();
 
-    @JsonIgnoreProperties("branch")
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "branch", fetch = FetchType.LAZY)
     private List<Employee> orders = new ArrayList<>();
 

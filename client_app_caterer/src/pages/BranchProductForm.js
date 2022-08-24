@@ -1,13 +1,16 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getSpecificProduct } from '../apis/ProductApi';
 import AuthContext from '../context/AuthContext';
 import { createBranchProduct, getSpecificBranchProduct, updateSpecificBranchProduct } from '../apis/BranchProductApi';
 import { branchProductInputs } from '../constants/InputBlueprints';
 import FormInput from '../components/FormInput';
 import './BranchProductForm.css';
+import SnackBar from '../components/SnackBar';
+
 const BranchProductForm = ({ type }) => {
   const { branchId, productId } = useParams();
+  let navigate = useNavigate();
   const { accessToken, user } = useContext(AuthContext);
   const [branchProduct, setBranchProduct] = useState({
     description: '',
@@ -16,10 +19,16 @@ const BranchProductForm = ({ type }) => {
   });
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [isError, setIsError] = useState(null);
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(false);
   useEffect(() => {
-    window.scrollTo(0, 0);
     getInfo();
   }, [loading]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const getInfo = async () => {
     if (type === 'update') {
@@ -43,8 +52,27 @@ const BranchProductForm = ({ type }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (type == 'create') await createBranchProduct(accessToken, branchProduct);
-    else await updateSpecificBranchProduct(accessToken, branchId, product.id, branchProduct);
+    try {
+      if (type == 'create') await createBranchProduct(accessToken, branchProduct);
+      else await updateSpecificBranchProduct(accessToken, branchId, product.id, branchProduct);
+      setShowSnackbar(true);
+      setIsError(false);
+      setIsSubmitButtonDisabled(true);
+      setTimeout(() => {
+        navigate(-1);
+        clearState();
+      }, 3000);
+    } catch (err) {
+      setShowSnackbar(true);
+      setIsError(true);
+      setIsSubmitButtonDisabled(true);
+      setTimeout(() => {
+        setShowSnackbar(false);
+        setIsError(null);
+        setIsSubmitButtonDisabled(false);
+      }, 3000);
+    }
+
     clearState();
   };
 
@@ -80,6 +108,12 @@ const BranchProductForm = ({ type }) => {
           <button className="button clear" onClick={clearState}>
             Clear
           </button>
+          {showSnackbar ? (
+            <SnackBar
+              message={isError ? 'Ooops... something went wrong' : 'Successfully added a new product to our caffe'}
+              isError={isError}
+            />
+          ) : null}
         </div>
       )}
     </>

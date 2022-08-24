@@ -5,7 +5,7 @@ export const branchInputs = [
     type: 'text',
     placeholder: 'name',
     label: 'Name',
-    pattern: '^[a-z0-9 ]{3,50}$',
+    pattern: '^[A-Za-z0-9 ]{3,50}$',
     required: true,
   },
   {
@@ -40,7 +40,7 @@ export const employeeInputs = [
     type: 'text',
     placeholder: 'First name',
     label: 'First Name',
-    pattern: '^[a-z0-9 ]{3,50}$',
+    pattern: '^[A-Za-z0-9 ]{3,50}$',
     required: true,
   },
   {
@@ -49,6 +49,7 @@ export const employeeInputs = [
     type: 'text',
     placeholder: 'lastname',
     label: 'Last Name',
+    pattern: '^[A-Za-z0-9 ]{3,50}$',
     required: true,
   },
   {
@@ -65,7 +66,7 @@ export const employeeInputs = [
     type: 'password',
     placeholder: 'password',
     label: 'Password',
-    required: true,
+    required: false,
   },
   {
     id: 5,
@@ -100,8 +101,7 @@ export const branchProductInputs = [
     type: 'number',
     placeholder: 'price',
     label: 'Price',
-    step: '0.01',
+    step: '0.1',
     min: '1',
-    required: true,
   },
 ];

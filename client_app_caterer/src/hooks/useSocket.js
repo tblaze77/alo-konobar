@@ -32,6 +32,7 @@ export const useSocket = () => {
 
   const onOrderReceived = async payload => {
     let payloadData = JSON.parse(payload.body);
+    console.log(payloadData);
     const { data } = await getSpecificBranchTable(accessToken, payloadData.senderIdentification);
     setBranchTableSender(data);
 

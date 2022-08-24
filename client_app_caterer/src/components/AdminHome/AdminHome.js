@@ -79,10 +79,10 @@ const AdminHome = () => {
                 },
               }}
             >
-              <SnackBar message={'Order from table number' + table.number} />
+              <SnackBar message={'Order from table number' + table.number} isSocket={true} />
             </Link>
           ) : null}
-          {paymentMethodMessage ? <SnackBar message={paymentMethodMessage} /> : null}
+          {paymentMethodMessage ? <SnackBar message={paymentMethodMessage} isSocket={true} /> : null}
         </div>
       )}
     </div>

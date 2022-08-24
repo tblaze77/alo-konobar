@@ -5,6 +5,7 @@ import com.example.ekonobarserver.model.*;
 import com.example.ekonobarserver.repository.*;
 import com.example.ekonobarserver.service.api.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 
 import org.springframework.stereotype.Component;
@@ -29,12 +30,16 @@ public class InitialDbSeeder implements CommandLineRunner {
     EmployeeService employeeService;
     @Autowired
     BranchTableRepository branchTableRepository;
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String mode;
+
     @Override
     public void run(String... args) throws Exception {
         loadData();
     }
     private void loadData() {
-        if(roleRepository.count() == 0 ){
+
+        if(mode.equals("create")){
             Role superUserRole = new Role("SUPER_USER");
             Role adminRole = new Role("ADMIN");
             Role employeeRole = new Role("EMPLOYEE");
@@ -65,8 +70,9 @@ public class InitialDbSeeder implements CommandLineRunner {
             productRepository.save(cocaCola);
             productRepository.save(pelinkovac);
             productRepository.save(orahovac);
+            System.out.println("Database has been seeded ...");
         }
-        System.out.println("Database has been seeded ...");
+
     }
 
 }

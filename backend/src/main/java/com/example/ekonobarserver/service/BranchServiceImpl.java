@@ -50,4 +50,9 @@ public class BranchServiceImpl implements BranchService {
 
         return branchRepository.save(branchToUpdate.get());
     }
+
+    @Override
+    public Branch getBranchByBranchTable(Long branchTableId) {
+        return branchRepository.getBranchByBranchTableId(branchTableId);
+    }
 }

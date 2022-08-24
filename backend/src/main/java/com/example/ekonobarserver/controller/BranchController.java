@@ -48,7 +48,16 @@ public class BranchController {
         return new ResponseEntity<>(branchService.getAllBranches(), HttpStatus.OK);
     }
 
+    // ---------------- GET  v1/api/branch/byBranchTable/{branchTableId}  --------------- //
+    /**
+     * GET endpoint - get branch by sending branch table id
+     * @return Branch
+     */
 
+    @GetMapping("/byBranchTable" + RestEndpointsParameters.BRANCH_TABLE_ID)
+    public ResponseEntity<Branch> getBranchByBranchTable(@PathVariable("branchTableId") long id){
+        return new ResponseEntity<>(branchService.getBranchByBranchTable(id), HttpStatus.OK);
+    }
 
     // ---------------- POST  v1/api/branch  --------------- //
     /**

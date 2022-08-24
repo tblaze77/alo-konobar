@@ -22,4 +22,8 @@ public interface BranchService {
 
     Branch updateBranch(Branch branch, long id);
 
+    // ---- CUSTOM QUERIES ---- //
+
+    Branch getBranchByBranchTable (Long branchTableId);
+
 }

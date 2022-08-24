@@ -29,6 +29,7 @@ const Orders = () => {
       ) : (
         <div className="list-container">
           <h1>These are orders from caffe {user.branch.branchName}</h1>
+          <h2>Today's balance</h2>
           <table>
             <thead>
               {ordersHeader.map(header => (

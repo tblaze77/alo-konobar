@@ -74,15 +74,20 @@ const AuthState = props => {
   };
 
   const attemptLogin = async (username, password) => {
-    const { data } = await login(username, password);
-    console.log(data);
-    setAccessToken(data.access_token);
-    setRefreshToken(data.refresh_token);
-    localStorage.setItem('access_token', data.access_token);
-    localStorage.setItem('refresh_token', data.refresh_token);
-    await getUser(data.access_token);
-    instantiateRefreshToken();
-    setAuthenticated(true);
+    try {
+      const { data } = await login(username, password);
+      setAccessToken(data.access_token);
+      setRefreshToken(data.refresh_token);
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('refresh_token', data.refresh_token);
+      await getUser(data.access_token);
+      instantiateRefreshToken();
+      setAuthenticated(true);
+      return true;
+    } catch (err) {
+      return false;
+    }
+
     // .then(response => {
     //   setAuthenticated(true);
     //   tempToken = response.data.access_token;

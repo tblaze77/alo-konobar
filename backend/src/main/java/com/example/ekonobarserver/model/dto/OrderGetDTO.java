@@ -4,6 +4,7 @@ import com.example.ekonobarserver.model.Branch;
 import com.example.ekonobarserver.model.BranchTable;
 import com.example.ekonobarserver.model.Employee;
 import com.example.ekonobarserver.model.OrderRow;
+import com.example.ekonobarserver.model.enums.PaymentMethod;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -29,6 +30,8 @@ public class OrderGetDTO {
     private String additionalInfo;
 
     private String status;
+
+    private PaymentMethod paymentMethod;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm", timezone = "Europe/Zagreb")
     @JsonProperty("orderDate")

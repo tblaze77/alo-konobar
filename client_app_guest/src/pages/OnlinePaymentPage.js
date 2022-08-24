@@ -8,10 +8,12 @@ const OnlinePaymentPage = () => {
   useEffect(() => {}, []);
 
   return (
-    <div>
+    <div className="menu-container">
       <h1>This is online payment page</h1>
       {console.log(total)}
-      <p>You have to pay {total} HRK</p>
+      <p>
+        You have to pay <b>{total} HRK</b>
+      </p>
     </div>
   );
 };

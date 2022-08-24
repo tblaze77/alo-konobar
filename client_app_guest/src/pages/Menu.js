@@ -1,34 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useDeferredValue, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getMenuForSpecificBranchTable, getNumberOfCategories } from '../apis/MenuApis';
 import { getSpecificBranchTable } from '../apis/BranchApis';
 import { calculateTotal } from '../utils/Utils';
 import { useSocket } from '../hooks/useSocket';
 import './Menu.css';
+import Snackbar from '../components/Snackbar';
 
 const Menu = () => {
   const { tableId } = useParams();
   const navigate = useNavigate();
-  const { sendOrder, responseMessage, shouldRedirect } = useSocket(tableId);
+  const { sendOrder, responseMessage, shouldRedirect, changeResponseMessage, isAccepted } = useSocket(tableId);
   const [loading, setLoading] = useState(true);
   const [categorizedArticles, setCategorizedArticles] = useState([[]]);
   const [branchTable, setBranchTable] = useState({});
   const [quantityChanged, setQuantityChanged] = useState(true);
   const [orderObject, setOrderObject] = useState(null);
+  const [isDisabledSubmitButton, setIsDisabledSubmitButton] = useState(true);
+  const [showSnackbar, setShowSnackbar] = useState(false);
   const [total, setTotal] = useState(0);
   useEffect(() => {
     fetchData();
   }, []);
 
   useEffect(() => {
+    console.log('usa san u use effect od should redirect');
     if (shouldRedirect) {
       navigate(`checkoutOrder`, { state: orderObject });
     }
   }, [shouldRedirect]);
 
   useEffect(() => {
-    setTotal(calculateTotal(categorizedArticles));
+    let tempTotal = calculateTotal(categorizedArticles);
+    if (tempTotal != 0) setIsDisabledSubmitButton(false);
+    else setIsDisabledSubmitButton(true);
+    setTotal(tempTotal);
   }, [quantityChanged]);
+
+  useEffect(() => {
+    if (responseMessage != null) {
+      setShowSnackbar(true);
+      setIsDisabledSubmitButton(true);
+    }
+    setTimeout(() => {
+      setIsDisabledSubmitButton(false);
+      changeResponseMessage(null);
+      setShowSnackbar(false);
+    }, 5000);
+  }, [responseMessage]);
 
   const fetchData = async () => {
     const menuItems = await getMenuForSpecificBranchTable(tableId);
@@ -59,6 +78,8 @@ const Menu = () => {
 
   const handleSubmit = async () => {
     let articlesForOrder = await createSelectedArticles();
+    setIsDisabledSubmitButton(true);
+    console.log(articlesForOrder);
     let chatMessage = {
       senderIdentification: branchTable.branch.id,
       receiverIdentification: tableId,
@@ -78,6 +99,7 @@ const Menu = () => {
         if (item.isChecked) {
           article.productName = item.productName;
           article.quantity = item.quantity;
+          article.price = item.price;
           articlesForOrder.push(article);
         }
       })
@@ -143,10 +165,10 @@ const Menu = () => {
           <div>
             <b>Total:</b> {total} HRK
           </div>
-          <button className="button" type="submit" onClick={handleSubmit}>
+          <button disabled={isDisabledSubmitButton} className="button" type="submit" onClick={handleSubmit}>
             Submit
           </button>
-          <div className="message-container">{responseMessage != null ? <div>{responseMessage}</div> : null}</div>
+          {showSnackbar ? <Snackbar message={responseMessage} isAccepted={isAccepted} /> : null}
         </div>
       )}
     </>

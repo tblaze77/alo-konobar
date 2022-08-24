@@ -201,6 +201,8 @@ public class CustomMapper {
             orderGetDTO.setBranchTableNumber(order.getBranchTable().getNumber());
             orderGetDTO.setEmployee(order.getEmployee());
             orderGetDTO.setOrderCode(order.getOrderCode());
+            System.out.println(order.getPaymentMethod());
+            orderGetDTO.setPaymentMethod(order.getPaymentMethod());
             List<OrderRow> orderRows = order.getOrderRows();
             List<OrderRowGetDTO> orderRowGetDTOS = new ArrayList<>();
         for (OrderRow orderRow:
