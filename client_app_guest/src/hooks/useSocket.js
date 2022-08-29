@@ -5,9 +5,11 @@ import SockJS from 'sockjs-client';
 var stompClient = null;
 export const useSocket = tableId => {
   const [responseMessage, setResponseMessage] = useState(null);
+  const [orderId, setOrderId] = useState(null);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [branchId, setBranchId] = useState(null);
   const [isAccepted, setIsAccepted] = useState(null);
+  let potentialOrderId;
   useEffect(() => {
     getSpecificBranchTable(tableId).then(response => setBranchId(response.data.branch.id));
     registerTable();
@@ -29,10 +31,13 @@ export const useSocket = tableId => {
     var payloadData = JSON.parse(payload.body);
     setResponseMessage(payloadData.message);
     if (payloadData.message === 'Your order is on the way') {
-      console.log('poklapaju se poruke');
       setIsAccepted(true);
+      if (payloadData.orderId != null) {
+        potentialOrderId = payloadData.orderId;
+        console.log('usa san u if');
+      }
+      console.log(potentialOrderId);
     } else {
-      console.log('ne poklapaju se poruke');
       setIsAccepted(false);
     }
     setTimeout(() => {
@@ -67,11 +72,13 @@ export const useSocket = tableId => {
   };
 
   const sendPaymentMethod = async paymentMethod => {
+    console.log(potentialOrderId);
     if (stompClient) {
       let chatMessage = {
         senderIdentification: tableId,
         receiverIdentification: branchId,
         message: paymentMethod,
+        orderId: potentialOrderId,
         date: null,
       };
       stompClient.send('/app/response', {}, JSON.stringify(chatMessage));

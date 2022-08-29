@@ -9,5 +9,7 @@ public class SocketResponse {
     private String senderIdentification;
     private String receiverIdentification;
     private String message;
+    private Long orderId;
+
     private Date date;
 }

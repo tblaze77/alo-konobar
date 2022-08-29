@@ -45,3 +45,31 @@
 .quantity-input {
   max-width: 80px;
 }
+
+@media only screen and (max-width: 595px) {
+  .list-container {
+    width: 40vw;
+  }
+
+  .checked {
+    width: 70vw;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .list-container {
+    width: 60vw;
+  }
+
+  .menu-container {
+    overflow: hidden;
+  }
+
+  .checked {
+    width: 70vw;
+  }
+
+  .caffe-header {
+    text-align: center;
+  }
+}

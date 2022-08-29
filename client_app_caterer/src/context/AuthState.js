@@ -9,6 +9,7 @@ const AuthState = props => {
   const [refreshToken, setRefreshToken] = useState(null);
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
+  const [orderIdToUpdate, setOrderIdToUpdate] = useState(null);
 
   const logout = () => {
     const interval_id = window.setInterval(function () {}, Number.MAX_SAFE_INTEGER);
@@ -106,7 +107,18 @@ const AuthState = props => {
 
   return (
     <AuthContext.Provider
-      value={{ setAuthenticated, authenticated, accessToken, refreshToken, logout, attemptLogin, user, role }}
+      value={{
+        setAuthenticated,
+        authenticated,
+        accessToken,
+        refreshToken,
+        logout,
+        attemptLogin,
+        user,
+        role,
+        setOrderIdToUpdate,
+        orderIdToUpdate,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

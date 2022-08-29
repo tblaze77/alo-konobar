@@ -24,6 +24,7 @@ public class SocketController {
     @MessageMapping("/response")
     private SocketResponse receiveSocketResponse (@Payload SocketResponse socketResponse){
         System.out.println("Endpoint for socket response has been hit");
+        System.out.println(socketResponse.getOrderId());
         simpMessagingTemplate.convertAndSendToUser(socketResponse.getReceiverIdentification(),"/socket-response" ,socketResponse);
         return socketResponse;
     }

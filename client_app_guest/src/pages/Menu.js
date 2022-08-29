@@ -113,8 +113,8 @@ const Menu = () => {
         <h1>Loading ...</h1>
       ) : (
         <div className="menu-container">
-          <h1>Caffe bar {branchTable.branch.branchName} menu</h1>
-          <h1>Table number {branchTable.number}</h1>
+          <h1 className="caffe-header">Caffe bar {branchTable.branch.branchName} menu</h1>
+          <h1 className="caffe-header">Table number {branchTable.number}</h1>
           {categorizedArticles.map((category, categoryindex) => (
             <div key={categoryindex}>
               {category.length != 0 ? (
@@ -122,7 +122,7 @@ const Menu = () => {
                   <div className="category-container">
                     <h2>{category[0].categoryName}</h2>
                     {category.map((item, itemIndex) => (
-                      <div className="list-container" key={itemIndex}>
+                      <div className={item.isChecked ? 'list-container checked' : 'list-container'} key={itemIndex}>
                         <div className="checkbox-label">
                           <input
                             type="checkbox"

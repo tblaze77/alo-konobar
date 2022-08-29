@@ -1,0 +1,11 @@
+.three-div-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

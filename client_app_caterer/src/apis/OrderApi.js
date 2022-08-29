@@ -31,3 +31,11 @@ export const createNewOrderForCheckout = async (accessToken, order) => {
     },
   });
 };
+
+export const updatePaymentMethod = async (accessToken, orderId, paymentMethod) => {
+  return await axios.put(`http://localhost:8080/v1/api/order/${orderId}/updatePaymentMethod/${paymentMethod}`, null, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};

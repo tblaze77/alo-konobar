@@ -46,7 +46,7 @@ const Checkout = () => {
   return (
     <div className="menu-container">
       <h2>You ordered:</h2>
-      <table>
+      <table className="table-checkout">
         <thead>
           {orderRowHeaders.map(header => (
             <th>{header}</th>
@@ -82,7 +82,7 @@ const Checkout = () => {
           Online
         </buton>
       </div>
-      {!showRedirectMessage ? <SnackBar message={'Thank you for using our app'} isAccepted={true} /> : null}
+      {showRedirectMessage ? <SnackBar message={'Thank you for using our app'} isAccepted={true} /> : null}
     </div>
   );
 };

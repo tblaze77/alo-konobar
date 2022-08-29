@@ -3,6 +3,7 @@ package com.example.ekonobarserver.service;
 import com.example.ekonobarserver.model.Branch;
 import com.example.ekonobarserver.model.Order;
 import com.example.ekonobarserver.model.OrderRow;
+import com.example.ekonobarserver.model.enums.PaymentMethod;
 import com.example.ekonobarserver.repository.OrderRepository;
 import com.example.ekonobarserver.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,19 @@ public class OrderServiceImpl implements OrderService {
         orderToUpdate.get().setStatus(order.getStatus());
         orderToUpdate.get().setAdditionalInfo(order.getAdditionalInfo());
         orderToUpdate.get().setStatus(order.getStatus());
+
+        return orderRepository.save(orderToUpdate.get());
+    }
+
+    @Override
+    public Order updateOrdersPaymentMethod(String paymentMethod, long id) {
+        Optional<Order> orderToUpdate = orderRepository.findById(id);
+        System.out.println("dosa san do ovdi");
+        if(!orderToUpdate.isPresent()){
+            return null;
+        }
+        if(PaymentMethod.CARD.toString().equals(paymentMethod)) orderToUpdate.get().setPaymentMethod(PaymentMethod.CARD);
+        else orderToUpdate.get().setPaymentMethod(PaymentMethod.ONLINE);
 
         return orderRepository.save(orderToUpdate.get());
     }

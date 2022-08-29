@@ -9,6 +9,7 @@ export const useSocket = () => {
   const [incomingOrder, setIncomingOrder] = useState(null);
   const [branchTableSender, setBranchTableSender] = useState(null);
   const [paymentMethodMessage, setPaymentMethodMessage] = useState(null);
+  const [orderId, setOrderId] = useState(null);
   useEffect(() => {
     registerBranch();
   }, []);
@@ -28,6 +29,7 @@ export const useSocket = () => {
   const onPaymentMethodReceived = async payload => {
     let payloadData = JSON.parse(payload.body);
     setPaymentMethodMessage(payloadData.message);
+    setOrderId(payloadData.orderId);
   };
 
   const onOrderReceived = async payload => {
@@ -43,12 +45,13 @@ export const useSocket = () => {
     console.log('error has occured');
   };
 
-  const sendMessage = async (messageToSend, branchTableId) => {
+  const sendMessage = async (messageToSend, orderId, branchTableId) => {
     if (stompClient) {
       let chatMessage = {
         senderIdentification: user.branch.id,
         receiverIdentification: branchTableId,
         message: messageToSend,
+        orderId: orderId,
         date: null,
       };
 
@@ -62,5 +65,6 @@ export const useSocket = () => {
     items: incomingOrder,
     sendMessage: sendMessage,
     paymentMethodMessage: paymentMethodMessage,
+    orderId: orderId,
   };
 };

@@ -5,6 +5,7 @@ import com.example.ekonobarserver.model.Order;
 import com.example.ekonobarserver.model.dto.OrderGetDTO;
 import com.example.ekonobarserver.model.dto.OrderPostDTO;
 import com.example.ekonobarserver.model.dto.OrderPostForCheckoutDTO;
+import com.example.ekonobarserver.model.enums.PaymentMethod;
 import com.example.ekonobarserver.service.api.OrderService;
 import com.example.ekonobarserver.service.mapper.MapStructMapper;
 import com.example.ekonobarserver.service.mapper.CustomMapper;
@@ -150,6 +151,20 @@ public class OrderController {
 
         Order updateOrder = orderService.updateOrder(order,id);
 
+        return new ResponseEntity<>(updateOrder,HttpStatus.OK);
+    }
+
+    // ---------------- PUT  v1/api/order/{orderId}   --------------- //
+    /**
+     * PATCH endpoint - patch specific order's paymentMethod
+     * @param paymentMethod
+     * @param id
+     * @return ResponseEntity<Order>
+     */
+
+    @PutMapping("/{orderId}/updatePaymentMethod/{paymentMethod}")
+    public ResponseEntity<Order> updateOrdersPaymentMethod(@PathVariable("orderId") Long id, @PathVariable("paymentMethod") String paymentMethod){
+        Order updateOrder = orderService.updateOrdersPaymentMethod(paymentMethod,id);
         return new ResponseEntity<>(updateOrder,HttpStatus.OK);
     }
 

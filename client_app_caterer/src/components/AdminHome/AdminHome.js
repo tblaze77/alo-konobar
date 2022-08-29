@@ -4,6 +4,7 @@ import AuthContext from '../../context/AuthContext';
 import { getSpecificBranch } from '../../apis/BranchApi';
 import { getAllEmployeesOnSpecificBranch } from '../../apis/EmployeeApi';
 import { getAllOrdersFromSpecificBranch } from '../../apis/OrderApi';
+import { updatePaymentMethod } from '../../apis/OrderApi';
 import * as RoutePaths from '../../constants/RoutePaths';
 import SnackBar from '../SnackBar';
 import { useSocket } from '../../hooks/useSocket';
@@ -11,8 +12,8 @@ import './AdminHome.css';
 import ButtonGrid from '../ButtonGrid/ButtonGrid';
 
 const AdminHome = () => {
-  const { logout, user, role, accessToken } = useContext(AuthContext);
-  const { table, items, paymentMethodMessage } = useSocket();
+  const { logout, user, role, accessToken, orderIdToUpdate } = useContext(AuthContext);
+  const { table, items, paymentMethodMessage, orderId } = useSocket();
   const [branch, setBranch] = useState({});
   const [loading, setLoading] = useState(false);
   const [employeeList, setEmployeeList] = useState([]);
@@ -23,6 +24,23 @@ const AdminHome = () => {
     getInfo();
     user.role.id == 2 ? setIsAdmin(true) : setIsAdmin(false);
   }, []);
+
+  useEffect(() => {
+    if (paymentMethodMessage != null) {
+      let splittedString = paymentMethodMessage.split(' ');
+      let paymentMethod = splittedString[6].toUpperCase();
+      if (paymentMethod === 'CREDIT') paymentMethod = splittedString[7].toUpperCase();
+      try {
+        updatePaymentMethod(accessToken, orderIdToUpdate, paymentMethod);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+  }, [paymentMethodMessage]);
+
+  const updateOrder = () => {
+    updatePaymentMethod(accessToken, 50, 'CARD');
+  };
 
   const getInfo = async () => {
     const responses = await Promise.all([
@@ -42,33 +60,8 @@ const AdminHome = () => {
       ) : (
         <div>
           <div className="list-container">
-            {/* <ul>
-              {orderList.map(order => (
-                <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
-                  <li>
-                    {order.total} HRK on {order.orderDate}
-                  </li>
-                </Link>
-              ))}
-            </ul> */}
             <ButtonGrid isAdmin={isAdmin} />
           </div>
-          {/* {isAdmin ? (
-            <button>
-              <Link to={RoutePaths.PRODUCTS}>Add new products to caffe</Link>
-            </button>
-          ) : null}
-          <button>
-            <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.BRANCH_PRODUCTS}>
-              View Products from your caffe
-            </Link>
-          </button>
-          <button>
-            <Link to={RoutePaths.BRANCH + '/' + branch.id + RoutePaths.ORDER + RoutePaths.CREATE}>
-              Create new order
-            </Link>
-          </button> */}
-
           {items ? (
             <Link
               to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + RoutePaths.CHECKOUT}

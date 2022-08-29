@@ -9,6 +9,11 @@ table {
   width: calc(100vw / 3);
 }
 
+.online {
+  text-align: center;
+  font-weight: 600;
+}
+
 .payment-options {
   display: flex;
   gap: 15px;
@@ -20,4 +25,14 @@ table {
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+@media only screen and (max-width: 450px) {
+  .payment-options {
+    gap: 10px;
+  }
+
+  .button {
+    width: 60px;
+  }
 }

@@ -45,6 +45,7 @@ const Orders = () => {
                   </td>
                   <td>{order.branchTableNumber}</td>
                   <td>{order.orderDate}</td>
+                  <td>{order.paymentMethod}</td>
                   <td>{order.total} HRK</td>
                   <td>
                     <Link to={RoutePaths.BRANCH + '/' + user.branch.id + RoutePaths.ORDER + '/' + order.id}>
